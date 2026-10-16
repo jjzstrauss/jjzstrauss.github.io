@@ -69,6 +69,7 @@ footer { font-size: .8125rem; color: var(--muted); }
 .links a { overflow-wrap: anywhere; }
 .ico { width: 1.1rem; height: 1.1rem; margin-top: .25rem; flex: none; fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.edu-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
 </style>
 
 </head>
@@ -79,9 +80,8 @@ footer { font-size: .8125rem; color: var(--muted); }
     <img class="photo" src="photo.jpg" alt="Portrait photo">
     <div>
       <h1>Johannes J. Z. Strauss</h1>
-      <p class="cn" lang="zh">党壮壮</p>
     </div>
-    <p class="role">PhD student in Mathematics, Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) / Fudan University</p>
+    <p class="role">PhD student in Mathematics, Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University</p>
     <ul class="links">
       <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span class="sr-only">Location: </span><span>12th Floor, Block A, International Innovation Plaza, No. 657 Songhu Road, Yangpu District, Shanghai, China</span></li>
       <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span class="sr-only">Email: </span><a href="mailto:straussj2z@gmail.com">straussj2z@gmail.com</a></li>
@@ -103,8 +103,8 @@ footer { font-size: .8125rem; color: var(--muted); }
 
     <section class="panel" id="about" aria-labelledby="about-h">
       <h2 id="about-h">About</h2>
-      <p class="lede">I build statistical and computational methods that help turn genetic and clinical data into better medical decisions.</p>
-      <p>I am a PhD student in Mathematics at SIMIS and Fudan University, and a graduate research assistant in the lab of Dr. Bingjie Li at the School of Public Health, Tongji Medical College, Huazhong University of Science and Technology. My background is in statistics and mathematics, and my recent work spans single-cell analysis, genomic variant detection, survival modeling, and large population cohorts.</p>
+      <p>I am a PhD student at the Shanghai Institute for Mathematics and Interdisciplinary Sciences at Fudan University. Broadly speaking, my research centers on developing mathematical, statistical, and computational methods for the analysis of high-dimensional -omics data.</p>
+      <p>I am currently involved in several large-scale projects, including a global cohort/biobank resource directory for population research and a clinical large language model for cardiovascular disease, among others.</p>
     </section>
 
     <section class="panel" id="research" aria-labelledby="research-h">
@@ -117,6 +117,11 @@ footer { font-size: .8125rem; color: var(--muted); }
 
     <section class="panel" id="education" aria-labelledby="education-h">
       <h2 id="education-h">Education</h2>
+      <ul class="edu-list">
+        <li><strong>PhD, Mathematics</strong> (2026&ndash;present)<br>Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University, Shanghai, China<br>Advisors: Bingjie Li (<span lang="zh">李冰杰</span>), Tongji Medical College, Huazhong University of Science and Technology; Zhigang Yao (<span lang="zh">姚志刚</span>), National University of Singapore</li>
+        <li><strong>M.S., Statistics</strong><br>University of Colorado Denver, Denver, CO, USA<br>Advisors: Yaning Liu and Anna Peljto<br>Thesis: Polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</li>
+        <li><strong>B.S., Mathematics</strong><br>University of Colorado Denver, Denver, CO, USA</li>
+      </ul>
     </section>
 
     <section class="panel" id="cv" aria-labelledby="cv-h">
