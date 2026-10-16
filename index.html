@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Johannes J. Z. Strauss</title>
+<title>Your Name</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
 <style>
-/* Layout: two columns on desktop — a fixed identity column on the left, a single reading column on the right; stacks to one column on phones. */
+/* Layout: identity column on the left; tab bar and one visible section on the right; stacks on phones. */
 :root {
   --bg: #f6f7f9;
   --surface: #ffffff;
@@ -44,31 +44,27 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .id { position: sticky; top: 3rem; align-self: start; display: flex; flex-direction: column; gap: 1.25rem; }
 h1 { font-family: var(--display); font-weight: 600; font-size: 2.25rem; line-height: 1.1; margin: 0; text-wrap: balance; }
 .cn { font-family: var(--display); font-size: 1.125rem; color: var(--muted); margin: .35rem 0 0; }
-.cn span { font-family: var(--mono); font-size: .8125rem; margin-left: .4rem; }
 .role { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
 .links { list-style: none; margin: 0; padding: 1.25rem 0 0; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: .5rem; font-size: .9375rem; }
 .links .label { font-family: var(--mono); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: block; }
-.todo { color: var(--muted); font-style: italic; }
 main { display: flex; flex-direction: column; gap: 3rem; max-width: 40rem; }
 section { display: flex; flex-direction: column; gap: 1rem; }
 h2 { font-family: var(--mono); font-weight: 400; font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; padding-bottom: .5rem; border-bottom: 1px solid var(--rule); }
 p { margin: 0; }
 .lede { font-family: var(--display); font-size: 1.3125rem; line-height: 1.5; }
-.items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.25rem; }
-.item h3 { font-family: var(--display); font-weight: 600; font-size: 1.125rem; margin: 0 0 .2rem; }
-.item p { color: var(--muted); font-size: .9688rem; }
-.edu { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .25rem 1rem; }
-.edu dt { font-family: var(--mono); font-size: .8125rem; color: var(--muted); padding-top: .2rem; font-variant-numeric: tabular-nums; }
-.edu dd { margin: 0 0 .75rem; }
-.edu dd small { display: block; color: var(--muted); font-size: .9063rem; }
 footer { font-size: .8125rem; color: var(--muted); }
+.photo { width: 14rem; height: 14rem; max-width: 100%; object-fit: cover; border-radius: 6px; }
+.tabs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1.5rem; border-bottom: 1px solid var(--rule); }
+.tabs a { display: inline-block; padding: .25rem 0 .6rem; font-family: var(--mono); font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs a:hover { color: var(--ink); }
+.tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.panel { display: flex; flex-direction: column; gap: 1rem; }
+.panel h2 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; letter-spacing: 0; text-transform: none; color: var(--ink); border: 0; padding: 0; }
 @media (max-width: 760px) {
   .wrap { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding-block: 2.5rem 2rem; }
   .id { position: static; }
-  .edu { grid-template-columns: minmax(0, 1fr); }
-  .edu dt { padding-top: 0; }
 }
-.photo { width: 17rem; height: 17rem; object-fit: cover; border-radius: 6px; }
+[hidden] { display: none !important; }
 </style>
 </head>
 <body>
@@ -77,7 +73,7 @@ footer { font-size: .8125rem; color: var(--muted); }
   <header class="id">
     <img class="photo" src="photo.jpg" alt="Portrait photo">
     <div>
-      <h1>Johannes J. Z. Strauss</h1>
+      <h1>Your Name</h1>
       <p class="cn" lang="zh">党壮壮</p>
     </div>
     <p class="role">PhD student in Mathematics (computational biology &amp; medicine), Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) / Fudan University</p>
@@ -88,57 +84,58 @@ footer { font-size: .8125rem; color: var(--muted); }
   </header>
 
   <main>
-    <section aria-labelledby="about">
-      <h2 id="about">About</h2>
+    <nav aria-label="Sections">
+      <ul class="tabs">
+        <li><a href="#about">About</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#cv">CV</a></li>
+      </ul>
+    </nav>
+
+    <section class="panel" id="about" aria-labelledby="about-h">
+      <h2 id="about-h">About</h2>
       <p class="lede">I build statistical and computational methods that help turn genetic and clinical data into better medical decisions.</p>
       <p>I am a PhD student in Mathematics at SIMIS and Fudan University, and a graduate research assistant in the lab of Dr. Bingjie Li at the School of Public Health, Tongji Medical College, Huazhong University of Science and Technology. My background is in statistics and mathematics, and my recent work spans single-cell analysis, genomic variant detection, survival modeling, and large population cohorts.</p>
     </section>
 
-    <section aria-labelledby="research">
-      <h2 id="research">Research</h2>
-      <ul class="items">
-        <li class="item">
-          <h3>Cross-ancestry genetic and multi-omics data</h3>
-          <p>Surveying public genetic and multi-omics resources across ancestries, so studies of disease risk are not limited to one population.</p>
-        </li>
-        <li class="item">
-          <h3>Clinical language models for cardiovascular disease</h3>
-          <p>Studying how large language models can support clinical work in cardiovascular care.</p>
-        </li>
-        <li class="item">
-          <h3>Manifold fitting for single-cell RNA-seq</h3>
-          <p>Applying CellScope, a manifold-fitting framework for single-cell data, to real datasets on high-performance computing systems.</p>
-        </li>
-        <li class="item">
-          <h3>Benchmarking mosaic variant detection</h3>
-          <p>Simulation and benchmarking pipelines that test how well current tools find mosaic variants in sequencing data.</p>
-        </li>
-        <li class="item">
-          <h3>Survival modeling in UK Biobank</h3>
-          <p>An ensemble of Cox proportional hazards models for disease risk prediction in a large population cohort.</p>
-        </li>
-      </ul>
+    <section class="panel" id="research" aria-labelledby="research-h">
+      <h2 id="research-h">Research</h2>
     </section>
 
-    <section aria-labelledby="education">
-      <h2 id="education">Education</h2>
-      <dl class="edu">
-        <dt>2026 –</dt>
-        <dd>PhD, Mathematics<small>SIMIS / Fudan University, Shanghai</small></dd>
-        <dt>M.S.</dt>
-        <dd>Statistics<small>University of Colorado Denver. Thesis: polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</small></dd>
-        <dt>B.S.</dt>
-        <dd>Mathematics<small>University of Colorado Denver</small></dd>
-      </dl>
+    <section class="panel" id="publications" aria-labelledby="publications-h">
+      <h2 id="publications-h">Publications</h2>
     </section>
 
-    <section aria-labelledby="pubs">
-      <h2 id="pubs">Publications</h2>
-      <p class="todo">Add papers and preprints here as they appear.</p>
+    <section class="panel" id="education" aria-labelledby="education-h">
+      <h2 id="education-h">Education</h2>
+    </section>
+
+    <section class="panel" id="cv" aria-labelledby="cv-h">
+      <h2 id="cv-h">CV</h2>
     </section>
 
     <footer>Last updated October 2026</footer>
   </main>
 </div>
+
+<script>
+(function () {
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs a'));
+  function show() {
+    var id = location.hash.slice(1);
+    if (!panels.some(function (p) { return p.id === id; })) id = 'about';
+    panels.forEach(function (p) { p.hidden = p.id !== id; });
+    tabs.forEach(function (t) {
+      if (t.getAttribute('href') === '#' + id) t.setAttribute('aria-current', 'page');
+      else t.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('hashchange', show);
+  show();
+})();
+</script>
 </body>
 </html>
