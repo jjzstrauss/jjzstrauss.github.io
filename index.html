@@ -271,6 +271,12 @@ main { max-width: none; }
 /* PRESENTATIONS-LIST */
 .subhead { font-family: var(--display); font-weight: 600; font-size: 1.15rem; margin: .25rem 0 0; color: var(--ink); }
 .pres-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+/* PROJECTS-LIST */
+.proj-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.proj-list li { display: flex; flex-direction: column; gap: .2rem; }
+.proj-list li::marker { color: var(--muted); }
+.proj-role { color: var(--muted); font-size: .95rem; }
+.proj-tags { font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--muted); }
 </style>
 
 
@@ -327,7 +333,29 @@ main { max-width: none; }
 
     <section class="panel" id="projects" aria-labelledby="projects-h">
       <h2 id="projects-h">Projects</h2>
+      <h3 class="subhead">Current &middot; SIMIS, Fudan University</h3>
       <p class="wip">Under construction.</p>
+      <h3 class="subhead">Previous &middot; University of Colorado Anschutz Medical Campus</h3>
+      <ul class="proj-list">
+        <li>
+          <strong>Mosaic variant simulation and detection benchmarking</strong>
+          <span class="proj-role">Bioinformatician, <a href="https://medschool.cuanschutz.edu/pediatrics/pediatric-research/find-a-department-of-pediatrics-researcher/Breuss-Martin-UCD6003833087">Breuss Lab</a>, Department of Pediatrics, University of Colorado School of Medicine</span>
+          <span>Simulated mosaic variants in human sequencing data and benchmarked how well current variant callers detect them.</span>
+          <span class="proj-tags">Mosaic variants &middot; variant calling &middot; simulation &middot; high-performance computing</span>
+        </li>
+        <li>
+          <strong>Single-cell ATAC and RNA analysis in trisomy 21</strong>
+          <span class="proj-role">Bioinformatician, <a href="https://medschool.cuanschutz.edu/pediatrics/pediatric-research/find-a-department-of-pediatrics-researcher/Breuss-Martin-UCD6003833087">Breuss Lab</a>, Department of Pediatrics, University of Colorado School of Medicine</span>
+          <span>Analyzed single-cell chromatin accessibility (ATAC) and gene expression (RNA) data to study cellular changes in trisomy 21 (Down syndrome).</span>
+          <span class="proj-tags">scATAC-seq &middot; scRNA-seq &middot; trisomy 21</span>
+        </li>
+        <li>
+          <strong>Polygenic risk modeling in idiopathic pulmonary fibrosis</strong>
+          <span class="proj-role">M.S. thesis, University of Colorado Denver &middot; Advisors: <a href="https://yaningliucudenver.github.io/index.html">Yaning Liu, Ph.D.</a> and Anna Peljto, Dr.PH.</span>
+          <span>Modeled polygenic risk for idiopathic pulmonary fibrosis using sparse variational Bayesian inference to improve genetic risk prediction. Presented as a poster at the 2025 NHGRI Research Training &amp; Career Development Annual Meeting (see <a href="#presentations">Presentations</a>).</span>
+          <span class="proj-tags">Polygenic risk scores &middot; sparse variational Bayesian inference &middot; statistical genetics</span>
+        </li>
+      </ul>
     </section>
 
     <section class="panel" id="publications" aria-labelledby="publications-h">
