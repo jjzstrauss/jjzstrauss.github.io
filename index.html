@@ -454,6 +454,12 @@ body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
 body[data-tab]:not([data-tab="about"]) .wrap { grid-template-columns: minmax(0, 1fr); max-width: 60rem; padding-top: 3rem; }
 @media (max-width: 760px) { body[data-tab]:not([data-tab="about"]) .wrap { padding-top: 1.75rem; } }
+/* headshot sits right above the name (left column) instead of on the banner */
+body[data-tab="about"] .hero-photo, body:not([data-tab]) .hero-photo { display: none; }
+body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { display: block; border-radius: 50%; aspect-ratio: 1 / 1; object-fit: cover; width: min(15rem, 100%); height: auto; margin-inline: 0; border: 6px solid var(--surface, #fff); box-shadow: 0 0 0 1px var(--rule), 0 14px 30px -14px var(--shadow, rgba(0,0,0,.2)); }
+@media (max-width: 1000px) { body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { width: 9rem; margin-inline: 0; } }
+body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
+@media (max-width: 760px) { body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 1.75rem; } }
 </style>
 
 
