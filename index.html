@@ -277,6 +277,10 @@ main { max-width: none; }
 .proj-list li::marker { color: var(--muted); }
 .proj-role { color: var(--muted); font-size: .95rem; }
 .proj-tags { font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--muted); }
+/* PROJECTS-ARROWS */
+.subhead.arrow { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; }
+.subhead.arrow::before { content: "\25B8" / ""; color: var(--accent); font-size: .95em; }
+.proj-inst { margin: -.6rem 0 .25rem; color: var(--muted); font-size: .95rem; }
 </style>
 
 
@@ -333,9 +337,11 @@ main { max-width: none; }
 
     <section class="panel" id="projects" aria-labelledby="projects-h">
       <h2 id="projects-h">Projects</h2>
-      <h3 class="subhead">Current &middot; SIMIS | Fudan University &amp; Tongji Medical College | HUST</h3>
+      <h3 class="subhead arrow">Current</h3>
+      <p class="proj-inst">SIMIS | Fudan University &amp; Tongji Medical College | Huazhong University of Science and Technology (Wuhan)</p>
       <p class="wip">Under construction.</p>
-      <h3 class="subhead">Previous &middot; University of Colorado Anschutz Medical Campus</h3>
+      <h3 class="subhead arrow">Previous</h3>
+      <p class="proj-inst">University of Colorado Anschutz Medical Campus</p>
       <ul class="proj-list">
         <li>
           <strong>Mosaic variant simulation and detection benchmarking</strong>
