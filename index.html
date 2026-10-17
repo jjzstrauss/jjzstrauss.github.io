@@ -449,6 +449,26 @@ body[data-tab="education"] .id > .photo { display: none; }
 @media (max-width: 1000px) {
   body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="education"] .id, body[data-tab="cv"] .id { grid-template-columns: minmax(0, 1fr); }
 }
+/* TABNAV: tab bar overlaps the bottom of the banner on the right (just above the halfway line) */
+.tabnav { position: relative; z-index: 6; display: flex; justify-content: flex-end; margin-top: -74px; margin-bottom: 12px; padding-right: max(8px, env(safe-area-inset-right, 0px)); }
+body[data-tab="presentations"] .tabnav { margin-top: 1.5rem; }
+.tabnav .tabs { flex-wrap: nowrap; gap: .5rem; padding: .45rem; background: color-mix(in srgb, var(--surface) 90%, transparent); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 1px 2px var(--shadow, rgba(0,0,0,.08)), 0 14px 32px -14px var(--shadow, rgba(0,0,0,.25)); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.tabnav .tabs a { padding: .6rem 1.15rem; font-size: .875rem; font-weight: 500; color: var(--ink); white-space: nowrap; border-color: transparent; }
+.tabnav .tabs a:hover { border-color: var(--accent); color: var(--accent); }
+.tabnav .tabs a[aria-current="page"], .tabnav .tabs a[aria-current="page"]:hover { color: #fff; background: var(--accent); border-color: var(--accent); box-shadow: 0 6px 16px -6px var(--accent); }
+@media (max-width: 1280px) { .step-badge .st { display: none; } }
+@media (max-width: 1100px) {
+  .tabnav { justify-content: center; margin-top: -56px; padding: 0; }
+  .tabnav .tabs { flex-wrap: wrap; justify-content: center; border-radius: 22px; max-width: 100%; }
+  .step-badge { bottom: 66px !important; }
+}
+@media (max-width: 760px) {
+  .tabnav { margin-top: -40px; }
+  .tabnav .tabs { gap: .3rem; padding: .4rem; }
+  .tabnav .tabs a { padding: .5rem .8rem; font-size: .78rem; }
+  .step-badge { bottom: 50px !important; }
+}
 /* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
 body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
@@ -503,6 +523,17 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   <canvas id="traj-canvas" aria-hidden="true"></canvas>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
+  <nav class="tabnav" aria-label="Sections">
+    <ul class="tabs">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#presentations">Presentations</a></li>
+      <li><a href="#cv">CV</a></li>
+    </ul>
+  </nav>
 <div class="wrap">
   <header class="id">
     <img class="photo" src="photo.jpg" alt="Portrait photo">
@@ -520,17 +551,6 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   </header>
 
   <main>
-    <nav aria-label="Sections">
-      <ul class="tabs">
-        <li><a href="#about">About</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#publications">Publications</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#presentations">Presentations</a></li>
-        <li><a href="#cv">CV</a></li>
-      </ul>
-    </nav>
 
     <section class="panel" id="about" aria-labelledby="about-h">
       <h2 id="about-h">About</h2>
