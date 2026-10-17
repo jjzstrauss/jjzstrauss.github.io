@@ -286,13 +286,6 @@ main { max-width: none; }
 .subhead.arrow { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; }
 .subhead.arrow::before { content: "\25B8" / ""; color: var(--accent); font-size: .95em; }
 .proj-inst { margin: -.6rem 0 .25rem; color: var(--muted); font-size: .95rem; }
-/* HELIX-TOGGLE */
-.helix-toggle { position: absolute; top: calc(10px + env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px));
-  font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; color: var(--muted);
-  background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: .3rem .7rem; cursor: pointer; z-index: 5; }
-.helix-toggle:hover { color: var(--ink); border-color: var(--muted); }
-.helix-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-body[data-tab]:not([data-tab="about"]) .helix-toggle { display: none; }
 /* PUBS-BG: citation network, forest plot, Kaplan-Meier, ROC */
 .cite-net { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: min(1250px, 96vw); height: auto; }
 .cite-net .edges line { stroke: var(--muted); stroke-width: 1; opacity: .45; }
@@ -580,20 +573,9 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
   }
   size(); draw();
   window.addEventListener('resize', function () { size(); draw(); });
-  var playing = !reduce;
-  var btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'helix-toggle';
-  function label() {
-    btn.textContent = playing ? '\u275A\u275A Pause' : '\u25B6 Play';
-    btn.setAttribute('aria-label', playing ? 'Pause the DNA animation' : 'Play the DNA animation');
-  }
-  btn.addEventListener('click', function () { playing = !playing; last = 0; label(); });
-  label();
-  document.body.appendChild(btn);
-  var origFrame = frame;
+  var playing = true;
   frame = function (now) {
-    if (playing && visible()) {
+    if (visible()) {
       if (last) t += Math.min(now - last, 50) * 0.0006;
       draw();
       last = now;
