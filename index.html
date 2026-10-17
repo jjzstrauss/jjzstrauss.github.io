@@ -414,7 +414,7 @@ body[data-tab="research"] .id > .photo { display: none; }
 @media (max-width: 760px) { body[data-tab="research"] .wrap { padding-top: 5.5rem; } }
 @media (max-width: 1000px) { body[data-tab="research"] .id { grid-template-columns: minmax(0, 1fr); } }
 /* HERO-STEPS: one pipeline step per tab (About -> Education) */
-.hero-education { background: linear-gradient(180deg, rgba(15,110,106,.07), rgba(15,110,106,.02)), var(--bg); }
+.hero-education, .hero-cv { background: linear-gradient(180deg, rgba(15,110,106,.07), rgba(15,110,106,.02)), var(--bg); }
 .step-hero, body[data-tab="about"] .step-hero, body:not([data-tab]) .step-hero { display: none; }
 .step-hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 body[data-tab="projects"] .hero-projects { display: block; }
@@ -426,6 +426,10 @@ body[data-tab="publications"] .helix-band { display: none; }
 body[data-tab="publications"] .wrap { padding-top: 7.5rem; }
 body[data-tab="publications"] .id > .photo { display: none; }
 body[data-tab="education"] .hero-education { display: block; }
+body[data-tab="cv"] .hero-cv { display: block; }
+body[data-tab="cv"] .helix-band { display: none; }
+body[data-tab="cv"] .wrap { padding-top: 7.5rem; }
+body[data-tab="cv"] .id > .photo { display: none; }
 body[data-tab="education"] .helix-band { display: none; }
 body[data-tab="education"] .wrap { padding-top: 7.5rem; }
 body[data-tab="education"] .id > .photo { display: none; }
@@ -438,12 +442,12 @@ body[data-tab="education"] .id > .photo { display: none; }
 .step-badge .sd:hover { background: rgba(15,110,106,.35); }
 .step-badge .sd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 760px) {
-  body[data-tab="projects"] .wrap, body[data-tab="publications"] .wrap, body[data-tab="education"] .wrap { padding-top: 5.5rem; }
+  body[data-tab="projects"] .wrap, body[data-tab="publications"] .wrap, body[data-tab="education"] .wrap, body[data-tab="cv"] .wrap { padding-top: 5.5rem; }
   .step-badge { bottom: 10px; left: 12px; }
   .step-badge .st { display: none; }
 }
 @media (max-width: 1000px) {
-  body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="education"] .id { grid-template-columns: minmax(0, 1fr); }
+  body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="education"] .id, body[data-tab="cv"] .id { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
 
@@ -482,6 +486,10 @@ body[data-tab="education"] .id > .photo { display: none; }
 <div class="about-hero step-hero hero-education">
   <canvas id="clin-canvas" aria-hidden="true"></canvas>
   <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd on" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
+  <img class="hero-photo" src="photo.jpg" alt="">
+</div>
+<div class="about-hero step-hero hero-cv">
+  <canvas id="traj-canvas" aria-hidden="true"></canvas>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="wrap">
@@ -879,7 +887,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
 
   function make(id, mode, tabName) {
     var c = document.getElementById(id); if (!c || !c.getContext) return;
-    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11 }[mode];
+    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17 }[mode];
     function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
     var W, H, narrow, t = 0, seqOff = 0, S = {};
     function size() { var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1; W = r.width; H = r.height;
@@ -887,7 +895,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     function txt(s, X, Y, size, col, align, weight) { x.font = (weight || '') + ' ' + size + 'px "IBM Plex Mono", monospace'; x.fillStyle = col; x.textAlign = align || 'left'; x.textBaseline = 'middle'; x.fillText(s, X, Y); }
     function axes(X0, Y0, X1, Y1) { x.globalAlpha = .55; x.strokeStyle = MUT; x.lineWidth = 1.2; x.beginPath(); x.moveTo(X0, Y1); x.lineTo(X0, Y0); x.lineTo(X1, Y0); x.stroke(); x.globalAlpha = 1; }
     function build() {
-      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11 }[mode];
+      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17 }[mode];
       if (mode === 'sc1') {
         S.tc = [W * (narrow ? .11 : .085), H * .42]; S.tr = Math.min(H * (narrow ? .13 : .17), W * (narrow ? .07 : .055));
         S.cells = []; for (var i0 = 0; i0 < (narrow ? 28 : 44); i0++) S.cells.push({ a: rnd() * 6.3, d: Math.sqrt(rnd()) * .82, ty: Math.floor(rnd() * 4), ph: rnd() * 6.3 });
@@ -909,6 +917,21 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
         cen.forEach(function (c, ci) { for (var k = 0; k < (narrow ? 16 : 30); k++) { var g1 = 0, g2 = 0; for (var z = 0; z < 4; z++) { g1 += rnd(); g2 += rnd(); }
           S.um.push({ ci: ci, x0: rnd(), y0: rnd(), x1: c[0] + (g1 - 2) * .07, y1: c[1] + (g2 - 2) * .07 }); } });
         S.cen = cen;
+      } else if (mode === 'traj') {
+        var cp = narrow ? [[-.02, .5], [.12, .48], [.3, .34], [.5, .46], [.7, .32], [.86, .42], [1.04, .3]] : [[-.02, .55], [.12, .5], [.3, .32], [.5, .46], [.68, .3], [.84, .44], [1.04, .3]];
+        var raw = []; for (var s0 = 0; s0 < cp.length - 1; s0++) { var p0 = cp[Math.max(0, s0 - 1)], p1 = cp[s0], p2 = cp[s0 + 1], p3 = cp[Math.min(cp.length - 1, s0 + 2)];
+          for (var k = 0; k < 60; k++) { var u = k / 60, u2 = u * u, u3 = u2 * u;
+            raw.push([.5 * (2 * p1[0] + (-p0[0] + p2[0]) * u + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * u2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * u3) * W,
+                      .5 * (2 * p1[1] + (-p0[1] + p2[1]) * u + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * u2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * u3) * H]); } }
+        raw.push([cp[cp.length - 1][0] * W, cp[cp.length - 1][1] * H]);
+        var cum = [0]; for (var r0 = 1; r0 < raw.length; r0++) cum.push(cum[r0 - 1] + Math.hypot(raw[r0][0] - raw[r0 - 1][0], raw[r0][1] - raw[r0 - 1][1]));
+        S.path = []; var tot = cum[cum.length - 1], ri = 0; for (var q = 0; q <= 400; q++) { var target = tot * q / 400; while (ri < cum.length - 2 && cum[ri + 1] < target) ri++;
+          var f = (target - cum[ri]) / Math.max(1e-6, cum[ri + 1] - cum[ri]); S.path.push([raw[ri][0] + (raw[ri + 1][0] - raw[ri][0]) * f, raw[ri][1] + (raw[ri + 1][1] - raw[ri][1]) * f]); }
+        S.dots = []; for (var d0 = 0; d0 < (narrow ? 70 : 150); d0++) { var g = 0; for (var z = 0; z < 4; z++) g += rnd(); S.dots.push({ o: rnd(), off: (g - 2) * (narrow ? 9 : 13), ph: rnd() * 6.3, sp: .8 + rnd() * .4 }); }
+        S.ms = [{ f: .12, t: narrow ? 'B.S. Math' : 'B.S. Mathematics', s: 'CU Denver', side: 1, br: [] },
+                { f: .37, t: narrow ? 'M.S. Stats' : 'M.S. Statistics', s: 'CU Denver', side: -1, br: narrow ? [] : [{ dx: .06, dy: .2, l: 'NHGRI poster · 2025' }] },
+                { f: .62, t: 'Bioinformatician', s: narrow ? 'CU Anschutz' : 'Breuss Lab · CU Anschutz', side: 1, br: narrow ? [] : [{ dx: -.03, dy: -.2, l: 'mosaic variant pipelines' }, { dx: .07, dy: -.17, l: 'single-cell ATAC / RNA' }] },
+                { f: .87, t: narrow ? 'Ph.D.' : 'Ph.D. Mathematics', s: 'SIMIS · Fudan', side: 1, br: [] }];
       } else if (mode === 'val') {
         S.gx0 = W * (narrow ? .04 : .05); S.gx1 = W * (narrow ? .38 : .33); S.gy0 = H * .2; S.gy1 = H * .72;
         S.rx0 = W * (narrow ? .48 : .45); S.rx1 = W * (narrow ? .94 : .66); S.ry0 = H * (narrow ? .64 : .74); S.ry1 = H * .16;
@@ -1036,6 +1059,36 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       x.globalAlpha = 1;
     }
 
+    function drawTraj() {
+      label('CAREER TRAJECTORY', W / 2);
+      var P = S.path, n = P.length - 1, PT = [TEAL, BLUE, '#7a5c99', GOLD];
+      function at(f) { f = Math.max(0, Math.min(1, f)); var i = Math.min(n - 1, Math.floor(f * n)), u = f * n - i; return [P[i][0] + (P[i + 1][0] - P[i][0]) * u, P[i][1] + (P[i + 1][1] - P[i][1]) * u, P[i + 1][0] - P[i][0], P[i + 1][1] - P[i][1]]; }
+      function ptc(f) { var g = Math.max(0, Math.min(.999, f)) * (PT.length - 1), i = Math.floor(g); return lerpC(PT[i], PT[i + 1], g - i); }
+      // faint trajectory backbone
+      x.globalAlpha = .1; x.strokeStyle = TEAL; x.lineWidth = narrow ? 14 : 22; x.beginPath(); P.forEach(function (p, i) { i ? x.lineTo(p[0], p[1]) : x.moveTo(p[0], p[1]); }); x.stroke();
+      x.globalAlpha = .5; x.lineWidth = 1.4; x.setLineDash([2, 5]); x.stroke(); x.setLineDash([]);
+      // branches
+      S.ms.forEach(function (m) { var a = at(m.f); m.br.forEach(function (b, bi) { var ex = a[0] + b.dx * W, ey = a[1] + b.dy * H, cx = a[0] + b.dx * W * .2, cy = a[1] + b.dy * H * .8;
+        x.globalAlpha = .35; x.strokeStyle = ptc(m.f); x.lineWidth = 2; x.setLineDash([3, 4]); x.beginPath(); x.moveTo(a[0], a[1]); x.quadraticCurveTo(cx, cy, ex, ey); x.stroke(); x.setLineDash([]);
+        for (var j = 0; j < 6; j++) { var u = (t * .18 + j / 6 + bi * .37) % 1, qx = (1 - u) * (1 - u) * a[0] + 2 * (1 - u) * u * cx + u * u * ex, qy = (1 - u) * (1 - u) * a[1] + 2 * (1 - u) * u * cy + u * u * ey;
+          x.globalAlpha = .8 * Math.sin(u * Math.PI); x.fillStyle = ptc(m.f); x.beginPath(); x.arc(qx, qy, 3, 0, 6.3); x.fill(); }
+        x.globalAlpha = .9; x.fillStyle = SURF; x.strokeStyle = ptc(m.f); x.lineWidth = 1.5; x.beginPath(); x.arc(ex, ey, 4, 0, 6.3); x.fill(); x.stroke();
+        txt(b.l, ex + (b.dx >= 0 ? 10 : -10), ey, 10, MUT, b.dx >= 0 ? 'left' : 'right'); }); });
+      // cells flowing along pseudotime
+      S.dots.forEach(function (d) { var f = (t * .045 * d.sp + d.o) % 1, a = at(f), len = Math.hypot(a[2], a[3]) || 1, nx = -a[3] / len, ny = a[2] / len, off = d.off + Math.sin(t * 1.2 + d.ph) * 2;
+        x.globalAlpha = .7 * sm(f / .04) * (1 - sm((f - .96) / .04)); x.fillStyle = ptc(f); x.beginPath(); x.arc(a[0] + nx * off, a[1] + ny * off, narrow ? 2.2 : 3, 0, 6.3); x.fill(); });
+      // milestones
+      var hl = Math.floor(t / 2.2) % S.ms.length;
+      S.ms.forEach(function (m, k) { var a = at(m.f), col = ptc(m.f), on = k === hl, r = narrow ? 7 : 10;
+        if (on) { x.globalAlpha = .22 * (1 - ((t % 2.2) / 2.2)); x.fillStyle = col; x.beginPath(); x.arc(a[0], a[1], r * 3.2, 0, 6.3); x.fill(); }
+        x.globalAlpha = 1; x.fillStyle = SURF; x.strokeStyle = col; x.lineWidth = on ? 3.2 : 2.2; x.beginPath(); x.arc(a[0], a[1], r, 0, 6.3); x.fill(); x.stroke();
+        x.fillStyle = col; x.beginPath(); x.arc(a[0], a[1], r * .45, 0, 6.3); x.fill();
+        var ty = m.side > 0 ? a[1] + (narrow ? 30 : 40) : a[1] - (narrow ? 42 : 58); txt(m.t, a[0], ty, narrow ? 9 : 13, INK, 'center', '600'); x.globalAlpha = .8; txt(m.s, a[0], ty + (narrow ? 13 : 18), narrow ? 8 : 10, MUT, 'center'); });
+      if (!narrow) { x.globalAlpha = .7; x.strokeStyle = MUT; x.lineWidth = 1.2; var ay = H * .72; x.beginPath(); x.moveTo(W * .06, ay); x.lineTo(W * .26, ay); x.lineTo(W * .26 - 7, ay - 4); x.moveTo(W * .26, ay); x.lineTo(W * .26 - 7, ay + 4); x.stroke();
+        txt('pseudotime', W * .06, ay - 12, 10, MUT); }
+      x.globalAlpha = 1;
+    }
+
     function drawVal() {
       var period = 2.6, k = Math.floor(t / period) % 5, u = (t % period) / period, round = Math.floor(t / period / 5);
       label('CROSS-VALIDATION', (S.gx0 + S.gx1) / 2); label('ROC CURVE', (S.rx0 + S.rx1) / 2); if (!narrow) label('CALIBRATION', (S.cx0 + S.cx1) / 2);
@@ -1132,7 +1185,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     }
 
     function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; ribbon();
-      if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
+      if (mode === 'traj') drawTraj(); else if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
     function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && (tab === tabName || (!tab && tabName === 'about')); }
     var last = 0, ready = false;
     function loop(now) { var dt = last ? Math.min(now - last, 50) / 1000 : 0; last = now;
@@ -1145,6 +1198,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('qc-canvas', 'scqc', 'research');
   make('val-canvas', 'val', 'publications');
   make('clin-canvas', 'clin', 'education');
+  make('traj-canvas', 'traj', 'cv');
 })();
 </script>
 </body>
