@@ -381,7 +381,7 @@ body[data-tab="presentations"] .helix-band { display: none; }
 .bg-bottom.heatmap, .bg-bottom.pileup { opacity: calc(var(--plot-opacity, .22) * .9); }
 @media (max-width: 1000px) { .bg-bottom { display: none; } }
 /* ABOUT-HERO: large DNA replication animation with the photo on the dividing line */
-.about-hero { display: none; position: relative; height: clamp(320px, 50vh, 600px);
+.about-hero { display: none; position: relative; height: 100vh; height: 100svh; min-height: 520px;
   margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
   background: linear-gradient(180deg, rgba(15,110,106,.07), rgba(15,110,106,.02)); border-bottom: 1px solid var(--rule); }
 body[data-tab="about"] .about-hero, body:not([data-tab]) .about-hero { display: block; }
@@ -396,7 +396,7 @@ body[data-tab="about"] .helix-band, body:not([data-tab]) .helix-band { display: 
 body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 7.5rem; }
 body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { display: none; }
 @media (max-width: 760px) {
-  .about-hero { height: 300px; }
+  .about-hero { height: 100svh; min-height: 480px; }
   .hero-photo { width: 130px; height: 130px; border-width: 4px; }
   .hero-cap { display: none; }
   body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 5.5rem; }
@@ -404,6 +404,13 @@ body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { display
 @media (max-width: 1000px) {
   body[data-tab="about"] .id, body:not([data-tab]) .id { grid-template-columns: minmax(0, 1fr); }
 }
+/* HERO-FULL: banner fills the first screen */
+body[data-tab="about"] .bg-manhattan, body:not([data-tab]) .bg-manhattan { display: none; }
+.hero-scroll { position: absolute; left: 50%; bottom: 130px; transform: translateX(-50%); text-align: center;
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); line-height: 1.4; }
+@keyframes hero-bob { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 6px); } }
+.hero-scroll { animation: hero-bob 1.8s ease-in-out infinite; }
+@media (max-width: 760px) { .hero-scroll { bottom: 92px; } }
 </style>
 
 
@@ -421,6 +428,7 @@ body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { display
 <div class="about-hero">
   <canvas id="rep-canvas" aria-hidden="true"></canvas>
   <span class="hero-cap" aria-hidden="true">From genome to prediction</span>
+  <span class="hero-scroll" aria-hidden="true">Scroll<br>&#8595;</span>
   <img class="hero-photo" src="photo.jpg" alt="Portrait photo">
 </div>
 <div class="wrap">
@@ -653,10 +661,10 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
   function build() {
     narrow = W < 760; parts = []; pulses = [];
     if (narrow) {
-      G.mid = H * .44; G.amp = H * .15; G.hx0 = W * .02; G.hx1 = W * .30; G.mx0 = W * .40; G.mx1 = W * .70; G.mb = H * .70; G.mt = H * .2;
+      G.mid = H * .44; G.amp = Math.min(H * .15, W * .09); G.hx0 = W * .02; G.hx1 = W * .30; G.mx0 = W * .40; G.mx1 = W * .70; G.mb = H * .70; G.mt = H * .2;
       G.gx = W * .85; G.gy = H * .42; G.gr = Math.min(W * .1, H * .17);
     } else {
-      G.mid = H * .47; G.amp = H * .2; G.hx0 = W * .01; G.hx1 = W * .21; G.mx0 = W * .265; G.mx1 = W * .455; G.mb = H * .8; G.mt = H * .14;
+      G.mid = H * .47; G.amp = Math.min(H * .17, W * .055); G.hx0 = W * .01; G.hx1 = W * .21; G.mx0 = W * .265; G.mx1 = W * .455; G.mb = H * .8; G.mt = H * .14;
       G.nx0 = W * .565; G.nx1 = W * .80; G.gx = W * .905; G.gy = H * .47; G.gr = Math.min(W * .058, H * .2);
     }
     G.thr = G.mb - (7.3 / 12) * (G.mb - G.mt);
@@ -715,7 +723,7 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
     var labs = narrow ? [[(G.hx0 + G.hx1) / 2, 'GENOME'], [(G.mx0 + G.mx1) / 2, 'GWAS'], [G.gx, 'RISK']]
       : [[(G.hx0 + G.hx1) / 2, '01 · GENOME'], [(G.mx0 + G.mx1) / 2, '02 · ASSOCIATION (GWAS)'], [(G.nx0 + G.nx1) / 2, '03 · DEEP LEARNING'], [G.gx, '04 · RISK PREDICTION']];
     labs.forEach(function (l) { x.fillText(l[1], l[0], 32); }); x.textAlign = 'left';
-    var k = 2 * Math.PI / (narrow ? 120 : 190), stp = narrow ? 10 : 13;
+    var k = 2 * Math.PI / (G.amp * 2.7), stp = narrow ? 10 : 14;
     function hy(X, s) { return G.mid + s * G.amp * Math.sin(k * X + t * 1.6); }
     function fade(X) { return sm((G.hx1 - X) / 30) * sm((X - G.hx0) / 30); }
     function strand(s, front) { for (var X = G.hx0; X < G.hx1; X += 2) { var z = s * Math.cos(k * X + t * 1.6); if ((z >= 0) !== front) continue;
