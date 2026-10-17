@@ -338,6 +338,21 @@ body[data-tab="presentations"] main { background: transparent; border-color: tra
 .world-bg.solid .land { fill: var(--accent, #0f6e6a); fill-opacity: .07; stroke: var(--accent, #0f6e6a); stroke-opacity: .12; stroke-width: 1; }
 .world-bg.outline .land { fill: none; stroke: var(--muted); stroke-opacity: .35; stroke-width: 1.1; stroke-linejoin: round; }
 .world-bg .grat line { stroke: var(--muted); stroke-opacity: .12; stroke-width: 1; stroke-dasharray: 2 6; }
+/* TABS-PILLS: more prominent tabs */
+.tabs { gap: .4rem; border-bottom: 0; padding-bottom: .25rem; }
+.tabs a { padding: .5rem .8rem; margin: 0; border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--surface); color: var(--ink); font-size: .76rem; letter-spacing: .05em; font-weight: 500;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+.tabs a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.tabs a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tabs a[aria-current="page"]:hover { color: #fff; }
+.tabs a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 760px) { .tabs a { padding: .45rem .8rem; font-size: .75rem; } }
+/* PHONE-FIX: single column on phones (restores the layout after the wider-panel change) */
+@media (max-width: 760px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .id { position: static; }
+}
 </style>
 
 
