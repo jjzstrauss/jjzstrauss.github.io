@@ -413,6 +413,40 @@ body[data-tab="research"] .wrap { padding-top: 7.5rem; }
 body[data-tab="research"] .id > .photo { display: none; }
 @media (max-width: 760px) { body[data-tab="research"] .wrap { padding-top: 5.5rem; } }
 @media (max-width: 1000px) { body[data-tab="research"] .id { grid-template-columns: minmax(0, 1fr); } }
+/* HERO-STEPS: one pipeline step per tab (About -> Presentations) */
+.hero-presentations { background: linear-gradient(180deg, rgba(15,110,106,.07), rgba(15,110,106,.02)), var(--bg); }
+body[data-tab="presentations"] .world-bg { position: absolute; top: clamp(320px, 50vh, 600px); height: 100vh; }
+.step-hero, body[data-tab="about"] .step-hero, body:not([data-tab]) .step-hero { display: none; }
+.step-hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+body[data-tab="projects"] .hero-projects { display: block; }
+body[data-tab="projects"] .helix-band { display: none; }
+body[data-tab="projects"] .wrap { padding-top: 7.5rem; }
+body[data-tab="projects"] .id > .photo { display: none; }
+body[data-tab="publications"] .hero-publications { display: block; }
+body[data-tab="publications"] .helix-band { display: none; }
+body[data-tab="publications"] .wrap { padding-top: 7.5rem; }
+body[data-tab="publications"] .id > .photo { display: none; }
+body[data-tab="presentations"] .hero-presentations { display: block; }
+body[data-tab="presentations"] .helix-band { display: none; }
+body[data-tab="presentations"] .wrap { padding-top: 7.5rem; }
+body[data-tab="presentations"] .id > .photo { display: none; }
+body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-bg { top: 0; }
+.step-badge { position: absolute; left: max(20px, env(safe-area-inset-left, 0px)); bottom: 14px; display: flex; align-items: center; gap: .7rem; z-index: 3;
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; color: var(--muted); }
+.step-badge .st { text-transform: uppercase; }
+.step-badge .dots { display: flex; gap: .35rem; }
+.step-badge .sd { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--accent); background: transparent; display: block; }
+.step-badge .sd.on { background: var(--accent); }
+.step-badge .sd:hover { background: rgba(15,110,106,.35); }
+.step-badge .sd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 760px) {
+  body[data-tab="projects"] .wrap, body[data-tab="publications"] .wrap, body[data-tab="presentations"] .wrap { padding-top: 5.5rem; }
+  .step-badge { bottom: 10px; left: 12px; }
+  .step-badge .st { display: none; }
+}
+@media (max-width: 1000px) {
+  body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="presentations"] .id { grid-template-columns: minmax(0, 1fr); }
+}
 </style>
 
 
@@ -429,12 +463,27 @@ body[data-tab="research"] .id > .photo { display: none; }
 
 <div class="about-hero">
   <canvas id="rep-canvas" aria-hidden="true"></canvas>
-  <span class="hero-cap" aria-hidden="true">From genome to association</span>
+  <div class="step-badge"><span class="st">Step 1 of 5 &middot; Genome &amp; association</span><span class="dots"><a class="sd on" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="Portrait photo">
 </div>
 <div class="about-hero research-hero">
   <canvas id="nn-canvas" aria-hidden="true"></canvas>
-  <span class="hero-cap" aria-hidden="true">From association to prediction</span>
+  <div class="step-badge"><span class="st">Step 2 of 5 &middot; Prediction modeling</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd on" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <img class="hero-photo" src="photo.jpg" alt="">
+</div>
+<div class="about-hero step-hero hero-projects">
+  <canvas id="val-canvas" aria-hidden="true"></canvas>
+  <div class="step-badge"><span class="st">Step 3 of 5 &middot; Validation</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd on" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <img class="hero-photo" src="photo.jpg" alt="">
+</div>
+<div class="about-hero step-hero hero-publications">
+  <canvas id="strat-canvas" aria-hidden="true"></canvas>
+  <div class="step-badge"><span class="st">Step 4 of 5 &middot; Risk stratification</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd on" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <img class="hero-photo" src="photo.jpg" alt="">
+</div>
+<div class="about-hero step-hero hero-presentations">
+  <canvas id="clin-canvas" aria-hidden="true"></canvas>
+  <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd on" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="wrap">
@@ -727,7 +776,7 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
       list.forEach(function (l) { x.fillText(l[1], l[0], 34); }); x.textAlign = 'left'; }
     function drawGenome() {
       labels(narrow ? [[(G.hx0 + G.hx1) / 2, 'GENOME'], [(G.mx0 + G.mx1) / 2, 'GWAS']]
-                    : [[(G.hx0 + G.hx1) / 2, '01 · GENOME'], [(G.mx0 + G.mx1) / 2, '02 · GENOME-WIDE ASSOCIATION (GWAS)']]);
+                    : [[(G.hx0 + G.hx1) / 2, 'GENOME'], [(G.mx0 + G.mx1) / 2, 'GENOME-WIDE ASSOCIATION (GWAS)']]);
       var k = 2 * Math.PI / (G.amp * 2.7), stp = narrow ? 10 : 14;
       function hy(X, s) { return G.mid + s * G.amp * Math.sin(k * X + t * 1.6); }
       function fade(X) { return sm((G.hx1 - X) / 30) * sm((X - G.hx0) / 30); }
@@ -750,7 +799,7 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
         if (p.sig && p.g > .15) { x.globalAlpha = .25 * p.g; x.beginPath(); x.arc(p.x, p.y, r * 3.2, 0, 6.3); x.fill(); } });
     }
     function drawLearn() {
-      labels(narrow ? [[(G.nx0 + G.nx1) / 2, 'NEURAL NETWORK'], [G.gx, 'RISK']] : [[(G.nx0 + G.nx1) / 2, '03 · DEEP LEARNING'], [G.gx, '04 · RISK PREDICTION']]);
+      labels(narrow ? [[(G.nx0 + G.nx1) / 2, 'NEURAL NETWORK'], [G.gx, 'RISK']] : [[(G.nx0 + G.nx1) / 2, 'DEEP LEARNING'], [G.gx, 'RISK PREDICTION']]);
       if (!narrow) { x.globalAlpha = .7; x.fillStyle = MUT; x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'right';
         layers[0].forEach(function (nd, i) { x.fillText('SNP ' + (i + 1), nd.x - 16, nd.y + 1); }); x.textAlign = 'left'; }
       x.lineWidth = 1;
@@ -794,6 +843,177 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
 </script>
 <script>/* re-measure animations when switching tabs */
 window.addEventListener('hashchange', function () { setTimeout(function () { window.dispatchEvent(new Event('resize')); }, 30); });
+</script>
+<script>/* HERO-STEPS: steps 3-5 of the pipeline (validation, risk stratification, clinical application) */
+(function () {
+  var cs = getComputedStyle(document.documentElement);
+  function tok(n, f) { var v = cs.getPropertyValue(n).trim(); return v || f; }
+  var INK = tok('--strand', '#16202e'), MUT = tok('--muted', '#536072'), TEAL = tok('--base-a', '#0f6e6a'), SAND = tok('--base-t', '#b8873a'),
+      BLUE = tok('--base-g', '#3d7fa8'), RUST = tok('--base-c', '#a8574a'), GOLD = '#d9a441', SURF = tok('--surface', '#ffffff'), RULE = tok('--rule', '#d9dee6');
+  var COL = { A: TEAL, T: SAND, G: BLUE, C: RUST }, SEQ = 'ATGCGTACCTGAATCGGATCCATGCTAGCTTAGGCATCGATCG';
+  function sm(u) { u = Math.max(0, Math.min(1, u)); return u * u * (3 - 2 * u); }
+  function lerpC(a, b, u) { var A = parseInt(a.slice(1), 16), B = parseInt(b.slice(1), 16);
+    var r = Math.round((A >> 16) + ((B >> 16) - (A >> 16)) * u), g = Math.round(((A >> 8) & 255) + (((B >> 8) & 255) - ((A >> 8) & 255)) * u), bl = Math.round((A & 255) + ((B & 255) - (A & 255)) * u);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')'; }
+  function riskCol(r) { return r < .5 ? lerpC(TEAL, GOLD, r * 2) : lerpC(GOLD, RUST, (r - .5) * 2); }
+  function rr(x, X, Y, w, h, r) { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+
+  function make(id, mode, tabName) {
+    var c = document.getElementById(id); if (!c || !c.getContext) return;
+    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9 }[mode];
+    function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    var W, H, narrow, t = 0, seqOff = 0, S = {};
+    function size() { var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1; W = r.width; H = r.height;
+      c.width = Math.round(W * d); c.height = Math.round(H * d); x.setTransform(d, 0, 0, d, 0, 0); narrow = W < 760; build(); }
+    function txt(s, X, Y, size, col, align, weight) { x.font = (weight || '') + ' ' + size + 'px "IBM Plex Mono", monospace'; x.fillStyle = col; x.textAlign = align || 'left'; x.textBaseline = 'middle'; x.fillText(s, X, Y); }
+    function axes(X0, Y0, X1, Y1) { x.globalAlpha = .55; x.strokeStyle = MUT; x.lineWidth = 1.2; x.beginPath(); x.moveTo(X0, Y1); x.lineTo(X0, Y0); x.lineTo(X1, Y0); x.stroke(); x.globalAlpha = 1; }
+    function build() {
+      seed = { val: 3, strat: 5, clin: 9 }[mode];
+      if (mode === 'val') {
+        S.gx0 = W * (narrow ? .04 : .05); S.gx1 = W * (narrow ? .38 : .33); S.gy0 = H * .2; S.gy1 = H * .72;
+        S.rx0 = W * (narrow ? .48 : .45); S.rx1 = W * (narrow ? .94 : .66); S.ry0 = H * (narrow ? .64 : .74); S.ry1 = H * .16;
+        S.cx0 = W * .76; S.cx1 = W * .95; S.cy0 = H * .74; S.cy1 = H * .3;
+        S.folds = []; for (var i = 0; i < 5; i++) S.folds.push(2.0 + rnd() * 1.4);
+        S.cells = []; var cols = narrow ? 3 : 5, rows = narrow ? 10 : 14;
+        for (var f = 0; f < 5; f++) for (var cc = 0; cc < cols; cc++) for (var r = 0; r < rows; r++) S.cells.push({ f: f, c: cc, r: r, ph: rnd() * 6.3 });
+        S.cols = cols; S.rows = rows; S.cal = []; for (var k = 1; k <= 10; k++) { var p = k / 10 - .05; S.cal.push([p, Math.max(.02, Math.min(.98, p + (rnd() - .5) * .08))]); }
+      } else if (mode === 'strat') {
+        S.cx = W * (narrow ? .14 : .14); S.cy = H * .46; S.lane0 = W * (narrow ? .3 : .3); S.lane1 = W * (narrow ? .44 : .44);
+        S.lanes = [H * .28, H * .46, H * .64];
+        S.kx0 = W * (narrow ? .54 : .56); S.kx1 = W * .95; S.ky0 = H * .74; S.ky1 = H * .14;
+        S.pts = []; S.km = []; S.cloud = []; for (var q = 0; q < 140; q++) { var g1 = 0, g2 = 0; for (var z = 0; z < 4; z++) { g1 += rnd(); g2 += rnd(); } S.cloud.push([(g1 - 2) * 0.9, (g2 - 2) * 0.9]); }
+        var lam = [.025, .07, .16];
+        lam.forEach(function (L, g) { var tt = 0, sv = 1, d = [[0, 1]], ticks = [];
+          while (tt < 10) { tt += .2 + rnd() * .35; if (tt > 10) break; sv = Math.exp(-L * tt) * (1 - (rnd() - .5) * .02); d.push([tt, sv]); if (rnd() < .25) ticks.push([tt + .1, sv]); }
+          S.km.push({ d: d, ticks: ticks, col: [TEAL, GOLD, RUST][g] }); });
+      } else {
+        S.card = [W * (narrow ? .04 : .05), H * .14, W * (narrow ? .42 : .3), H * .6];
+        S.path = { x0: W * (narrow ? .5 : .47), x1: W * .95, y: H * (narrow ? .26 : .3) };
+        S.ecg = { x0: W * (narrow ? .5 : .47), x1: W * .95, y: H * (narrow ? .55 : .58) };
+        S.patients = [{ id: 'A', r: .82, pct: 91, f: ['Age 54', 'BMI 29', 'Smoker: former'], plan: 'High risk' },
+                      { id: 'B', r: .28, pct: 34, f: ['Age 41', 'BMI 23', 'Smoker: never'], plan: 'Low risk' },
+                      { id: 'C', r: .56, pct: 63, f: ['Age 62', 'BMI 26', 'Smoker: never'], plan: 'Intermediate' }];
+      }
+    }
+    function ribbon() {
+      x.globalAlpha = .06; x.strokeStyle = TEAL; x.lineWidth = 1;
+      for (var gx = 0; gx < W; gx += 40) { x.beginPath(); x.moveTo(gx, 0); x.lineTo(gx, H); x.stroke(); }
+      for (var gy = 0; gy < H; gy += 40) { x.beginPath(); x.moveTo(0, gy); x.lineTo(W, gy); x.stroke(); }
+      x.globalAlpha = .35; x.font = '11px "IBM Plex Mono", monospace'; x.textBaseline = 'middle'; x.textAlign = 'left'; var sw = 9, s0 = Math.floor(seqOff / sw);
+      for (var i = 0; i < W / sw + 2; i++) { var b = SEQ[(s0 + i) % SEQ.length]; x.fillStyle = COL[b]; x.fillText(b, i * sw - (seqOff % sw), 12); }
+      x.globalAlpha = 1;
+    }
+    function label(s, X) { x.globalAlpha = .9; txt(s, X, 34, narrow ? 9 : 11, MUT, 'center', '600'); x.globalAlpha = 1; }
+
+    function drawVal() {
+      var period = 2.6, k = Math.floor(t / period) % 5, u = (t % period) / period, round = Math.floor(t / period / 5);
+      label('CROSS-VALIDATION', (S.gx0 + S.gx1) / 2); label('ROC CURVE', (S.rx0 + S.rx1) / 2); if (!narrow) label('CALIBRATION', (S.cx0 + S.cx1) / 2);
+      // folds grid
+      var fw = (S.gx1 - S.gx0) / 5, cw = (fw - 10) / S.cols, ch = (S.gy1 - S.gy0) / S.rows;
+      S.cells.forEach(function (cl) { var test = cl.f === k, X = S.gx0 + cl.f * fw + cl.c * cw, Y = S.gy0 + cl.r * ch;
+        var a = test ? .55 + .35 * Math.sin(t * 6 + cl.ph) * .5 + .2 : .22 + .1 * Math.sin(t * 1.5 + cl.ph);
+        x.globalAlpha = a; x.fillStyle = test ? RUST : TEAL; x.fillRect(X, Y, cw - 2, ch - 2); });
+      x.globalAlpha = 1;
+      for (var f = 0; f < 5; f++) { var X = S.gx0 + f * fw + (fw - 10) / 2; txt((narrow ? '' : 'fold ') + (f + 1), X, S.gy1 + 12, narrow ? 8 : 10, f === k ? RUST : MUT, 'center', f === k ? '600' : '');
+        if (f === k) { x.strokeStyle = RUST; x.lineWidth = 2; x.strokeRect(S.gx0 + f * fw - 3, S.gy0 - 4, fw - 4, S.gy1 - S.gy0 + 6); } }
+      txt('■ train', S.gx0, S.gy0 - 18, 10, TEAL); txt('■ test', S.gx0 + 70, S.gy0 - 18, 10, RUST);
+      // flying data to ROC
+      for (var i = 0; i < 6; i++) { var p = (u * 1.4 + i / 6) % 1, sx = S.gx0 + k * fw + fw / 2, sy = S.gy0 + (S.gy1 - S.gy0) * (i + .5) / 6, ex = S.rx0, ey = (S.ry0 + S.ry1) / 2;
+        var px = sx + (ex - sx) * sm(p), py = sy + (ey - sy) * sm(p) - Math.sin(p * Math.PI) * 30; x.globalAlpha = .7 * Math.sin(p * Math.PI); x.fillStyle = RUST; x.beginPath(); x.arc(px, py, 3, 0, 6.3); x.fill(); }
+      // ROC
+      axes(S.rx0, S.ry0, S.rx1, S.ry1); x.globalAlpha = .45; x.setLineDash([5, 5]); x.strokeStyle = MUT; x.beginPath(); x.moveTo(S.rx0, S.ry0); x.lineTo(S.rx1, S.ry1); x.stroke(); x.setLineDash([]);
+      if (!narrow) { x.globalAlpha = .8; txt('false positive rate', (S.rx0 + S.rx1) / 2, S.ry0 + 16, 10, MUT, 'center');
+        x.save(); x.translate(S.rx0 - 16, (S.ry0 + S.ry1) / 2); x.rotate(-Math.PI / 2); txt('true positive rate', 0, 0, 10, MUT, 'center'); x.restore(); }
+      function rocY(a, v) { return 1 - Math.pow(1 - v, a); }
+      var done = [], cols = [TEAL, BLUE, SAND, '#7a5c99', '#6b8e3a'];
+      for (var j = 0; j < 5; j++) { var frac = j < k ? 1 : (j === k ? sm(u * 1.3) : 0); if (frac <= 0) continue; if (j < k) done.push(j);
+        x.globalAlpha = j === k ? .95 : .4; x.strokeStyle = cols[j]; x.lineWidth = j === k ? 2.6 : 1.6; x.beginPath();
+        for (var v = 0; v <= frac + 1e-6; v += .02) { var X = S.rx0 + (S.rx1 - S.rx0) * v, Y = S.ry0 - (S.ry0 - S.ry1) * rocY(S.folds[j], v); v ? x.lineTo(X, Y) : x.moveTo(X, Y); } x.stroke(); }
+      x.globalAlpha = 1;
+      if (!narrow) { var ly = S.ry0 - 100; for (var j = 0; j < 5; j++) { var auc = S.folds[j] / (S.folds[j] + 1);
+          var shown = j < k || (j === k && u > .6); x.globalAlpha = shown ? 1 : .3; txt('fold ' + (j + 1) + '  AUC ' + (shown ? auc.toFixed(2) : '—'), S.rx1 - 4, ly + j * 15, 10, cols[j], 'right'); }
+        var m = 0; done.forEach(function (j) { m += S.folds[j] / (S.folds[j] + 1); }); x.globalAlpha = 1;
+        if (done.length) txt('mean AUC ' + (m / done.length).toFixed(2), S.rx1 - 4, ly + 5 * 15 + 6, 11, INK, 'right', '600'); }
+      // calibration
+      if (!narrow) { axes(S.cx0, S.cy0, S.cx1, S.cy1); x.globalAlpha = .45; x.setLineDash([5, 5]); x.strokeStyle = MUT; x.beginPath(); x.moveTo(S.cx0, S.cy0); x.lineTo(S.cx1, S.cy1); x.stroke(); x.setLineDash([]);
+        var nShow = Math.floor(((t / period) % 5) / 5 * 12); x.globalAlpha = 1;
+        S.cal.slice(0, Math.min(10, nShow)).forEach(function (p, i) { var X = S.cx0 + (S.cx1 - S.cx0) * p[0], Y = S.cy0 - (S.cy0 - S.cy1) * p[1];
+          x.fillStyle = TEAL; x.beginPath(); x.arc(X, Y, 4.5, 0, 6.3); x.fill(); x.globalAlpha = .4; x.strokeStyle = TEAL; x.beginPath(); x.moveTo(X, Y - 7); x.lineTo(X, Y + 7); x.stroke(); x.globalAlpha = 1; });
+        txt('predicted', (S.cx0 + S.cx1) / 2, S.cy0 + 16, 10, MUT, 'center'); x.save(); x.translate(S.cx0 - 16, (S.cy0 + S.cy1) / 2); x.rotate(-Math.PI / 2); txt('observed', 0, 0, 10, MUT, 'center'); x.restore(); }
+    }
+
+    function drawStrat() {
+      label('PATIENTS', S.cx); label('RISK GROUPS', (S.lane0 + S.lane1) / 2); label('SURVIVAL BY RISK GROUP', (S.kx0 + S.kx1) / 2);
+      // patient flow: continuous stream
+      var N = narrow ? 50 : 110;
+      for (var i = 0; i < N; i++) { var s = (i * 0.61803) % 1, ph = (t * .18 + s) % 1, r = (i * 0.3819 + .07) % 1;
+        var g = r < .4 ? 0 : (r < .75 ? 1 : 2), a0 = i * 2.39996, rad = Math.sqrt((i % 37) / 37) * H * .2;
+        var cl0 = S.cloud[i % S.cloud.length], sx = S.cx + cl0[0] * H * (narrow ? .16 : .22), sy = S.cy + cl0[1] * H * .3, ex = S.lane1, ey = S.lanes[g] + ((i % 7) - 3) * 3;
+        var mv = sm((ph - .45) / .45), px = sx + (ex - sx) * mv, py = sy + (ey - sy) * mv;
+        x.globalAlpha = ph > .92 ? (1 - ph) / .08 : .85; x.fillStyle = riskCol(r); x.beginPath(); x.arc(px, py, narrow ? 2.6 : 3.6, 0, 6.3); x.fill(); }
+      x.globalAlpha = 1;
+      ['low', 'intermediate', 'high'].forEach(function (nm, g) { x.globalAlpha = .18; x.fillStyle = [TEAL, GOLD, RUST][g]; rr(x, S.lane0, S.lanes[g] - 12, S.lane1 - S.lane0 + 14, 24, 12); x.fill();
+        x.globalAlpha = 1; txt(nm + ' risk', S.lane0 + 10, S.lanes[g], narrow ? 8 : 10, [TEAL, '#9a7b2f', RUST][g], 'left', '600'); });
+      // KM curves with sweeping time cursor
+      var cyc = 9, tc = (t % cyc) / (cyc - 1.2) * 10; tc = Math.min(tc, 10);
+      axes(S.kx0, S.ky0, S.kx1, S.ky1);
+      var xs = function (tt) { return S.kx0 + (S.kx1 - S.kx0) * tt / 10; }, ys = function (v) { return S.ky0 - (S.ky0 - S.ky1) * v; };
+      S.km.forEach(function (k) { x.strokeStyle = k.col; x.lineWidth = narrow ? 2.2 : 3; x.globalAlpha = .95; x.beginPath(); var prev = k.d[0]; x.moveTo(xs(0), ys(1));
+        for (var i = 1; i < k.d.length; i++) { var p = k.d[i]; if (p[0] > tc) { x.lineTo(xs(tc), ys(prev[1])); break; } x.lineTo(xs(p[0]), ys(prev[1])); x.lineTo(xs(p[0]), ys(p[1])); prev = p; if (i === k.d.length - 1) x.lineTo(xs(tc), ys(p[1])); }
+        x.stroke(); k.ticks.forEach(function (q) { if (q[0] < tc) { x.lineWidth = 1.5; x.beginPath(); x.moveTo(xs(q[0]), ys(q[1]) - 5); x.lineTo(xs(q[0]), ys(q[1]) + 5); x.stroke(); } }); });
+      x.globalAlpha = .4; x.strokeStyle = INK; x.lineWidth = 1; x.setLineDash([3, 4]); x.beginPath(); x.moveTo(xs(tc), S.ky0); x.lineTo(xs(tc), S.ky1); x.stroke(); x.setLineDash([]); x.globalAlpha = 1;
+      if (!narrow) { txt('years since baseline', (S.kx0 + S.kx1) / 2, S.ky0 + 16, 10, MUT, 'center'); [0, 5, 10].forEach(function (v) { txt(String(v), xs(v), S.ky0 + 30, 9, MUT, 'center'); });
+        x.save(); x.translate(S.kx0 - 16, (S.ky0 + S.ky1) / 2); x.rotate(-Math.PI / 2); txt('event-free survival', 0, 0, 10, MUT, 'center'); x.restore();
+        if (tc > 6) { x.globalAlpha = sm((tc - 6) / 2); txt('HR (high vs low) = 6.1', S.kx1 - 6, S.ky1 + 26, 11, INK, 'right', '600'); txt('log-rank p < 0.001', S.kx1 - 6, S.ky1 + 44, 10, MUT, 'right'); x.globalAlpha = 1; } }
+    }
+
+    function drawClin() {
+      label('PATIENT REPORT', S.card[0] + S.card[2] / 2); label('CLINICAL CARE PATHWAY', (S.path.x0 + S.path.x1) / 2);
+      var per = 7, pi = Math.floor(t / per) % S.patients.length, pu = (t % per) / per, P = S.patients[pi];
+      var X = S.card[0], Y = S.card[1], w = S.card[2], h = S.card[3];
+      x.globalAlpha = 1; x.fillStyle = SURF; x.strokeStyle = RULE; x.lineWidth = 1.2; rr(x, X, Y, w, h, 12); x.fill(); x.stroke();
+      x.fillStyle = TEAL; x.globalAlpha = .12; rr(x, X, Y, w, 34, 12); x.fill(); x.globalAlpha = 1;
+      txt('Patient ' + P.id + ' · illustrative', X + 14, Y + 17, narrow ? 9 : 11, INK, 'left', '600');
+      var ax = X + (narrow ? 26 : 34), ay = Y + 66; x.fillStyle = MUT; x.globalAlpha = .5; x.beginPath(); x.arc(ax, ay - 8, 10, 0, 6.3); x.fill(); x.beginPath(); x.arc(ax, ay + 18, 17, Math.PI, 0); x.fill(); x.globalAlpha = 1;
+      if (!narrow) P.f.forEach(function (s, i) { txt(s, ax + 30, ay - 14 + i * 16, 10, MUT); }); else txt(P.f[0], ax + 24, ay, 8, MUT);
+      var by = Y + h * .55, bw = w - 28, fill = sm(pu * 2.2) * P.pct / 100;
+      txt(narrow ? 'PRS percentile' : 'Polygenic risk percentile', X + 14, by - 14, narrow ? 8 : 10, MUT);
+      x.fillStyle = RULE; rr(x, X + 14, by, bw, 10, 5); x.fill(); var gr = x.createLinearGradient(X + 14, 0, X + 14 + bw, 0); gr.addColorStop(0, TEAL); gr.addColorStop(.6, GOLD); gr.addColorStop(1, RUST);
+      x.fillStyle = gr; rr(x, X + 14, by, Math.max(10, bw * fill), 10, 5); x.fill();
+      txt(Math.round(fill * 100) + 'th', X + 14 + bw, by + 24, narrow ? 10 : 13, INK, 'right', '600');
+      if (pu > .45) { x.globalAlpha = sm((pu - .45) / .1); var col = riskCol(P.r); x.fillStyle = col; x.globalAlpha *= .15; rr(x, X + 14, Y + h - 44, bw, 30, 8); x.fill(); x.globalAlpha = sm((pu - .45) / .1);
+        txt('Result: ' + P.plan, X + 26, Y + h - 29, narrow ? 9 : 11, col, 'left', '600'); x.globalAlpha = 1; }
+      // arrow card -> pathway
+      x.globalAlpha = .4; x.strokeStyle = MUT; x.setLineDash([4, 4]); x.beginPath(); x.moveTo(X + w + 6, Y + h / 2); x.lineTo(S.path.x0 - 8, S.path.y); x.stroke(); x.setLineDash([]); x.globalAlpha = 1;
+      // pathway chevrons
+      var steps = narrow ? ['SCRN', 'DIAG', 'TREAT', 'MON'] : ['SCREEN', 'DIAGNOSE', 'TREAT', 'MONITOR'], n = steps.length, sw = (S.path.x1 - S.path.x0) / n, act = Math.floor(pu * 1.1 * n);
+      steps.forEach(function (s, i) { var cx0 = S.path.x0 + i * sw, cy = S.path.y, hh = narrow ? 14 : 20, on = i <= act;
+        x.beginPath(); x.moveTo(cx0, cy - hh); x.lineTo(cx0 + sw - 14, cy - hh); x.lineTo(cx0 + sw - 2, cy); x.lineTo(cx0 + sw - 14, cy + hh); x.lineTo(cx0, cy + hh); x.lineTo(cx0 + 12, cy); x.closePath();
+        x.fillStyle = on ? (i === act ? GOLD : TEAL) : RULE; x.globalAlpha = on ? .9 : .6; x.fill(); x.globalAlpha = 1;
+        txt(s, cx0 + sw / 2 + 4, cy, narrow ? 7 : 10, on ? '#ffffff' : MUT, 'center', '600'); });
+      // ECG monitor line
+      var e = S.ecg, ew = e.x1 - e.x0; x.strokeStyle = RUST; x.lineWidth = 2; x.globalAlpha = .85; x.beginPath();
+      for (var X2 = 0; X2 <= ew; X2 += 2) { var ph = ((X2 + t * 120) % 180) / 180, v = 0;
+        if (ph > .4 && ph < .44) v = -(ph - .4) / .04 * .3; else if (ph >= .44 && ph < .48) v = -.3 + (ph - .44) / .04 * 1.6; else if (ph >= .48 && ph < .52) v = 1.3 - (ph - .48) / .04 * 1.6; else if (ph >= .52 && ph < .56) v = -.3 + (ph - .52) / .04 * .3; else if (ph > .66 && ph < .78) v = Math.sin((ph - .66) / .12 * Math.PI) * .25;
+        var Yy = e.y - v * H * (narrow ? .06 : .09); X2 ? x.lineTo(e.x0 + X2, Yy) : x.moveTo(e.x0 + X2, Yy); }
+      x.stroke(); x.globalAlpha = 1; txt('patient monitoring', e.x0, e.y + H * .14, narrow ? 8 : 10, MUT);
+      if (!narrow) { txt('follow-up · ' + ['3 months', '12 months', '6 months'][pi], e.x1, e.y + H * .14, 10, MUT, 'right'); }
+    }
+
+    function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; ribbon();
+      if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
+    function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && tab === tabName; }
+    var last = 0, ready = false;
+    function loop(now) { var dt = last ? Math.min(now - last, 50) / 1000 : 0; last = now;
+      if (visible()) { if (!ready && c.getBoundingClientRect().width > 0) { size(); ready = true; } if (ready) { t += dt; seqOff += dt * 30; draw(); } }
+      requestAnimationFrame(loop); }
+    window.addEventListener('resize', function () { if (c.getBoundingClientRect().width > 0) { size(); draw(); ready = true; } });
+    requestAnimationFrame(loop);
+  }
+  make('val-canvas', 'val', 'projects');
+  make('strat-canvas', 'strat', 'publications');
+  make('clin-canvas', 'clin', 'presentations');
+})();
 </script>
 </body>
 </html>
