@@ -413,9 +413,8 @@ body[data-tab="research"] .wrap { padding-top: 7.5rem; }
 body[data-tab="research"] .id > .photo { display: none; }
 @media (max-width: 760px) { body[data-tab="research"] .wrap { padding-top: 5.5rem; } }
 @media (max-width: 1000px) { body[data-tab="research"] .id { grid-template-columns: minmax(0, 1fr); } }
-/* HERO-STEPS: one pipeline step per tab (About -> Presentations) */
-.hero-presentations { background: linear-gradient(180deg, rgba(15,110,106,.07), rgba(15,110,106,.02)), var(--bg); }
-body[data-tab="presentations"] .world-bg { position: absolute; top: clamp(320px, 50vh, 600px); height: 100vh; }
+/* HERO-STEPS: one pipeline step per tab (About -> Education) */
+.hero-education { background: linear-gradient(180deg, rgba(15,110,106,.07), rgba(15,110,106,.02)), var(--bg); }
 .step-hero, body[data-tab="about"] .step-hero, body:not([data-tab]) .step-hero { display: none; }
 .step-hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 body[data-tab="projects"] .hero-projects { display: block; }
@@ -426,11 +425,10 @@ body[data-tab="publications"] .hero-publications { display: block; }
 body[data-tab="publications"] .helix-band { display: none; }
 body[data-tab="publications"] .wrap { padding-top: 7.5rem; }
 body[data-tab="publications"] .id > .photo { display: none; }
-body[data-tab="presentations"] .hero-presentations { display: block; }
-body[data-tab="presentations"] .helix-band { display: none; }
-body[data-tab="presentations"] .wrap { padding-top: 7.5rem; }
-body[data-tab="presentations"] .id > .photo { display: none; }
-body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-bg { top: 0; }
+body[data-tab="education"] .hero-education { display: block; }
+body[data-tab="education"] .helix-band { display: none; }
+body[data-tab="education"] .wrap { padding-top: 7.5rem; }
+body[data-tab="education"] .id > .photo { display: none; }
 .step-badge { position: absolute; left: max(20px, env(safe-area-inset-left, 0px)); bottom: 14px; display: flex; align-items: center; gap: .7rem; z-index: 3;
   font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; color: var(--muted); }
 .step-badge .st { text-transform: uppercase; }
@@ -440,12 +438,12 @@ body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-
 .step-badge .sd:hover { background: rgba(15,110,106,.35); }
 .step-badge .sd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 760px) {
-  body[data-tab="projects"] .wrap, body[data-tab="publications"] .wrap, body[data-tab="presentations"] .wrap { padding-top: 5.5rem; }
+  body[data-tab="projects"] .wrap, body[data-tab="publications"] .wrap, body[data-tab="education"] .wrap { padding-top: 5.5rem; }
   .step-badge { bottom: 10px; left: 12px; }
   .step-badge .st { display: none; }
 }
 @media (max-width: 1000px) {
-  body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="presentations"] .id { grid-template-columns: minmax(0, 1fr); }
+  body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="education"] .id { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
 
@@ -463,27 +461,27 @@ body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-
 
 <div class="about-hero">
   <canvas id="rep-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 1 of 5 &middot; Genome &amp; association</span><span class="dots"><a class="sd on" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 1 of 5 &middot; Sequencing &amp; association</span><span class="dots"><a class="sd on" href="#about" aria-label="Step 1: Sequencing &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="Portrait photo">
 </div>
 <div class="about-hero research-hero">
   <canvas id="nn-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 2 of 5 &middot; Prediction modeling</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd on" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 2 of 5 &middot; Prediction modeling</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sequencing &amp; association"></a><a class="sd on" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="about-hero step-hero hero-projects">
   <canvas id="val-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 3 of 5 &middot; Validation</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd on" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 3 of 5 &middot; Validation</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sequencing &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd on" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="about-hero step-hero hero-publications">
   <canvas id="strat-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 4 of 5 &middot; Risk stratification</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd on" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 4 of 5 &middot; Risk stratification</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sequencing &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd on" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
-<div class="about-hero step-hero hero-presentations">
+<div class="about-hero step-hero hero-education">
   <canvas id="clin-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Genome &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd on" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sequencing &amp; association"></a><a class="sd" href="#research" aria-label="Step 2: Prediction modeling"></a><a class="sd" href="#projects" aria-label="Step 3: Validation"></a><a class="sd" href="#publications" aria-label="Step 4: Risk stratification"></a><a class="sd on" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="wrap">
@@ -509,8 +507,8 @@ body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-
         <li><a href="#research">Research</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#publications">Publications</a></li>
-        <li><a href="#presentations">Presentations</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#presentations">Presentations</a></li>
         <li><a href="#cv">CV</a></li>
       </ul>
     </nav>
@@ -562,6 +560,14 @@ body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-
       <p class="wip">Under construction.</p>
     </section>
 
+    <section class="panel" id="education" aria-labelledby="education-h">
+      <h2 id="education-h">Education</h2>
+      <ul class="edu-list">
+        <li><strong>Ph.D., Mathematics</strong> (2026&ndash;present)<br>Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University, Shanghai, P. R. China<br>Advisors: <a href="https://bjli1992.github.io">Bingjie Li, Ph.D.</a> (<span lang="zh">李冰杰</span>) and <a href="https://zhigang-yao.github.io">Zhigang Yao, Ph.D.</a> (<span lang="zh">姚志刚</span>)</li>
+        <li><strong>M.S., Statistics</strong><br>University of Colorado Denver | Anschutz Medical Campus, Denver, CO, USA<br>Advisors: <a href="https://yaningliucudenver.github.io/index.html">Yaning Liu, Ph.D.</a>, and Anna Peljto, Dr.PH.<br>Thesis: Polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</li>
+        <li><strong>B.S., Mathematics</strong><br>University of Colorado Denver, Denver, CO, USA</li>
+      </ul>
+    </section>
     <section class="panel" id="presentations" aria-labelledby="presentations-h">
       <h2 id="presentations-h">Presentations</h2>
       <h3 class="subhead">Poster Presentation</h3>
@@ -572,14 +578,6 @@ body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .world-
       </ul>
     </section>
 
-    <section class="panel" id="education" aria-labelledby="education-h">
-      <h2 id="education-h">Education</h2>
-      <ul class="edu-list">
-        <li><strong>Ph.D., Mathematics</strong> (2026&ndash;present)<br>Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University, Shanghai, P. R. China<br>Advisors: <a href="https://bjli1992.github.io">Bingjie Li, Ph.D.</a> (<span lang="zh">李冰杰</span>) and <a href="https://zhigang-yao.github.io">Zhigang Yao, Ph.D.</a> (<span lang="zh">姚志刚</span>)</li>
-        <li><strong>M.S., Statistics</strong><br>University of Colorado Denver | Anschutz Medical Campus, Denver, CO, USA<br>Advisors: <a href="https://yaningliucudenver.github.io/index.html">Yaning Liu, Ph.D.</a>, and Anna Peljto, Dr.PH.<br>Thesis: Polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</li>
-        <li><strong>B.S., Mathematics</strong><br>University of Colorado Denver, Denver, CO, USA</li>
-      </ul>
-    </section>
 
     <section class="panel" id="cv" aria-labelledby="cv-h">
       <h2 id="cv-h">CV</h2>
@@ -697,7 +695,7 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
   requestAnimationFrame(frame);
 })();
 </script>
-<script>/* HERO-SPLIT: About = genome -> GWAS; Research = deep learning -> risk prediction */
+<script>/* HERO-SPLIT: About = sample -> sequencing -> GWAS; Research = deep learning -> risk prediction */
 (function () {
   var cs = getComputedStyle(document.documentElement);
   function tok(n, f) { var v = cs.getPropertyValue(n).trim(); return v || f; }
@@ -717,8 +715,12 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
     function build() {
       narrow = W < 760; parts = []; pulses = [];
       if (mode === 'genome') {
-        G.mid = H * .44; G.amp = Math.min(H * .2, W * (narrow ? .09 : .06));
-        G.hx0 = W * .02; G.hx1 = W * (narrow ? .34 : .40);
+        G.tx = W * (narrow ? .085 : .075); G.tw = narrow ? 18 : 26; G.ty0 = H * .24; G.ty1 = H * .64;
+        G.fx0 = W * (narrow ? .19 : .16); G.fx1 = W * (narrow ? .38 : .39); G.fy0 = H * .2; G.fy1 = H * .66;
+        G.cl = []; var nl = narrow ? 3 : 4, per = narrow ? 9 : 15, lw = (G.fx1 - G.fx0) / nl;
+        for (var li = 0; li < nl; li++) for (var q = 0; q < per; q++) { var bs = []; for (var z = 0; z < 60; z++) bs.push('ACGT'[Math.floor(rnd() * 4)]);
+          G.cl.push({ x: G.fx0 + lw * li + lw * (.25 + .5 * rnd()), y: G.fy0 + 10 + (G.fy1 - G.fy0 - 20) * (q + rnd() * .8) / per, b: bs }); }
+        G.lanes = nl; G.lw = lw;
         G.mx0 = W * (narrow ? .44 : .48); G.mx1 = W * .96; G.mb = H * (narrow ? .7 : .74); G.mt = H * .16;
         G.thr = G.mb - (7.3 / 12) * (G.mb - G.mt);
         pts = []; var lens = [248,242,198,190,181,171,159,145,138,134,135,133,114,107,102,90,83,80,59,64,47,51], tot = 0; lens.forEach(function (L) { tot += L; });
@@ -744,9 +746,12 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
       t += dt; seqOff += dt * 30;
       if (mode === 'genome') {
         spawnA += dt * (narrow ? 20 : 42);
-        while (spawnA > 1) { spawnA--; var p = pts[Math.floor(rnd() * pts.length)], sgn = rnd() < .5 ? 1 : -1;
-          var sy = G.mid + sgn * G.amp * Math.sin(t * 1.6 + G.hx1 * .025), b = SEQ[Math.floor(rnd() * SEQ.length)];
-          parts.push({ k: 'v', a: [G.hx1, sy], b: [p.x, p.y], cx: (G.hx1 + p.x) / 2, cy: Math.min(sy, p.y) - H * .2 * rnd(), u: 0, d: 1 + rnd() * .9, col: COL[b], tgt: p }); }
+        while (spawnA > 1) { spawnA--; var p = pts[Math.floor(rnd() * pts.length)];
+          var sy = G.fy0 + 8 + (G.fy1 - G.fy0 - 16) * rnd(), b = SEQ[Math.floor(rnd() * SEQ.length)];
+          parts.push({ k: 'v', a: [G.fx1 + 4, sy], b: [p.x, p.y], cx: (G.fx1 + p.x) / 2, cy: Math.min(sy, p.y) - H * .2 * rnd(), u: 0, d: 1 + rnd() * .9, col: COL[b], tgt: p }); }
+        spawnN += dt * (narrow ? 5 : 8);
+        while (spawnN > 1) { spawnN--; var ty = G.ty0 + (G.ty1 - G.ty0) * (.45 + .4 * rnd()), fy = G.fy0 + 10 + (G.fy1 - G.fy0 - 20) * rnd(), tx = G.tx + G.tw / 2 + 2;
+          parts.push({ k: 'd', a: [tx, ty], b: [G.fx0 - 2, fy], cx: (tx + G.fx0) / 2, cy: Math.min(ty, fy) - H * .08, u: 0, d: .9 + rnd() * .5, col: COL['ACGT'[Math.floor(rnd() * 4)]] }); }
         parts = parts.filter(function (p) { p.u += dt / p.d; if (p.u < 1) return true;
           if (p.k === 'v') { p.tgt.g = 1; if (p.tgt.sig && rnd() < .5)
             pendP.push({ k: 'o', a: [p.tgt.x, p.tgt.y], b: [W + 20, H * (.2 + .5 * rnd())], cx: (p.tgt.x + W) / 2, cy: p.tgt.y - H * .25, u: 0, d: 1.1, col: GOLD }); }
@@ -775,20 +780,32 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
     function labels(list) { x.globalAlpha = .9; x.fillStyle = MUT; x.font = '600 ' + (narrow ? 9 : 11) + 'px "IBM Plex Mono", monospace'; x.textAlign = 'center';
       list.forEach(function (l) { x.fillText(l[1], l[0], 34); }); x.textAlign = 'left'; }
     function drawGenome() {
-      labels(narrow ? [[(G.hx0 + G.hx1) / 2, 'GENOME'], [(G.mx0 + G.mx1) / 2, 'GWAS']]
-                    : [[(G.hx0 + G.hx1) / 2, 'GENOME'], [(G.mx0 + G.mx1) / 2, 'GENOME-WIDE ASSOCIATION (GWAS)']]);
-      var k = 2 * Math.PI / (G.amp * 2.7), stp = narrow ? 10 : 14;
-      function hy(X, s) { return G.mid + s * G.amp * Math.sin(k * X + t * 1.6); }
-      function fade(X) { return sm((G.hx1 - X) / 30) * sm((X - G.hx0) / 30); }
-      function strand(s, front) { for (var X = G.hx0; X < G.hx1; X += 2) { var z = s * Math.cos(k * X + t * 1.6); if ((z >= 0) !== front) continue;
-        x.globalAlpha = (.3 + .6 * (z + 1) / 2) * fade(X); x.lineWidth = 2.2 + 3 * (z + 1) / 2; x.strokeStyle = INK;
-        x.beginPath(); x.moveTo(X, hy(X, s)); x.lineTo(X + 2, hy(X + 2, s)); x.stroke(); } }
-      strand(1, false); strand(-1, false);
-      for (var n = 0, X = G.hx0 + 6; X < G.hx1; X += stp, n++) { var a = k * X + t * 1.6, dep = Math.abs(Math.cos(a)), y1 = hy(X, 1), y2 = hy(X, -1), m = (y1 + y2) / 2, bb = SEQ[n % SEQ.length];
-        x.globalAlpha = (.3 + .6 * dep) * fade(X); x.lineWidth = narrow ? 3 : 4.5; x.strokeStyle = COL[bb]; x.beginPath(); x.moveTo(X, y1); x.lineTo(X, m); x.stroke();
-        x.strokeStyle = COL[COMP[bb]]; x.beginPath(); x.moveTo(X, m); x.lineTo(X, y2); x.stroke();
-        x.fillStyle = INK; [[y1, Math.cos(a)], [y2, -Math.cos(a)]].forEach(function (q) { x.globalAlpha = (.3 + .5 * (q[1] + 1) / 2) * fade(X); x.beginPath(); x.arc(X, q[0], 2 + 2 * (q[1] + 1) / 2, 0, 6.3); x.fill(); }); }
-      strand(1, true); strand(-1, true);
+      labels(narrow ? [[G.tx, 'SAMPLE'], [(G.fx0 + G.fx1) / 2, 'SEQUENCING'], [(G.mx0 + G.mx1) / 2, 'GWAS']]
+                    : [[G.tx, 'BLOOD SAMPLE'], [(G.fx0 + G.fx1) / 2, 'DNA SEQUENCING'], [(G.mx0 + G.mx1) / 2, 'GENOME-WIDE ASSOCIATION (GWAS)']]);
+      // sample tube
+      var tl = G.tx - G.tw / 2, tr = G.tx + G.tw / 2, tb = G.ty1, tt = G.ty0, rb = G.tw / 2;
+      function tube() { x.beginPath(); x.moveTo(tl, tt); x.lineTo(tl, tb - rb); x.arc(G.tx, tb - rb, rb, Math.PI, 0, true); x.lineTo(tr, tt); }
+      x.globalAlpha = .9; x.fillStyle = SURF; tube(); x.closePath(); x.fill();
+      var lvl = tt + (tb - tt) * (.38 + .02 * Math.sin(t * 2));
+      x.save(); tube(); x.closePath(); x.clip(); x.globalAlpha = .8; x.fillStyle = RUST; x.fillRect(tl - 2, lvl, G.tw + 4, tb - lvl + 2);
+      x.globalAlpha = .35; x.fillStyle = '#ffffff'; x.fillRect(tl + G.tw * .18, lvl + 4, G.tw * .14, (tb - lvl) * .6);
+      for (var bi = 0; bi < 4; bi++) { var bu = ((t * .35 + bi * .25) % 1), byy = tb - rb - (tb - rb - lvl) * bu; x.globalAlpha = .5 * (1 - bu); x.beginPath(); x.arc(G.tx + Math.sin(bi * 2.1 + t) * G.tw * .2, byy, narrow ? 1.4 : 2, 0, 6.3); x.fill(); }
+      x.restore();
+      x.globalAlpha = .7; x.strokeStyle = INK; x.lineWidth = 1.6; tube(); x.stroke();
+      x.globalAlpha = .95; x.fillStyle = TEAL; x.fillRect(tl - 3, tt - (narrow ? 10 : 14), G.tw + 6, narrow ? 10 : 14);
+      if (!narrow) { x.globalAlpha = .9; x.fillStyle = SURF; x.fillRect(tl + 2, tt + 10, G.tw - 4, 22); x.strokeStyle = MUT; x.lineWidth = 1;
+        for (var bc = 0; bc < 7; bc++) { x.globalAlpha = .6; x.beginPath(); x.moveTo(tl + 5 + bc * 2.6, tt + 14); x.lineTo(tl + 5 + bc * 2.6, tt + 28); x.stroke(); } }
+      // flow cell, imaged one cycle at a time
+      var cyc = Math.floor(t / .6), ph = (t % .6) / .6, scan = G.fy0 + (G.fy1 - G.fy0) * ph;
+      x.globalAlpha = .9; x.fillStyle = SURF; x.strokeStyle = INK; x.lineWidth = 1.4; x.beginPath(); x.rect(G.fx0, G.fy0, G.fx1 - G.fx0, G.fy1 - G.fy0); x.fill(); x.globalAlpha = .55; x.stroke();
+      for (var l2 = 0; l2 < G.lanes; l2++) { x.globalAlpha = .06; x.fillStyle = TEAL; x.fillRect(G.fx0 + G.lw * l2 + 4, G.fy0 + 4, G.lw - 8, G.fy1 - G.fy0 - 8); }
+      G.cl.forEach(function (cc) { var done = cc.y < scan, bse = cc.b[(cyc + (done ? 0 : -1) + 60) % 60], age = done ? (scan - cc.y) / (G.fy1 - G.fy0) : 1;
+        x.globalAlpha = done ? .35 + .6 * (1 - age) : .22; x.fillStyle = COL[bse]; x.beginPath(); x.arc(cc.x, cc.y, narrow ? 2.4 : 3.4, 0, 6.3); x.fill();
+        if (done && age < .25) { x.globalAlpha = .25 * (1 - age / .25); x.beginPath(); x.arc(cc.x, cc.y, narrow ? 5 : 7, 0, 6.3); x.fill(); } });
+      x.globalAlpha = .45; x.strokeStyle = GOLD; x.lineWidth = 2; x.beginPath(); x.moveTo(G.fx0 - 4, scan); x.lineTo(G.fx1 + 4, scan); x.stroke();
+      x.globalAlpha = .75; x.fillStyle = MUT; x.font = (narrow ? 8 : 10) + 'px "IBM Plex Mono", monospace'; x.textAlign = 'center';
+      x.fillText((narrow ? 'cycle ' : 'imaging cycle ') + (cyc % 150 + 1) + ' / 150', (G.fx0 + G.fx1) / 2, G.fy1 + (narrow ? 14 : 18));
+      if (!narrow) { x.fillText('extract DNA', G.tx, G.ty1 + 18); } x.textAlign = 'left';
       x.globalAlpha = .5; x.strokeStyle = MUT; x.lineWidth = 1.2; x.beginPath(); x.moveTo(G.mx0 - 10, G.mt - 6); x.lineTo(G.mx0 - 10, G.mb); x.lineTo(G.mx1, G.mb); x.stroke();
       if (!narrow) { x.save(); x.translate(G.mx0 - 26, (G.mt + G.mb) / 2); x.rotate(-Math.PI / 2); x.globalAlpha = .7; x.fillStyle = MUT; x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'center'; x.fillText('−log₁₀(p)', 0, 0); x.restore();
         x.globalAlpha = .7; x.fillStyle = MUT; x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'center'; x.fillText('chromosome', (G.mx0 + G.mx1) / 2, G.mb + 18); x.textAlign = 'left'; }
@@ -825,8 +842,8 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
     function draw() {
       x.clearRect(0, 0, W, H); x.lineCap = 'round'; grid();
       if (mode === 'genome') drawGenome(); else drawLearn();
-      parts.forEach(function (p) { var q = bez(p.a, p.b, p.cx, p.cy, sm(p.u)); x.globalAlpha = .85; x.fillStyle = p.col; x.beginPath(); x.arc(q[0], q[1], p.k === 'v' ? 2.6 : 3.8, 0, 6.3); x.fill();
-        if (p.k !== 'v') { var r = bez(p.a, p.b, p.cx, p.cy, sm(Math.max(0, p.u - .12))); x.globalAlpha = .4; x.strokeStyle = GOLD; x.lineWidth = 2; x.beginPath(); x.moveTo(r[0], r[1]); x.lineTo(q[0], q[1]); x.stroke(); } });
+      parts.forEach(function (p) { var q = bez(p.a, p.b, p.cx, p.cy, sm(p.u)); x.globalAlpha = .85; x.fillStyle = p.col; x.beginPath(); x.arc(q[0], q[1], p.k === 'v' ? 2.6 : p.k === 'd' ? 2 : 3.8, 0, 6.3); x.fill();
+        if (p.k === 'o' || p.k === 's') { var r = bez(p.a, p.b, p.cx, p.cy, sm(Math.max(0, p.u - .12))); x.globalAlpha = .4; x.strokeStyle = GOLD; x.lineWidth = 2; x.beginPath(); x.moveTo(r[0], r[1]); x.lineTo(q[0], q[1]); x.stroke(); } });
       x.globalAlpha = 1;
     }
     function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && (tab === tabName || (!tab && tabName === 'about')); }
@@ -1012,7 +1029,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   }
   make('val-canvas', 'val', 'projects');
   make('strat-canvas', 'strat', 'publications');
-  make('clin-canvas', 'clin', 'presentations');
+  make('clin-canvas', 'clin', 'education');
 })();
 </script>
 </body>
