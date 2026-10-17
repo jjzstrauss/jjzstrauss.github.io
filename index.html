@@ -695,7 +695,7 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
   requestAnimationFrame(frame);
 })();
 </script>
-<script>/* HERO-SPLIT: About = sample -> sequencing -> aligned reads; Projects = model training -> prediction */
+<script>/* HERO-SPLIT: Projects = model training -> prediction ('genome' mode kept but unused) */
 (function () {
   var cs = getComputedStyle(document.documentElement);
   function tok(n, f) { var v = cs.getPropertyValue(n).trim(); return v || f; }
@@ -820,7 +820,7 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
     function drawLearn() {
       labels(narrow ? [[(G.nx0 + G.nx1) / 2, 'MODEL TRAINING'], [G.gx, 'PREDICTION']] : [[(G.nx0 + G.nx1) / 2, 'MODEL TRAINING'], [G.gx, 'PREDICTION']]);
       if (!narrow) { x.globalAlpha = .7; x.fillStyle = MUT; x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'right';
-        layers[0].forEach(function (nd, i) { x.fillText('feature ' + (i + 1), nd.x - 16, nd.y + 1); }); x.textAlign = 'left'; }
+        layers[0].forEach(function (nd, i) { x.fillText('gene ' + (i + 1), nd.x - 16, nd.y + 1); }); x.textAlign = 'left'; }
       x.lineWidth = 1;
       for (var l = 0; l < layers.length - 1; l++) layers[l].forEach(function (a) { layers[l + 1].forEach(function (b) {
         x.globalAlpha = .08 + .2 * Math.max(a.a, b.a); x.strokeStyle = BLUE; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); }); });
@@ -857,14 +857,13 @@ document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (
     window.addEventListener('resize', function () { if (c.getBoundingClientRect().width > 0) { size(); for (var i = 0; i < 60; i++) step(1 / 30); draw(); ready = true; } });
     requestAnimationFrame(loop);
   }
-  make('rep-canvas', 'genome', 'about');
   make('nn-canvas', 'learn', 'projects');
 })();
 </script>
 <script>/* re-measure animations when switching tabs */
 window.addEventListener('hashchange', function () { setTimeout(function () { window.dispatchEvent(new Event('resize')); }, 30); });
 </script>
-<script>/* HERO-STEPS: quality control (step 2), cross-validation (step 4), clinical application (step 5); 'strat' mode kept but unused */
+<script>/* HERO-STEPS: single-cell capture (step 1), single-cell QC (step 2), cross-validation (step 4), clinical application (step 5); 'strat' mode kept but unused */
 (function () {
   var cs = getComputedStyle(document.documentElement);
   function tok(n, f) { var v = cs.getPropertyValue(n).trim(); return v || f; }
@@ -880,7 +879,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
 
   function make(id, mode, tabName) {
     var c = document.getElementById(id); if (!c || !c.getContext) return;
-    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, qc: 11 }[mode];
+    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11 }[mode];
     function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
     var W, H, narrow, t = 0, seqOff = 0, S = {};
     function size() { var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1; W = r.width; H = r.height;
@@ -888,15 +887,28 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     function txt(s, X, Y, size, col, align, weight) { x.font = (weight || '') + ' ' + size + 'px "IBM Plex Mono", monospace'; x.fillStyle = col; x.textAlign = align || 'left'; x.textBaseline = 'middle'; x.fillText(s, X, Y); }
     function axes(X0, Y0, X1, Y1) { x.globalAlpha = .55; x.strokeStyle = MUT; x.lineWidth = 1.2; x.beginPath(); x.moveTo(X0, Y1); x.lineTo(X0, Y0); x.lineTo(X1, Y0); x.stroke(); x.globalAlpha = 1; }
     function build() {
-      seed = { val: 3, strat: 5, clin: 9, qc: 11 }[mode];
-      if (mode === 'qc') {
-        S.qx0 = W * .06; S.qx1 = W * (narrow ? .31 : .31); S.qy0 = H * .66; S.qy1 = H * .18;
-        S.fx0 = W * (narrow ? .37 : .38); S.fx1 = W * (narrow ? .63 : .62); S.fy = H * .34; S.gx = (S.fx0 + S.fx1) / 2;
-        S.mx0 = W * (narrow ? .7 : .7); S.mx1 = W * .95; S.my0 = H * .18; S.my1 = H * .62;
-        S.nb = narrow ? 10 : 18; S.qn = []; for (var i0 = 0; i0 < S.nb; i0++) S.qn.push(rnd() - .5);
-        S.h = []; for (var i1 = 0; i1 < 400; i1++) S.h.push(rnd());
-        S.mr = narrow ? 11 : 14; S.mc = narrow ? 7 : 14; S.vals = []; for (var i2 = 0; i2 < S.mr * S.mc; i2++) S.vals.push(rnd());
-        S.bad = narrow ? [3, 8] : [4, 10];
+      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11 }[mode];
+      if (mode === 'sc1') {
+        S.tc = [W * (narrow ? .11 : .085), H * .42]; S.tr = Math.min(H * (narrow ? .13 : .17), W * (narrow ? .07 : .055));
+        S.cells = []; for (var i0 = 0; i0 < (narrow ? 28 : 44); i0++) S.cells.push({ a: rnd() * 6.3, d: Math.sqrt(rnd()) * .82, ty: Math.floor(rnd() * 4), ph: rnd() * 6.3 });
+        S.cx0 = W * (narrow ? .24 : .19); S.cx1 = W * (narrow ? .45 : .43); S.cy = H * .42; S.ch = narrow ? 8 : 12; S.jx = S.cx0 + (S.cx1 - S.cx0) * .3;
+        S.mx0 = W * (narrow ? .55 : .53); S.mx1 = W * .95; S.my0 = H * .2; S.my1 = H * .64; S.rows = narrow ? 14 : 18; S.cols = narrow ? 12 : 32;
+        S.gap = narrow ? 26 : 36; S.v = narrow ? 34 : 52; S.L = S.cx1 - S.jx; S.fly = .9;
+      } else if (mode === 'scqc') {
+        S.vx0 = W * (narrow ? .05 : .06); S.vx1 = W * (narrow ? .33 : .31); S.vb = H * .62; S.vt = H * .2;
+        var defs = [{ mu: .58, sd: .1, out: [.08, .1, .2], cut: .32, lo: true }, { mu: .45, sd: .1, out: [.06, .86, .95], cut: .76, lo: false }, { mu: .2, sd: .07, out: [.09, .55, .85], cut: .42, lo: false }];
+        S.met = defs.map(function (d) { var pts = [], n = narrow ? 36 : 64;
+          for (var k = 0; k < n; k++) { var v, g = 0; for (var z = 0; z < 4; z++) g += rnd(); g = (g - 2) * 1.7;
+            v = rnd() < d.out[0] ? d.out[1] + (d.out[2] - d.out[1]) * rnd() : d.mu + d.sd * g; v = Math.max(.03, Math.min(.97, v));
+            pts.push({ v: v, j: (rnd() - .5), fail: d.lo ? v < d.cut : v > d.cut }); }
+          var dens = []; for (var y = 0; y <= 40; y++) { var yy = y / 40, s = 0; pts.forEach(function (p) { s += Math.exp(-Math.pow((yy - p.v) / .05, 2) / 2); }); dens.push(s); }
+          var mx = Math.max.apply(null, dens); dens = dens.map(function (q) { return q / mx; }); return { pts: pts, dens: dens, cut: d.cut }; });
+        S.fx0 = W * (narrow ? .38 : .38); S.fx1 = W * (narrow ? .62 : .62); S.fy = H * .34; S.gx = (S.fx0 + S.fx1) / 2;
+        S.ux0 = W * (narrow ? .68 : .69); S.ux1 = W * .95; S.uy0 = H * .2; S.uy1 = H * .62;
+        var cen = [[.25, .3], [.7, .22], [.3, .78], [.78, .7], [.52, .5]]; S.um = [];
+        cen.forEach(function (c, ci) { for (var k = 0; k < (narrow ? 16 : 30); k++) { var g1 = 0, g2 = 0; for (var z = 0; z < 4; z++) { g1 += rnd(); g2 += rnd(); }
+          S.um.push({ ci: ci, x0: rnd(), y0: rnd(), x1: c[0] + (g1 - 2) * .07, y1: c[1] + (g2 - 2) * .07 }); } });
+        S.cen = cen;
       } else if (mode === 'val') {
         S.gx0 = W * (narrow ? .04 : .05); S.gx1 = W * (narrow ? .38 : .33); S.gy0 = H * .2; S.gy1 = H * .72;
         S.rx0 = W * (narrow ? .48 : .45); S.rx1 = W * (narrow ? .94 : .66); S.ry0 = H * (narrow ? .64 : .74); S.ry1 = H * .16;
@@ -933,47 +945,94 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     }
     function label(s, X) { x.globalAlpha = .9; txt(s, X, 34, narrow ? 9 : 11, MUT, 'center', '600'); x.globalAlpha = 1; }
 
-    function drawQC() {
-      label(narrow ? 'QUALITY' : 'READ QUALITY', (S.qx0 + S.qx1) / 2); label(narrow ? 'FILTER' : 'FILTERING', S.gx); label('CLEAN DATA', (S.mx0 + S.mx1) / 2);
-      // 1. per-position quality scores (Phred), FastQC style
-      var X0 = S.qx0, X1 = S.qx1, B = S.qy0, T = S.qy1; function qy(q) { return B - (B - T) * (q - 10) / 30; }
-      [[28, 40, TEAL], [20, 28, GOLD], [10, 20, RUST]].forEach(function (z) { x.globalAlpha = .1; x.fillStyle = z[2]; x.fillRect(X0, qy(z[1]), X1 - X0, qy(z[0]) - qy(z[1])); });
-      axes(X0, B, X1, T);
-      var n = S.nb, cw = (X1 - X0) / n, bw = cw * .55, scan = Math.floor(t * 4) % (n + 4), trimAt = n;
-      for (var i = 0; i < n; i++) { var u = i / (n - 1), med = 36 - 15 * Math.pow(u, 2.2) + S.qn[i] * 2, iqr = 1.5 + 5 * u, lo = med - iqr, hi = Math.min(39, med + iqr * .6);
-        if (lo < 20 && trimAt === n) trimAt = i;
-        var cx = X0 + cw * (i + .5), col = med >= 28 ? TEAL : med >= 20 ? GOLD : RUST;
-        x.globalAlpha = .6; x.strokeStyle = MUT; x.lineWidth = 1; x.beginPath(); x.moveTo(cx, qy(Math.min(40, hi + 2))); x.lineTo(cx, qy(Math.max(11, lo - 4))); x.stroke();
-        x.globalAlpha = i === scan ? 1 : .8; x.fillStyle = SURF; x.fillRect(cx - bw / 2, qy(hi), bw, qy(lo) - qy(hi)); x.strokeStyle = col; x.lineWidth = i === scan ? 2.4 : 1.3; x.strokeRect(cx - bw / 2, qy(hi), bw, qy(lo) - qy(hi));
-        x.strokeStyle = col; x.lineWidth = 2; x.beginPath(); x.moveTo(cx - bw / 2, qy(med)); x.lineTo(cx + bw / 2, qy(med)); x.stroke(); }
-      x.globalAlpha = .8; x.setLineDash([5, 4]); x.strokeStyle = RUST; x.lineWidth = 1.2; x.beginPath(); x.moveTo(X0, qy(20)); x.lineTo(X1, qy(20)); x.stroke(); x.setLineDash([]);
-      var tx = X0 + cw * trimAt; x.globalAlpha = .12 + .06 * Math.sin(t * 3); x.fillStyle = RUST; x.fillRect(tx, T, X1 - tx, B - T); x.globalAlpha = 1;
-      txt('trim', (tx + X1) / 2, T - 8, narrow ? 8 : 10, RUST, 'center', '600');
-      if (!narrow) { txt('Q20', X1 + 6, qy(20), 9, RUST); txt('position in read', (X0 + X1) / 2, B + 16, 10, MUT, 'center');
-        x.save(); x.translate(X0 - 16, (B + T) / 2); x.rotate(-Math.PI / 2); txt('quality score', 0, 0, 10, MUT, 'center'); x.restore(); }
-      // 2. filter gate: reads and samples pass or are removed
-      var gx = S.gx, gy = S.fy, gh = narrow ? 34 : 46, drop = H * (narrow ? .22 : .22);
+    function hsh(n) { var v = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return v - Math.floor(v); }
+    var TYPES = [TEAL, BLUE, SAND, RUST], BCS = ['#7a5c99', GOLD, '#6b8e3a', '#c46a8a', BLUE, TEAL];
+    function drawSc1() {
+      if (narrow) { label('TISSUE', S.tc[0]); label('DROPLETS', (S.cx0 + S.cx1) / 2); label('COUNT MATRIX', (S.mx0 + S.mx1) / 2); }
+      else { label('TISSUE SAMPLE', S.tc[0]); label('SINGLE-CELL CAPTURE', (S.cx0 + S.cx1) / 2); label('CELLS × GENES COUNT MATRIX', (S.mx0 + S.mx1) / 2); }
+      var tcx = S.tc[0], tcy = S.tc[1], tr = S.tr;
+      // tissue blob
+      x.beginPath(); for (var k = 0; k <= 64; k++) { var an = k / 64 * 6.283, rad = tr * (1 + .08 * Math.sin(3 * an + t * .6) + .05 * Math.sin(5 * an));
+        var px = tcx + rad * Math.cos(an), py = tcy + rad * Math.sin(an); k ? x.lineTo(px, py) : x.moveTo(px, py); } x.closePath();
+      x.globalAlpha = .14; x.fillStyle = RUST; x.fill(); x.globalAlpha = .45; x.strokeStyle = RUST; x.lineWidth = 1.4; x.stroke();
+      S.cells.forEach(function (c) { var cx = tcx + c.d * tr * Math.cos(c.a) + Math.sin(t * 1.3 + c.ph) * 1.2, cy = tcy + c.d * tr * Math.sin(c.a) + Math.cos(t * 1.1 + c.ph) * 1.2;
+        x.globalAlpha = .75; x.fillStyle = TYPES[c.ty]; x.beginPath(); x.arc(cx, cy, narrow ? 3 : 4.2, 0, 6.3); x.fill(); });
+      if (!narrow) { x.globalAlpha = .75; txt('dissociate', tcx, tcy + tr + 20, 10, MUT, 'center'); }
+      // single cells stream into the chip
+      var N = narrow ? 5 : 8;
+      for (var i = 0; i < N; i++) { var p0 = t * .45 + i / N, cyc = Math.floor(p0), p = p0 - cyc, hi = hsh(i * 13 + cyc * 7);
+        var a = [tcx + tr * .95, tcy + (hi - .5) * tr * 1.2], b = [S.cx0, S.cy], q = [a[0] + (b[0] - a[0]) * sm(p), a[1] + (b[1] - a[1]) * sm(p) - Math.sin(p * Math.PI) * H * .05];
+        x.globalAlpha = .85 * Math.sin(p * Math.PI); x.fillStyle = TYPES[Math.floor(hi * 4)]; x.beginPath(); x.arc(q[0], q[1], narrow ? 3 : 4, 0, 6.3); x.fill(); }
+      // microfluidic channel with bead and oil inlets
+      var ch = S.ch, cy = S.cy, inl = H * (narrow ? .12 : .15);
+      x.globalAlpha = .9; x.fillStyle = SURF; x.fillRect(S.cx0, cy - ch, S.cx1 - S.cx0, ch * 2); x.fillRect(S.jx - ch * .6, cy - ch - inl, ch * 1.2, inl); x.fillRect(S.jx - ch * .6, cy + ch, ch * 1.2, inl);
+      x.globalAlpha = .55; x.strokeStyle = INK; x.lineWidth = 1.3; x.beginPath();
+      x.moveTo(S.cx0, cy - ch); x.lineTo(S.jx - ch * .6, cy - ch); x.lineTo(S.jx - ch * .6, cy - ch - inl); x.moveTo(S.jx + ch * .6, cy - ch - inl); x.lineTo(S.jx + ch * .6, cy - ch); x.lineTo(S.cx1, cy - ch);
+      x.moveTo(S.cx0, cy + ch); x.lineTo(S.jx - ch * .6, cy + ch); x.lineTo(S.jx - ch * .6, cy + ch + inl); x.moveTo(S.jx + ch * .6, cy + ch + inl); x.lineTo(S.jx + ch * .6, cy + ch); x.lineTo(S.cx1, cy + ch); x.stroke();
+      for (var bk = 0; bk < 4; bk++) { var bp = ((t * .8 + bk / 4) % 1); x.globalAlpha = .85; x.fillStyle = BCS[(bk + Math.floor(t * .8)) % BCS.length]; x.beginPath(); x.arc(S.jx, cy - ch - inl + inl * bp, narrow ? 2.4 : 3.2, 0, 6.3); x.fill(); }
+      if (!narrow) { x.globalAlpha = .75; txt('barcoded beads', S.jx, cy - ch - inl - 10, 9, MUT, 'center'); txt('oil', S.jx, cy + ch + inl + 10, 9, MUT, 'center');
+        txt('one cell + one barcode per droplet', (S.cx0 + S.cx1) / 2, cy + ch + inl + 30, 9, MUT, 'center'); }
+      // droplets
+      var r = ch * .82, m0 = Math.floor((t * S.v - S.L) / S.gap), m1 = Math.floor(t * S.v / S.gap);
+      for (var m = m0; m <= m1; m++) { var dx = S.jx + t * S.v - m * S.gap; if (dx < S.jx || dx > S.cx1) continue;
+        x.globalAlpha = .9; x.fillStyle = SURF; x.strokeStyle = BLUE; x.lineWidth = 1.2; x.beginPath(); x.arc(dx, cy, r, 0, 6.3); x.fill(); x.stroke();
+        x.fillStyle = TYPES[Math.floor(hsh(m) * 4)]; x.beginPath(); x.arc(dx - r * .3, cy, r * .38, 0, 6.3); x.fill();
+        x.fillStyle = BCS[Math.floor(hsh(m + .5) * BCS.length)]; x.beginPath(); x.arc(dx + r * .38, cy, r * .26, 0, 6.3); x.fill(); }
+      // droplets fly to their row in the matrix
+      var rowH = (S.my1 - S.my0) / S.rows, colW = (S.mx1 - S.mx0) / S.cols;
+      function rowY(id) { return S.my0 + (((id % S.rows) + S.rows) % S.rows + .5) * rowH; }
+      var fm0 = Math.floor(((t - S.fly) * S.v - S.L) / S.gap), fm1 = Math.floor((t * S.v - S.L) / S.gap);
+      for (var fm = fm0; fm <= fm1; fm++) { var tm = (fm * S.gap + S.L) / S.v, pu = (t - tm) / S.fly; if (pu < 0 || pu > 1) continue;
+        var e = [S.mx0 - 12, rowY(fm)], u = sm(pu), cxp = (S.cx1 + e[0]) / 2, cyp = Math.min(cy, e[1]) - H * .08;
+        var qx = (1 - u) * (1 - u) * S.cx1 + 2 * (1 - u) * u * cxp + u * u * e[0], qy = (1 - u) * (1 - u) * cy + 2 * (1 - u) * u * cyp + u * u * e[1];
+        x.globalAlpha = .85; x.fillStyle = BCS[Math.floor(hsh(fm + .5) * BCS.length)]; x.beginPath(); x.arc(qx, qy, narrow ? 3 : 4, 0, 6.3); x.fill(); }
+      // count matrix: each arrived cell fills its row; marker genes depend on cell type
+      var M = Math.floor(((t - S.fly) * S.v - S.L) / S.gap), cur = ((M % S.rows) + S.rows) % S.rows, cyc2 = Math.floor(M / S.rows);
+      for (var rr2 = 0; rr2 < S.rows; rr2++) { var id = rr2 <= cur ? cyc2 * S.rows + rr2 : (cyc2 - 1) * S.rows + rr2, dim = rr2 <= cur ? 1 : .45, ty = Math.floor(hsh(id) * 4), Y = S.my0 + rr2 * rowH;
+        x.globalAlpha = .9 * dim; x.fillStyle = BCS[Math.floor(hsh(id + .5) * BCS.length)]; x.fillRect(S.mx0 - 9, Y + 1, 5, rowH - 2);
+        for (var j = 0; j < S.cols; j++) { var blk = Math.floor(j / (S.cols / 4)), hv = hsh(id * 31.7 + j * 7.3), on = blk === ty ? hv > .3 : hv > .86, X = S.mx0 + j * colW;
+          if (on) { x.globalAlpha = (.3 + .6 * hsh(id * 17.1 + j * 3.7)) * dim; x.fillStyle = TYPES[ty]; } else { x.globalAlpha = .07; x.fillStyle = MUT; }
+          x.fillRect(X, Y + .5, colW - 1, rowH - 1.5); }
+        if (rr2 === cur) { x.globalAlpha = .9; x.strokeStyle = GOLD; x.lineWidth = 1.6; x.strokeRect(S.mx0 - 11, Y, S.mx1 - S.mx0 + 11, rowH); } }
+      x.globalAlpha = .8;
+      if (!narrow) { txt('barcode', S.mx0 - 14, S.my0 - 10, 9, MUT, 'right'); txt('genes →', S.mx0, S.my0 - 10, 9, MUT); txt('each row = one cell · color = expression count', (S.mx0 + S.mx1) / 2, S.my1 + 18, 10, MUT, 'center'); }
+      else txt('cells × genes', (S.mx0 + S.mx1) / 2, S.my1 + 12, 8, MUT, 'center');
+      x.globalAlpha = 1;
+    }
+    function drawScqc() {
+      if (narrow) { label('QC METRICS', (S.vx0 + S.vx1) / 2); label('FILTER', S.gx); label('CLUSTERS', (S.ux0 + S.ux1) / 2); }
+      else { label('QC METRICS PER CELL', (S.vx0 + S.vx1) / 2); label('FILTERING', S.gx); label('CLUSTERING (UMAP)', (S.ux0 + S.ux1) / 2); }
+      var T = 9, ph = (t % T) / T, cutA = sm(ph / .15), red = sm((ph - .18) / .08), gone = sm((ph - .42) / .15) * (1 - sm((ph - .93) / .07));
+      var names = narrow ? ['genes', 'UMIs', '% mt'] : ['genes / cell', 'UMIs / cell', '% mito'], vw = (S.vx1 - S.vx0) / 3, B = S.vb, Tp = S.vt;
+      function vy(v) { return B - (B - Tp) * v; }
+      S.met.forEach(function (m, k) { var cx = S.vx0 + vw * (k + .5), hw = vw * .36;
+        x.beginPath(); for (var y = 0; y <= 40; y++) x.lineTo(cx + hw * m.dens[y], vy(y / 40)); for (var y2 = 40; y2 >= 0; y2--) x.lineTo(cx - hw * m.dens[y2], vy(y2 / 40)); x.closePath();
+        x.globalAlpha = .14; x.fillStyle = TEAL; x.fill(); x.globalAlpha = .5; x.strokeStyle = TEAL; x.lineWidth = 1.2; x.stroke();
+        m.pts.forEach(function (p) { var a = p.fail ? .8 * (1 - gone) : .7; if (a <= .01) return; x.globalAlpha = a; x.fillStyle = p.fail ? lerpC(SAND, RUST, red) : SAND;
+          x.beginPath(); x.arc(cx + p.j * hw * 1.1, vy(p.v) + (p.fail ? gone * 18 : 0), narrow ? 1.7 : 2.3, 0, 6.3); x.fill(); });
+        var cyv = vy(m.cut); x.globalAlpha = .85 * cutA; x.strokeStyle = RUST; x.lineWidth = 1.4; x.setLineDash([4, 3]); x.beginPath(); x.moveTo(cx - vw * .46, cyv); x.lineTo(cx + vw * .46, cyv); x.stroke(); x.setLineDash([]);
+        x.globalAlpha = .8; txt(names[k], cx, B + (narrow ? 12 : 16), narrow ? 7.5 : 10, MUT, 'center'); });
+      if (!narrow) { x.globalAlpha = .75; txt('dashed line = cutoff', (S.vx0 + S.vx1) / 2, B + 34, 9, RUST, 'center'); }
+      // filter gate: cells pass or are removed
+      var gx = S.gx, gy = S.fy, gh = narrow ? 34 : 46, drop = H * .22, Nn = narrow ? 14 : 22;
       x.globalAlpha = .35; x.strokeStyle = RUST; x.setLineDash([3, 4]); x.beginPath(); x.moveTo(gx, gy + gh / 2); x.lineTo(gx, gy + drop - 10); x.stroke(); x.setLineDash([]);
-      x.globalAlpha = .85; txt('removed', gx, gy + drop + 2, narrow ? 8 : 10, RUST, 'center', '600'); txt('pass', S.fx1, gy - (narrow ? 16 : 20), narrow ? 8 : 10, TEAL, 'right', '600');
-      var N = narrow ? 14 : 22, kept = 0, tot = 0;
-      for (var d = 0; d < N; d++) { var ph0 = t * .22 + d / N, cyc = Math.floor(ph0), ph = ph0 - cyc, hsh = S.h[(d * 7 + cyc * 13) % S.h.length], fail = hsh < .2, off = (S.h[(d * 3 + cyc * 5 + 1) % S.h.length] - .5) * (narrow ? 50 : 80);
-        var px, py, col = MUT, a = .85;
-        if (ph < .5) { var v = ph / .5; px = S.fx0 + (gx - S.fx0) * v; py = gy + off * (1 - sm(v)); col = SAND; }
-        else if (!fail) { var v2 = (ph - .5) / .5; px = gx + (S.fx1 - gx) * v2; py = gy; col = TEAL; a = .9 * (1 - sm((v2 - .8) / .2)); }
-        else { var v3 = (ph - .5) / .5; px = gx + 6 * v3; py = gy + (drop - 14) * sm(v3 * 1.4); col = RUST; a = .9 * (1 - sm((v3 - .7) / .3)); }
+      x.globalAlpha = .85; txt('removed', gx, gy + drop + 2, narrow ? 8 : 10, RUST, 'center', '600'); txt('kept', S.fx1, gy - (narrow ? 16 : 20), narrow ? 8 : 10, TEAL, 'right', '600');
+      for (var d = 0; d < Nn; d++) { var ph0 = t * .22 + d / Nn, cyc = Math.floor(ph0), q = ph0 - cyc, hh = hsh(d * 7 + cyc * 13), fail = hh < .2, off = (hsh(d * 3 + cyc * 5 + 1) - .5) * (narrow ? 50 : 80), px, py, col, a = .85;
+        if (q < .5) { var v = q / .5; px = S.fx0 + (gx - S.fx0) * v; py = gy + off * (1 - sm(v)); col = SAND; }
+        else if (!fail) { var v2 = (q - .5) / .5; px = gx + (S.fx1 - gx) * v2; py = gy; col = TEAL; a = .9 * (1 - sm((v2 - .8) / .2)); }
+        else { var v3 = (q - .5) / .5; px = gx + 6 * v3; py = gy + (drop - 14) * sm(v3 * 1.4); col = RUST; a = .9 * (1 - sm((v3 - .7) / .3)); }
         x.globalAlpha = a; x.fillStyle = col; x.beginPath(); x.arc(px, py, narrow ? 3 : 4, 0, 6.3); x.fill(); }
       x.globalAlpha = .9; x.fillStyle = SURF; x.strokeStyle = INK; x.lineWidth = 1.4; rr(x, gx - (narrow ? 14 : 20), gy - gh / 2, narrow ? 28 : 40, gh, 6); x.fill(); x.globalAlpha = .6; x.stroke();
       x.globalAlpha = 1; txt('QC', gx, gy, narrow ? 9 : 12, INK, 'center', '600');
-      if (!narrow) { x.globalAlpha = .75; txt('low-quality reads, failed samples', gx, gy - gh / 2 - 34, 9, MUT, 'center'); }
-      // 3. clean data matrix fills in, outlier samples struck out
-      var mw = (S.mx1 - S.mx0) / S.mc, mh = (S.my1 - S.my0) / S.mr, prog = (t % 9) / 7, nf = Math.floor(Math.min(1, prog) * S.mr * S.mc);
-      for (var r = 0; r < S.mr; r++) for (var cc = 0; cc < S.mc; cc++) { var idx = r * S.mc + cc, X = S.mx0 + cc * mw, Y = S.my0 + r * mh, bad = S.bad.indexOf(r) >= 0;
-        if (idx >= nf) { x.globalAlpha = .08; x.fillStyle = MUT; x.fillRect(X, Y, mw - 1.5, mh - 1.5); continue; }
-        var v4 = S.vals[idx]; x.globalAlpha = bad ? .3 : .25 + .6 * v4; x.fillStyle = bad ? RUST : (v4 > .5 ? TEAL : BLUE); x.fillRect(X, Y, mw - 1.5, mh - 1.5); }
-      S.bad.forEach(function (r) { if ((r + 1) * S.mc > nf) return; var Y = S.my0 + (r + .5) * mh; x.globalAlpha = .85; x.strokeStyle = RUST; x.lineWidth = 1.6;
-        x.beginPath(); x.moveTo(S.mx0 - 4, Y - .5); x.lineTo(S.mx1 + 2, Y - .5); x.stroke(); if (!narrow) txt('outlier', S.mx1 + 6, Y, 9, RUST); });
-      x.globalAlpha = .8; txt(narrow ? 'samples × features' : 'samples × features', (S.mx0 + S.mx1) / 2, S.my1 + (narrow ? 12 : 16), narrow ? 8 : 10, MUT, 'center');
-      if (!narrow && prog >= 1) { x.globalAlpha = sm((prog - 1) / .1); txt('ready for training →', S.mx1, S.my1 + 34, 10, TEAL, 'right', '600'); }
+      if (!narrow) { x.globalAlpha = .75; txt('damaged cells, empty droplets, doublets', gx, gy - gh / 2 - 34, 9, MUT, 'center'); }
+      // UMAP: kept cells settle into clusters
+      var CC = [TEAL, BLUE, SAND, RUST, '#7a5c99'], cn = ['T cells', 'B cells', 'myeloid', 'epithelial', 'fibroblasts'], f = sm((ph - .35) / .35) * (1 - sm((ph - .94) / .06));
+      var uw = S.ux1 - S.ux0, uh = S.uy1 - S.uy0;
+      axes(S.ux0 - 8, S.uy1 + 8, S.ux1, S.uy0 - 4);
+      S.um.forEach(function (p) { var X = S.ux0 + uw * (p.x0 + (p.x1 - p.x0) * f), Y = S.uy0 + uh * (p.y0 + (p.y1 - p.y0) * f);
+        x.globalAlpha = .45 + .4 * f; x.fillStyle = f > .05 ? lerpC(SAND, CC[p.ci], f) : SAND; x.beginPath(); x.arc(X, Y, narrow ? 2 : 2.8, 0, 6.3); x.fill(); });
+      if (!narrow && f > .8) { x.globalAlpha = sm((f - .8) / .2); S.cen.forEach(function (c, ci) { txt(cn[ci], S.ux0 + uw * c[0], S.uy0 + uh * c[1] - 26, 10, CC[ci], 'center', '600'); }); }
+      x.globalAlpha = .75; if (!narrow) { txt('UMAP 1', (S.ux0 + S.ux1) / 2, S.uy1 + 22, 9, MUT, 'center'); x.save(); x.translate(S.ux0 - 18, (S.uy0 + S.uy1) / 2); x.rotate(-Math.PI / 2); txt('UMAP 2', 0, 0, 9, MUT, 'center'); x.restore(); }
       x.globalAlpha = 1;
     }
 
@@ -1073,8 +1132,8 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     }
 
     function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; ribbon();
-      if (mode === 'qc') drawQC(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
-    function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && tab === tabName; }
+      if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
+    function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && (tab === tabName || (!tab && tabName === 'about')); }
     var last = 0, ready = false;
     function loop(now) { var dt = last ? Math.min(now - last, 50) / 1000 : 0; last = now;
       if (visible()) { if (!ready && c.getBoundingClientRect().width > 0) { size(); ready = true; } if (ready) { t += dt; seqOff += dt * 30; draw(); } }
@@ -1082,7 +1141,8 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     window.addEventListener('resize', function () { if (c.getBoundingClientRect().width > 0) { size(); draw(); ready = true; } });
     requestAnimationFrame(loop);
   }
-  make('qc-canvas', 'qc', 'research');
+  make('rep-canvas', 'sc1', 'about');
+  make('qc-canvas', 'scqc', 'research');
   make('val-canvas', 'val', 'publications');
   make('clin-canvas', 'clin', 'education');
 })();
