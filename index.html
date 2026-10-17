@@ -449,6 +449,11 @@ body[data-tab="education"] .id > .photo { display: none; }
 @media (max-width: 1000px) {
   body[data-tab="projects"] .id, body[data-tab="publications"] .id, body[data-tab="education"] .id, body[data-tab="cv"] .id { grid-template-columns: minmax(0, 1fr); }
 }
+/* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
+body[data-tab]:not([data-tab="about"]) .hero-photo,
+body[data-tab]:not([data-tab="about"]) .id { display: none; }
+body[data-tab]:not([data-tab="about"]) .wrap { grid-template-columns: minmax(0, 1fr); max-width: 60rem; padding-top: 3rem; }
+@media (max-width: 760px) { body[data-tab]:not([data-tab="about"]) .wrap { padding-top: 1.75rem; } }
 </style>
 
 
