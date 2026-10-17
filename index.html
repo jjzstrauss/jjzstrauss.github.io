@@ -353,6 +353,21 @@ body[data-tab="presentations"] main { background: transparent; border-color: tra
   .wrap { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
   .id { position: static; }
 }
+/* RESPONSIVE-POLISH: tablets and phones */
+@media (max-width: 1000px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 2rem; max-width: 46rem; }
+  .id { position: static; display: grid; grid-template-columns: 10rem minmax(0, 1fr); column-gap: 1.5rem; row-gap: .75rem; align-items: start; }
+  .id > .photo { grid-row: span 4; width: 10rem; max-width: 100%; }
+  .id h1 { white-space: normal; }
+  .bg-manhattan { display: none; }
+}
+@media (max-width: 520px) {
+  .id { grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 1rem; }
+  .id > .photo { grid-row: auto; width: 6.5rem; align-self: center; }
+  .id h1 { font-size: 1.45rem; }
+  .id .role, .id .links { grid-column: 1 / -1; }
+  main { padding: 1.25rem 1rem; }
+}
 </style>
 
 
