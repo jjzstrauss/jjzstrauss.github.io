@@ -537,27 +537,27 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
 
 <div class="about-hero">
   <canvas id="rep-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 1 of 5 &middot; Sample &amp; sequencing</span><span class="dots"><a class="sd on" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 1 of 5 &middot; Sample &amp; sequencing</span><span class="dots"><a class="sd on" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Precision medicine"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="Portrait photo">
 </div>
 <div class="about-hero research-hero">
   <canvas id="qc-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 2 of 5 &middot; Quality control</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd on" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 2 of 5 &middot; Quality control</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd on" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Precision medicine"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="about-hero step-hero hero-projects">
   <canvas id="nn-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 3 of 5 &middot; Model training</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd on" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 3 of 5 &middot; Model training</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd on" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Precision medicine"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="about-hero step-hero hero-publications">
   <canvas id="val-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 4 of 5 &middot; Cross-validation</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd on" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 4 of 5 &middot; Cross-validation</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd on" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd" href="#presentations" aria-label="Step 5: Precision medicine"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="about-hero step-hero hero-pres">
   <canvas id="clin-canvas" aria-hidden="true"></canvas>
-  <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd on" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
+  <div class="step-badge"><span class="st">Step 5 of 5 &middot; Precision medicine</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd on" href="#presentations" aria-label="Step 5: Precision medicine"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
 <div class="about-hero step-hero hero-cv">
@@ -1032,7 +1032,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
 
   function make(id, mode, tabName) {
     var c = document.getElementById(id); if (!c || !c.getContext) return;
-    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31 }[mode];
+    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31, precise: 37 }[mode];
     function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
     var W, H, narrow, t = 0, seqOff = 0, S = {};
     function size() { var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1; W = r.width; H = r.height;
@@ -1040,7 +1040,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     function txt(s, X, Y, size, col, align, weight) { x.font = (weight || '') + ' ' + size + 'px "IBM Plex Mono", monospace'; x.fillStyle = col; x.textAlign = align || 'left'; x.textBaseline = 'middle'; x.fillText(s, X, Y); }
     function axes(X0, Y0, X1, Y1) { x.globalAlpha = .55; x.strokeStyle = MUT; x.lineWidth = 1.2; x.beginPath(); x.moveTo(X0, Y1); x.lineTo(X0, Y0); x.lineTo(X1, Y0); x.stroke(); x.globalAlpha = 1; }
     function build() {
-      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31 }[mode];
+      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31, precise: 37 }[mode];
       if (mode === 'sc1') {
         S.tc = [W * (narrow ? .11 : .085), H * .42]; S.tr = Math.min(H * (narrow ? .13 : .17), W * (narrow ? .07 : .055));
         S.cells = []; for (var i0 = 0; i0 < (narrow ? 28 : 44); i0++) S.cells.push({ a: rnd() * 6.3, d: Math.sqrt(rnd()) * .82, ty: Math.floor(rnd() * 4), ph: rnd() * 6.3 });
@@ -1077,6 +1077,26 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
                 { f: .37, t: narrow ? 'M.S. Stats' : 'M.S. Statistics', s: 'CU Denver', side: -1, br: narrow ? [] : [{ dx: .06, dy: .2, l: 'NHGRI poster · 2025' }] },
                 { f: .62, t: 'Bioinformatician', s: narrow ? 'CU Anschutz' : 'Breuss Lab · CU Anschutz', side: 1, br: narrow ? [] : [{ dx: -.03, dy: -.2, l: 'mosaic variant pipelines' }, { dx: .07, dy: -.17, l: 'single-cell ATAC / RNA' }] },
                 { f: .87, t: narrow ? 'Ph.D.' : 'Ph.D. Mathematics', s: 'SIMIS · Fudan', side: 1, br: [] }];
+      } else if (mode === 'precise') {
+        var N = narrow ? 420 : 900, hh = H * (narrow ? .6 : .62), top = H * .14, pcx = W * (narrow ? .36 : .4);
+        function inPerson(u, v) {
+          if (Math.hypot(u, v - .1) < .075) return true;
+          if (Math.abs(u) < .03 && v > .16 && v < .22) return true;
+          if (Math.abs(u) < .13 && v > .21 && v < .57) return true;
+          var ao = .14 + (v - .22) * .12; if (Math.abs(u) > ao && Math.abs(u) < ao + .05 && v > .22 && v < .55) return true;
+          if (Math.abs(u) > .012 && Math.abs(u) < .115 && v > .56 && v < .98) return true;
+          return false; }
+        S.pd = [];
+        while (S.pd.length < N) { var u = rnd() - .5, v = rnd(); if (!inPerson(u * .7, v)) continue;
+          var g1 = 0, g2 = 0; for (var z = 0; z < 3; z++) { g1 += rnd(); g2 += rnd(); }
+          var r = rnd(); S.pd.push({ sx: pcx + u * .7 * hh, sy: top + v * hh, px: W * (.04 + .92 * rnd()), py: H * (.16 + .62 * ((g2 / 3) * .6 + rnd() * .4)),
+            cat: r < .7 ? 0 : r < .9 ? 1 : 2, ph: rnd() * 6.3, u: u * .7, v: v }); }
+        S.organs = [
+          { n: narrow ? 'Heart' : 'Coronary artery disease', u: .045, v: .3, rr: 2.4, col: RUST },
+          { n: narrow ? 'Stroke' : 'Stroke', u: 0, v: .085, rr: 1.4, col: GOLD },
+          { n: narrow ? 'Diabetes' : 'Type 2 diabetes', u: -.05, v: .4, rr: .8, col: TEAL },
+          { n: narrow ? 'Kidney' : 'Chronic kidney disease', u: .055, v: .46, rr: 1.0, col: BLUE } ];
+        S.hh = hh; S.top = top; S.pcx = pcx;
       } else if (mode === 'val') {
         S.gx0 = W * (narrow ? .04 : .05); S.gx1 = W * (narrow ? .38 : .33); S.gy0 = H * .2; S.gy1 = H * .72;
         S.rx0 = W * (narrow ? .48 : .45); S.rx1 = W * (narrow ? .94 : .66); S.ry0 = H * (narrow ? .64 : .74); S.ry1 = H * .16;
@@ -1312,6 +1332,40 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       x.globalAlpha = 1;
     }
 
+    function drawPrecise() {
+      var T = 15, ph = (t % T) / T, k = sm((ph - .16) / .22) * (1 - sm((ph - .9) / .09)), org = sm((ph - .42) / .08) * (1 - sm((ph - .86) / .05));
+      x.globalAlpha = .9 * (1 - k); txt('POPULATION RESEARCH', W / 2, 34, narrow ? 9 : 11, MUT, 'center', '600');
+      x.globalAlpha = .9 * k; txt('PRECISION MEDICINE', W / 2, 34, narrow ? 9 : 11, MUT, 'center', '600');
+      x.globalAlpha = .75 * (1 - k); txt(narrow ? 'cohort · 500,000 people' : 'a cohort of 500,000 people · genomes, biomarkers, health records', W / 2, 54, narrow ? 8 : 10, MUT, 'center');
+      x.globalAlpha = .75 * k; txt(narrow ? 'one person' : 'one person · their own risks, compared with the population', W / 2, 54, narrow ? 8 : 10, MUT, 'center');
+      // soft glow behind the person once formed
+      if (k > .05) { var gl = x.createRadialGradient(S.pcx, S.top + S.hh * .45, 0, S.pcx, S.top + S.hh * .45, S.hh * .6); gl.addColorStop(0, 'rgba(15,110,106,.14)'); gl.addColorStop(1, 'rgba(15,110,106,0)');
+        x.globalAlpha = k; x.fillStyle = gl; x.fillRect(S.pcx - S.hh * .6, S.top - 10, S.hh * 1.2, S.hh + 20); }
+      var CATS = [TEAL, GOLD, RUST], rad = narrow ? 1.6 : 2.1;
+      S.pd.forEach(function (p, i) { var kk = sm((k - (i % 7) * .02) / .86), jx = Math.sin(t * .6 + p.ph) * 6 * (1 - kk), jy = Math.cos(t * .5 + p.ph * 1.3) * 5 * (1 - kk);
+        var X = p.px + (p.sx - p.px) * kk + jx, Y = p.py + (p.sy - p.py) * kk + jy, col = CATS[p.cat], a = .55;
+        if (kk > .9) { col = TEAL; a = .7; var best = 0, bc = null;
+          S.organs.forEach(function (o) { var d = Math.hypot(p.u - o.u, (p.v - o.v) * .7); if (d < .06) { var w = 1 - d / .06; if (w > best) { best = w; bc = o.col; } } });
+          if (bc && org > 0) { col = lerpC(TEAL, bc, Math.min(1, best * 1.6) * org); a = .7 + .3 * best * org; } }
+        x.globalAlpha = a; x.fillStyle = col; x.beginPath(); x.arc(X, Y, rad * (1 + .25 * kk), 0, 6.3); x.fill(); });
+      // organ callouts with relative risk vs population average
+      var lx0 = W * (narrow ? .62 : .64), lx1 = W * (narrow ? .96 : .9), bw = lx1 - lx0, rows = S.organs.length;
+      if (org > .01) {
+        x.globalAlpha = .8 * org; txt(narrow ? 'risk vs average' : 'personal risk vs population average', lx0, H * .2, narrow ? 8 : 10, MUT);
+        var avgX = lx0 + bw * (1 / 3); x.strokeStyle = MUT; x.setLineDash([3, 4]); x.lineWidth = 1; x.beginPath(); x.moveTo(avgX, H * .25); x.lineTo(avgX, H * .25 + rows * H * .13); x.stroke(); x.setLineDash([]);
+        txt('1×', avgX, H * .25 + rows * H * .13 + 10, narrow ? 7.5 : 9, MUT, 'center');
+        S.organs.forEach(function (o, i) { var a = sm((ph - .46 - i * .035) / .05) * (1 - sm((ph - .86) / .05)); if (a <= 0) return;
+          var oy = S.top + o.v * S.hh, ox = S.pcx + o.u * S.hh, ry = H * .3 + i * H * .13;
+          x.globalAlpha = .35 * a; x.strokeStyle = o.col; x.lineWidth = 1.2; x.beginPath(); x.moveTo(ox, oy); x.bezierCurveTo((ox + lx0) / 2, oy, (ox + lx0) / 2, ry, lx0 - 6, ry); x.stroke();
+          x.globalAlpha = .3 * a; x.fillStyle = o.col; x.beginPath(); x.arc(ox, oy, narrow ? 9 : 14, 0, 6.3); x.fill();
+          x.globalAlpha = a; txt(o.n, lx0, ry - (narrow ? 9 : 12), narrow ? 8.5 : 11.5, INK, 'left', '600');
+          var fill = sm((ph - .48 - i * .03) / .06) * Math.min(1, o.rr / 3); x.fillStyle = RULE; rr(x, lx0, ry, bw, narrow ? 6 : 8, 4); x.fill();
+          x.fillStyle = o.col; rr(x, lx0, ry, Math.max(6, bw * fill), narrow ? 6 : 8, 4); x.fill();
+          txt(o.rr.toFixed(1) + '×', lx1, ry - (narrow ? 9 : 12), narrow ? 8.5 : 11.5, o.col, 'right', '600'); });
+        if (!narrow) { x.globalAlpha = .7 * org; txt('illustrative example', lx1, H * .25 + rows * H * .13 + 26, 9, MUT, 'right'); } }
+      x.globalAlpha = 1;
+    }
+
     function drawRep() {
       label('DNA REPLICATION', W / 2);
       var dt = S.lastT === undefined ? 0 : Math.max(0, Math.min(.05, t - S.lastT)); S.lastT = t;
@@ -1478,7 +1532,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     }
 
     function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; if (mode !== 'globe') ribbon();
-      if (mode === 'globe') drawGlobe(); else if (mode === 'assist') drawAssist(); else if (mode === 'rep') drawRep(); else if (mode === 'traj') drawTraj(); else if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
+      if (mode === 'precise') drawPrecise(); else if (mode === 'globe') drawGlobe(); else if (mode === 'assist') drawAssist(); else if (mode === 'rep') drawRep(); else if (mode === 'traj') drawTraj(); else if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
     function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && (tab === tabName || (!tab && tabName === 'about')); }
     var last = 0, ready = false;
     function loop(now) { var dt = last ? Math.min(now - last, 50) / 1000 : 0; last = now;
@@ -1490,7 +1544,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('rep-canvas', 'sc1', 'about');
   make('qc-canvas', 'scqc', 'research');
   make('val-canvas', 'val', 'publications');
-  make('clin-canvas', 'assist', 'presentations');
+  make('clin-canvas', 'precise', 'presentations');
   make('traj-canvas', 'rep', 'cv');
   make('globe-canvas', 'globe', 'education');
 })();
