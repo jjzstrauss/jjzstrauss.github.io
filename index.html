@@ -472,10 +472,9 @@ body[data-tab="education"] .id > .photo { display: none; }
 .about-note { font-size: .875rem; color: var(--muted); font-style: italic; margin: .25rem 0 1rem; padding-top: .75rem; border-top: 1px solid var(--rule); }
 .research-kw { font-size: .8rem; margin: -.25rem 0 .25rem; }
 .proj-tags a { color: inherit; text-decoration: none; } .proj-tags a:hover { color: var(--accent); }
-/* PRES-GLOBE: presentations on the left, rotating globe on the right */
-body[data-tab="presentations"] .world-bg, body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .bgl-presentations { display: none !important; }
-body[data-tab="presentations"] main { background: var(--surface); border-color: var(--rule); box-shadow: 0 1px 2px var(--shadow), 0 18px 40px -18px var(--shadow); }
-body[data-tab="presentations"] .tabnav { margin-top: 1.5rem; }
+/* EXPERIENCE-GLOBE: experience on the left, rotating globe on the right (no banner) */
+body[data-tab="presentations"] .tabnav, body[data-tab="experience"] .tabnav { margin-top: 1.5rem; }
+body[data-tab="experience"] .helix-band { display: none; }
 .pres-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 42%); gap: 2rem; align-items: center; }
 .pres-text { display: flex; flex-direction: column; gap: 1rem; }
 .pres-globe { position: relative; width: 100%; aspect-ratio: 1 / 1; }
@@ -541,6 +540,7 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       <li><a href="#research">Research</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#publications">Publications</a></li>
+      <li><a href="#experience">Experience</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#presentations">Presentations</a></li>
       <li><a href="#cv">CV</a></li>
@@ -659,6 +659,27 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       <p class="wip">Under construction.</p>
     </section>
 
+    <section class="panel" id="experience" aria-labelledby="experience-h">
+      <div class="pres-grid">
+        <div class="pres-text">
+          <h2 id="experience-h">Experience</h2>
+          <ul class="proj-list">
+            <li>
+              <strong>Graduate Research Assistant</strong>
+              <span class="proj-role">Li Lab (PI: <a href="https://bjli1992.github.io">Prof. Bingjie Li</a>) &middot; Shanghai, P. R. China &middot; 2026&ndash;present</span>
+              <span>Joint research between SIMIS | Fudan University and Tongji Medical College, HUST, on clinical large language models, cross-ancestry genetic data, population cohorts, and disease risk prediction.</span>
+            </li>
+            <li>
+              <strong>Bioinformatician</strong>
+              <span class="proj-role"><a href="https://medschool.cuanschutz.edu/pediatrics/pediatric-research/find-a-department-of-pediatrics-researcher/Breuss-Martin-UCD6003833087">Breuss Lab</a>, Department of Pediatrics, University of Colorado School of Medicine &middot; Aurora, CO, USA</span>
+              <span>Built simulation and benchmarking pipelines for mosaic variant detection on high-performance computing clusters, and analyzed single-cell ATAC and RNA sequencing data in trisomy 21.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="pres-globe"><canvas id="globe-canvas" aria-label="Rotating globe with Denver and Shanghai connected" role="img"></canvas></div>
+      </div>
+    </section>
+
     <section class="panel" id="education" aria-labelledby="education-h">
       <h2 id="education-h">Education</h2>
       <ul class="edu-list">
@@ -668,19 +689,13 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       </ul>
     </section>
     <section class="panel" id="presentations" aria-labelledby="presentations-h">
-      <div class="pres-grid">
-        <div class="pres-text">
-          <h2 id="presentations-h">Presentations</h2>
-          <h3 class="subhead">Poster Presentation</h3>
-          <ul class="pres-list">
-            <li><b>Strauss JZ</b>, Peljto AL, <a href="https://audreyhendricks.com">Hendricks AE</a>, Austin EE, Yang IV, Schwartz DA, <a href="https://yaningliucudenver.github.io/index.html">Liu Y</a>.<br>
-            <strong>Enhancing Genetic Risk Prediction: Leveraging Sparse Variational Bayesian Inference to Model Polygenic Risk in Idiopathic Pulmonary Fibrosis</strong><br>
-            <em>National Human Genome Research Institute (NHGRI) Research Training &amp; Career Development Annual Meeting</em>, Apr. 2025, Philadelphia, PA.</li>
-          </ul>
-        
-        </div>
-        <div class="pres-globe"><canvas id="globe-canvas" aria-label="Rotating globe with Denver and Shanghai connected" role="img"></canvas></div>
-      </div>
+      <h2 id="presentations-h">Presentations</h2>
+      <h3 class="subhead">Poster Presentation</h3>
+      <ul class="pres-list">
+        <li><b>Strauss JZ</b>, Peljto AL, <a href="https://audreyhendricks.com">Hendricks AE</a>, Austin EE, Yang IV, Schwartz DA, <a href="https://yaningliucudenver.github.io/index.html">Liu Y</a>.<br>
+        <strong>Enhancing Genetic Risk Prediction: Leveraging Sparse Variational Bayesian Inference to Model Polygenic Risk in Idiopathic Pulmonary Fibrosis</strong><br>
+        <em>National Human Genome Research Institute (NHGRI) Research Training &amp; Career Development Annual Meeting</em>, Apr. 2025, Philadelphia, PA.</li>
+      </ul>
     </section>
 
 
@@ -1445,7 +1460,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('val-canvas', 'val', 'publications');
   make('clin-canvas', 'assist', 'education');
   make('traj-canvas', 'rep', 'cv');
-  make('globe-canvas', 'globe', 'presentations');
+  make('globe-canvas', 'globe', 'experience');
 })();
 </script>
 </body>
