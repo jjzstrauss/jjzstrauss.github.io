@@ -480,6 +480,23 @@ body[data-tab="experience"] .helix-band { display: none; }
 .pres-globe { position: relative; width: 100%; aspect-ratio: 1 / 1; }
 .pres-globe canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 @media (max-width: 760px) { .pres-grid { grid-template-columns: minmax(0, 1fr); } .pres-globe { max-width: 340px; margin: 0 auto; } }
+/* HOME-LINK: name links back to About; on other tabs a name pill sits beside the tab bar */
+.home-link { color: inherit; text-decoration: none; } .home-link:hover { color: var(--accent); }
+.tabnav { align-items: center; gap: .75rem; }
+.tabnav .brand { display: none; font-family: var(--display); font-weight: 600; font-size: 1.15rem; color: var(--ink); text-decoration: none; white-space: nowrap;
+  padding: .55rem 1.1rem; border-radius: 999px; background: color-mix(in srgb, var(--surface) 90%, transparent); border: 1px solid var(--rule);
+  box-shadow: 0 1px 2px var(--shadow, rgba(0,0,0,.08)), 0 14px 32px -14px var(--shadow, rgba(0,0,0,.25)); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.tabnav .brand:hover { color: var(--accent); border-color: var(--accent); }
+body[data-tab]:not([data-tab="about"]) .tabnav .brand { display: inline-block; }
+body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: space-between; padding-left: max(8px, env(safe-area-inset-left, 0px)); }
+@media (max-width: 1100px) {
+  .tabnav { flex-direction: column; }
+  body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: center; }
+  body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-56px - 3.4rem); }
+  body[data-tab="presentations"] .tabnav, body[data-tab="experience"] .tabnav { margin-top: 1.5rem !important; }
+  .tabnav .brand { font-size: 1rem; padding: .4rem .95rem; }
+}
+@media (max-width: 760px) { body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-40px - 3rem); } }
 /* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
 body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
@@ -535,6 +552,7 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
   <nav class="tabnav" aria-label="Sections">
+    <a class="brand" href="#about" aria-label="Johannes J. Z. Strauss, home">Johannes J. Z. Strauss</a>
     <ul class="tabs">
       <li><a href="#about">About</a></li>
       <li><a href="#research">Research</a></li>
@@ -550,7 +568,7 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   <header class="id">
     <img class="photo" src="photo.jpg" alt="Portrait photo">
     <div>
-      <h1>Johannes J. Z. Strauss</h1>
+      <h1><a class="home-link" href="#about">Johannes J. Z. Strauss</a></h1>
     </div>
     <p class="role">PhD student in Mathematics, <a href="https://www.simis.cn">Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS)</a> | Fudan University</p>
     <ul class="links">
