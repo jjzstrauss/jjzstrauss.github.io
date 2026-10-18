@@ -454,6 +454,7 @@ body[data-tab="education"] .id > .photo { display: none; }
 .tabnav .tabs { flex-wrap: nowrap; gap: .5rem; padding: .45rem; background: color-mix(in srgb, var(--surface) 90%, transparent); border: 1px solid var(--rule); border-radius: 999px;
   box-shadow: 0 1px 2px var(--shadow, rgba(0,0,0,.08)), 0 14px 32px -14px var(--shadow, rgba(0,0,0,.25)); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .tabnav .tabs a { padding: .6rem 1.15rem; font-size: .875rem; font-weight: 500; color: var(--ink); white-space: nowrap; border-color: transparent; }
+.tabnav .tabs a:not([aria-current="page"]) { background: transparent; }
 .tabnav .tabs a:hover { border-color: var(--accent); color: var(--accent); }
 .tabnav .tabs a[aria-current="page"], .tabnav .tabs a[aria-current="page"]:hover { color: #fff; background: var(--accent); border-color: var(--accent); box-shadow: 0 6px 16px -6px var(--accent); }
 @media (max-width: 1280px) { .step-badge .st { display: none; } }
@@ -473,7 +474,10 @@ body[data-tab="education"] .id > .photo { display: none; }
 .research-kw { font-size: .8rem; margin: -.25rem 0 .25rem; }
 .proj-tags a { color: inherit; text-decoration: none; } .proj-tags a:hover { color: var(--accent); }
 /* EXPERIENCE-GLOBE: experience on the left, rotating globe on the right (no banner) */
-body[data-tab="presentations"] .tabnav, body[data-tab="experience"] .tabnav { margin-top: 1.5rem; }
+body[data-tab="experience"] .tabnav { margin-top: 1.5rem; }
+body[data-tab="presentations"] .hero-pres { display: block; }
+body[data-tab="presentations"] .world-bg, body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .bgl-presentations { display: none !important; }
+body[data-tab="presentations"] main { background: var(--surface); border-color: var(--rule); box-shadow: 0 1px 2px var(--shadow), 0 18px 40px -18px var(--shadow); }
 body[data-tab="experience"] .helix-band { display: none; }
 .pres-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 42%); gap: 2rem; align-items: center; }
 .pres-text { display: flex; flex-direction: column; gap: 1rem; }
@@ -493,7 +497,7 @@ body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: space-between;
   .tabnav { flex-direction: column; }
   body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: center; }
   body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-56px - 3.4rem); }
-  body[data-tab="presentations"] .tabnav, body[data-tab="experience"] .tabnav { margin-top: 1.5rem !important; }
+  body[data-tab="experience"] .tabnav { margin-top: 1.5rem !important; }
   .tabnav .brand { font-size: 1rem; padding: .4rem .95rem; }
 }
 @media (max-width: 760px) { body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-40px - 3rem); } }
@@ -547,6 +551,9 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd on" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
 </div>
+<div class="about-hero step-hero hero-pres">
+  <canvas id="globe-canvas" aria-hidden="true"></canvas>
+</div>
 <div class="about-hero step-hero hero-cv">
   <canvas id="traj-canvas" aria-hidden="true"></canvas>
   <img class="hero-photo" src="photo.jpg" alt="">
@@ -558,9 +565,9 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       <li><a href="#research">Research</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#publications">Publications</a></li>
+      <li><a href="#presentations">Presentations</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#education">Education</a></li>
-      <li><a href="#presentations">Presentations</a></li>
       <li><a href="#cv">CV</a></li>
     </ul>
   </nav>
@@ -677,25 +684,30 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       <p class="wip">Under construction.</p>
     </section>
 
+    <section class="panel" id="presentations" aria-labelledby="presentations-h">
+      <h2 id="presentations-h">Presentations</h2>
+      <h3 class="subhead">Poster Presentation</h3>
+      <ul class="pres-list">
+        <li><b>Strauss JZ</b>, Peljto AL, <a href="https://audreyhendricks.com">Hendricks AE</a>, Austin EE, Yang IV, Schwartz DA, <a href="https://yaningliucudenver.github.io/index.html">Liu Y</a>.<br>
+        <strong>Enhancing Genetic Risk Prediction: Leveraging Sparse Variational Bayesian Inference to Model Polygenic Risk in Idiopathic Pulmonary Fibrosis</strong><br>
+        <em>National Human Genome Research Institute (NHGRI) Research Training &amp; Career Development Annual Meeting</em>, Apr. 2025, Philadelphia, PA.</li>
+      </ul>
+    </section>
+
     <section class="panel" id="experience" aria-labelledby="experience-h">
-      <div class="pres-grid">
-        <div class="pres-text">
-          <h2 id="experience-h">Experience</h2>
-          <ul class="proj-list">
-            <li>
-              <strong>Graduate Research Assistant</strong>
-              <span class="proj-role">Li Lab (PI: <a href="https://bjli1992.github.io">Prof. Bingjie Li</a>) &middot; Shanghai, P. R. China &middot; 2026&ndash;present</span>
-              <span>Joint research between SIMIS | Fudan University and Tongji Medical College, HUST, on clinical large language models, cross-ancestry genetic data, population cohorts, and disease risk prediction.</span>
-            </li>
-            <li>
-              <strong>Bioinformatician</strong>
-              <span class="proj-role"><a href="https://medschool.cuanschutz.edu/pediatrics/pediatric-research/find-a-department-of-pediatrics-researcher/Breuss-Martin-UCD6003833087">Breuss Lab</a>, Department of Pediatrics, University of Colorado School of Medicine &middot; Aurora, CO, USA</span>
-              <span>Built simulation and benchmarking pipelines for mosaic variant detection on high-performance computing clusters, and analyzed single-cell ATAC and RNA sequencing data in trisomy 21.</span>
-            </li>
-          </ul>
-        </div>
-        <div class="pres-globe"><canvas id="globe-canvas" aria-label="Rotating globe with Denver and Shanghai connected" role="img"></canvas></div>
-      </div>
+      <h2 id="experience-h">Experience</h2>
+      <ul class="proj-list">
+        <li>
+          <strong>Graduate Research Assistant</strong>
+          <span class="proj-role">Li Lab (PI: <a href="https://bjli1992.github.io">Prof. Bingjie Li</a>) &middot; Shanghai, P. R. China &middot; 2026&ndash;present</span>
+          <span>Joint research between SIMIS | Fudan University and Tongji Medical College, HUST, on clinical large language models, cross-ancestry genetic data, population cohorts, and disease risk prediction.</span>
+        </li>
+        <li>
+          <strong>Bioinformatician</strong>
+          <span class="proj-role"><a href="https://medschool.cuanschutz.edu/pediatrics/pediatric-research/find-a-department-of-pediatrics-researcher/Breuss-Martin-UCD6003833087">Breuss Lab</a>, Department of Pediatrics, University of Colorado School of Medicine &middot; Aurora, CO, USA</span>
+          <span>Built simulation and benchmarking pipelines for mosaic variant detection on high-performance computing clusters, and analyzed single-cell ATAC and RNA sequencing data in trisomy 21.</span>
+        </li>
+      </ul>
     </section>
 
     <section class="panel" id="education" aria-labelledby="education-h">
@@ -704,15 +716,6 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
         <li><strong>Ph.D., Mathematics</strong> (2026&ndash;present)<br>Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University, Shanghai, P. R. China<br>Advisors: <a href="https://bjli1992.github.io">Bingjie Li, Ph.D.</a> (<span lang="zh">李冰杰</span>) and <a href="https://zhigang-yao.github.io">Zhigang Yao, Ph.D.</a> (<span lang="zh">姚志刚</span>)</li>
         <li><strong>M.S., Statistics</strong><br>University of Colorado Denver | Anschutz Medical Campus, Denver, CO, USA<br>Advisors: <a href="https://yaningliucudenver.github.io/index.html">Yaning Liu, Ph.D.</a>, and Anna Peljto, Dr.PH.<br>Thesis: Polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</li>
         <li><strong>B.S., Mathematics</strong><br>University of Colorado Denver, Denver, CO, USA</li>
-      </ul>
-    </section>
-    <section class="panel" id="presentations" aria-labelledby="presentations-h">
-      <h2 id="presentations-h">Presentations</h2>
-      <h3 class="subhead">Poster Presentation</h3>
-      <ul class="pres-list">
-        <li><b>Strauss JZ</b>, Peljto AL, <a href="https://audreyhendricks.com">Hendricks AE</a>, Austin EE, Yang IV, Schwartz DA, <a href="https://yaningliucudenver.github.io/index.html">Liu Y</a>.<br>
-        <strong>Enhancing Genetic Risk Prediction: Leveraging Sparse Variational Bayesian Inference to Model Polygenic Risk in Idiopathic Pulmonary Fibrosis</strong><br>
-        <em>National Human Genome Research Institute (NHGRI) Research Training &amp; Career Development Annual Meeting</em>, Apr. 2025, Philadelphia, PA.</li>
       </ul>
     </section>
 
@@ -1259,7 +1262,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       var nw = W < 280;
       if (!S.land) { S.land = []; LAND_STR.split(';').forEach(function (row) { var p = row.split(':'), lat = parseFloat(p[0]), step = 1.5 / Math.max(.2, Math.cos(lat * Math.PI / 180));
           p[1].split(',').forEach(function (r) { var ab = r.split('-'), a = +ab[0], b = ab.length > 1 ? +ab[1] : a; for (var i = a; i <= b; i++) { var lo = -180 + i * step, la = lat * Math.PI / 180, lr = lo * Math.PI / 180; S.land.push([Math.sin(la), Math.cos(la), lr]); } }); }); }
-      var R = Math.min(W, H) * .4, cx = W / 2, cy = H / 2, phi0 = 22 * Math.PI / 180, sp0 = Math.sin(phi0), cp0 = Math.cos(phi0);
+      var R = Math.min(W * .44, H * .6), cx = W / 2, cy = H * .64, phi0 = 22 * Math.PI / 180, sp0 = Math.sin(phi0), cp0 = Math.cos(phi0);
       var lam0 = (-115 - t * 9) * Math.PI / 180;
       function proj(sinla, cosla, lr, rr2) { var dl = lr - lam0, cdl = Math.cos(dl), z = sp0 * sinla + cp0 * cosla * cdl; rr2 = rr2 || 1;
         return [cx + R * rr2 * cosla * Math.sin(dl), cy - R * rr2 * (cp0 * sinla - sp0 * cosla * cdl), z]; }
@@ -1275,7 +1278,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       for (var la2 = -60; la2 <= 60; la2 += 30) { x.beginPath(); var on2 = false, b = la2 * Math.PI / 180; for (var lo2 = -180; lo2 <= 180; lo2 += 4) { var q2 = proj(Math.sin(b), Math.cos(b), lo2 * Math.PI / 180);
           if (q2[2] > 0) { on2 ? x.lineTo(q2[0], q2[1]) : x.moveTo(q2[0], q2[1]); on2 = true; } else on2 = false; } x.stroke(); }
       // land dots
-      var ds = nw ? 1.1 : 1.6; x.fillStyle = TEAL;
+      var ds = Math.max(1.1, R / 115); x.fillStyle = TEAL;
       for (var i = 0; i < S.land.length; i++) { var L = S.land[i], q3 = proj(L[0], L[1], L[2]); if (q3[2] <= 0) continue;
         x.globalAlpha = .25 + .6 * q3[2]; var sz = ds * (.6 + .6 * q3[2]); x.fillRect(q3[0] - sz / 2, q3[1] - sz / 2, sz, sz); }
       // cities and the arc between them
@@ -1293,8 +1296,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
         var vis = sm(q5[2] / .25), pulse = (t * .8 + ci * .5) % 1;
         x.globalAlpha = .35 * (1 - pulse) * vis; x.strokeStyle = RUST; x.lineWidth = 2; x.beginPath(); x.arc(q5[0], q5[1], 6 + 16 * pulse, 0, 6.3); x.stroke();
         x.globalAlpha = vis; x.fillStyle = RUST; x.beginPath(); x.arc(q5[0], q5[1], nw ? 4.5 : 6, 0, 6.3); x.fill(); x.fillStyle = SURF; x.beginPath(); x.arc(q5[0], q5[1], nw ? 1.8 : 2.4, 0, 6.3); x.fill();
-        var lx = q5[0] + (nw ? 9 : 12), ly = q5[1] - (nw ? 10 : 14); x.font = '600 ' + (nw ? 10 : 13) + 'px "IBM Plex Mono", monospace'; x.lineWidth = 4; x.strokeStyle = SURF; x.lineJoin = 'round'; x.textAlign = 'left'; x.textBaseline = 'middle';
-        x.strokeText(c.n, lx, ly); x.fillStyle = INK; x.fillText(c.n, lx, ly); });
+      });
       x.globalAlpha = 1;
     }
 
@@ -1478,7 +1480,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('val-canvas', 'val', 'publications');
   make('clin-canvas', 'assist', 'education');
   make('traj-canvas', 'rep', 'cv');
-  make('globe-canvas', 'globe', 'experience');
+  make('globe-canvas', 'globe', 'presentations');
 })();
 </script>
 </body>
