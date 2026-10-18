@@ -472,10 +472,15 @@ body[data-tab="education"] .id > .photo { display: none; }
 .about-note { font-size: .875rem; color: var(--muted); font-style: italic; margin: .25rem 0 1rem; padding-top: .75rem; border-top: 1px solid var(--rule); }
 .research-kw { font-size: .8rem; margin: -.25rem 0 .25rem; }
 .proj-tags a { color: inherit; text-decoration: none; } .proj-tags a:hover { color: var(--accent); }
-/* PRES-GLOBE: rotating globe banner on Presentations replaces the flat map */
-body[data-tab="presentations"] .hero-pres { display: block; }
+/* PRES-GLOBE: presentations on the left, rotating globe on the right */
 body[data-tab="presentations"] .world-bg, body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .bgl-presentations { display: none !important; }
 body[data-tab="presentations"] main { background: var(--surface); border-color: var(--rule); box-shadow: 0 1px 2px var(--shadow), 0 18px 40px -18px var(--shadow); }
+body[data-tab="presentations"] .tabnav { margin-top: 1.5rem; }
+.pres-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 42%); gap: 2rem; align-items: center; }
+.pres-text { display: flex; flex-direction: column; gap: 1rem; }
+.pres-globe { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+.pres-globe canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+@media (max-width: 760px) { .pres-grid { grid-template-columns: minmax(0, 1fr); } .pres-globe { max-width: 340px; margin: 0 auto; } }
 /* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
 body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
@@ -525,9 +530,6 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   <canvas id="clin-canvas" aria-hidden="true"></canvas>
   <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd on" href="#education" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
-</div>
-<div class="about-hero step-hero hero-pres">
-  <canvas id="globe-canvas" aria-hidden="true"></canvas>
 </div>
 <div class="about-hero step-hero hero-cv">
   <canvas id="traj-canvas" aria-hidden="true"></canvas>
@@ -666,13 +668,19 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       </ul>
     </section>
     <section class="panel" id="presentations" aria-labelledby="presentations-h">
-      <h2 id="presentations-h">Presentations</h2>
-      <h3 class="subhead">Poster Presentation</h3>
-      <ul class="pres-list">
-        <li><b>Strauss JZ</b>, Peljto AL, <a href="https://audreyhendricks.com">Hendricks AE</a>, Austin EE, Yang IV, Schwartz DA, <a href="https://yaningliucudenver.github.io/index.html">Liu Y</a>.<br>
-        <strong>Enhancing Genetic Risk Prediction: Leveraging Sparse Variational Bayesian Inference to Model Polygenic Risk in Idiopathic Pulmonary Fibrosis</strong><br>
-        <em>National Human Genome Research Institute (NHGRI) Research Training &amp; Career Development Annual Meeting</em>, Apr. 2025, Philadelphia, PA.</li>
-      </ul>
+      <div class="pres-grid">
+        <div class="pres-text">
+          <h2 id="presentations-h">Presentations</h2>
+          <h3 class="subhead">Poster Presentation</h3>
+          <ul class="pres-list">
+            <li><b>Strauss JZ</b>, Peljto AL, <a href="https://audreyhendricks.com">Hendricks AE</a>, Austin EE, Yang IV, Schwartz DA, <a href="https://yaningliucudenver.github.io/index.html">Liu Y</a>.<br>
+            <strong>Enhancing Genetic Risk Prediction: Leveraging Sparse Variational Bayesian Inference to Model Polygenic Risk in Idiopathic Pulmonary Fibrosis</strong><br>
+            <em>National Human Genome Research Institute (NHGRI) Research Training &amp; Career Development Annual Meeting</em>, Apr. 2025, Philadelphia, PA.</li>
+          </ul>
+        
+        </div>
+        <div class="pres-globe"><canvas id="globe-canvas" aria-label="Rotating globe with Denver and Shanghai connected" role="img"></canvas></div>
+      </div>
     </section>
 
 
@@ -1215,13 +1223,13 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
 
     var LAND_STR = '-55.5:42;-54:42,44;-52.5:44;-51:45-46;-49.5:46-48,108;-48:47-50;-46.5:48-51,160;-45:51-53,164-165;-43.5:52-55,158,170;-42:54-56,162,175;-40.5:54-59;-39:56-61,184-185;-37.5:57-64,170-174,188;-36:58-66,171,173-178,191;-34.5:60-66,68-69,110,163-164,175-181;-33:61-71,111-116,166-170,176-185;-31.5:62-72,113-119,169-189;-30:63-74,114-121,171-192;-28.5:64-76,115-124,173-195;-27:65-78,116-126,175-197;-25.5:66-78,118-128,177-200;-24:67-81,119-131,137-138,179-202;-22.5:68-85,120-132,138-140,181-203;-21:69-86,121-133,140-142,185-204;-19.5:69-88,122-135,142-143,190-205;-18:70-89,122-137,143-145,192-206,227;-16.5:0,69-90,123-140,144-146,194-203,206-208;-15:68-90,124-142,147-148,197-203,208-209;-13.5:5,68-91,125-142,149,201-204,209;-12:68-92,127-143,204;-10.5:67-94,127-144,224;-9:67-95,128-144,201,212,216,219;-7.5:67-95,128-144,190-193,206,211-216;-6:66-96,128-145,212-217,219,222;-4.5:66-94,128-145,189-190,210-216;-3:67-93,127-146,188-190,195-197,199,201,205-206,208-209,211-214;-1.5:67-89,127-147,186-189,194-197,200-201,205,208-210;0:59,67-85,87,127-148,187-189,193-198,200;1.5:68-86,127-149,186-189,193-198,205;3:69-85,127-150,185-186,188,195-198;4.5:69-85,124,126-151,184,187-188,196-198;6:69-81,113-120,123-151,186-187,197,200,202;7.5:66,68-80,111-151,172-173,185,202;9:64,66-67,69-78,110-151,169-170,184,196,201;10.5:62-63,69-74,109-146,148-151,168-170,183,186-188,200;12:61-62,107-145,167-169,178,182,185-188,199;13.5:59-62,106-147,166-168,177,181-187;15:57-62,105-142,144-148,164-167,179-186,194;16.5:52-58,105-140,143-148,162-167,176,178-183,192-193;18:50-58,65,69,72,104-138,141-149,161-167,175-181,191;19.5:48-52,57-58,68-69,103-136,139-149,159-166,172-179,182;21:47-51,56-57,64,102-135,137-148,156,158-166,170-178;22.5:46-50,59,61,101-133,135-147,154-166,168-180,185;24:45-50,101-131,133-144,151-181,183;25.5:41,43-49,100-129,131-139,142,144-180;27:40,42-49,58-59,99-127,129-136,139-178;28.5:39,41-48,58,95,99-133,136-176;30:39-52,55-56,99-174;31.5:37-56,97-111,114-117,120,122-171;33:36-56,96-107,121-168,174-175;34.5:33-56,96-104,119-164,170,172-174;36:32-55,98-102,117-161,166,171-172;37.5:31-54,91-94,103,107,110-159,163,169;39:30-54,89-94,102,104-105,107-154,159,166;40.5:29-53,87-91,96,99-100,102-103,106-152,154-156,163;42:28-54,85-90,96,99-103,110-153;43.5:27-53,84,87-88,90,93,95-100,107-152,156-157;45:27-53,55,85-90,92-98,101,103-149,152;46.5:26-52,82-96,98,100-146;48:25-50,54-56,79-142;49.5:25-48,53-54,78-138,140;51:23-50,52,74-75,77-134;52.5:22-39,42-50,70,72-73,75-131,137;54:20-38,40-48,67-68,70,77-125,132-133;55.5:19-35,39-45,66-67,72-73,76-119,127-129;57:8,17-32,38-43,64,69-72,75-115,123-124;58.5:8-9,15-30,36-40,61,65,67-68,71-111,119;60:6-10,13-28,35-36,62-66,71-111,114-115;61.5:5-27,33-34,42-43,59-62,65-107,110-112;63:5-27,34,40-41,57-59,61-108;64.5:2,5-28,31-32,38-39,46-47,55-57,59-61,63-102;66:0-2,4-26,29-32,35-39,43-44,53-58,60-97;67.5:0-1,5-25,28-29,34-37,50-56,59-65,67-91;69:4-14,16-21,23,25-26,32-36,48-51,58,60,62-85;70.5:5-6,16-17,19,21-24,28-35,45,56-75;72:12-15,17,19-21,26-32,48,52,55-63,66-67;73.5:11-12,14-16,19,24-30,50-56,58,61;75:12,16-17,22-27,41,47-50,55,57;76.5:11,14-15,18-24,44-45;78:11,14-21,27-28;79.5:12-14,16-21,26-27,37;81:13-20,22;82.5:14-15,19-21';
     function drawGlobe() {
+      var nw = W < 280;
       if (!S.land) { S.land = []; LAND_STR.split(';').forEach(function (row) { var p = row.split(':'), lat = parseFloat(p[0]), step = 1.5 / Math.max(.2, Math.cos(lat * Math.PI / 180));
           p[1].split(',').forEach(function (r) { var ab = r.split('-'), a = +ab[0], b = ab.length > 1 ? +ab[1] : a; for (var i = a; i <= b; i++) { var lo = -180 + i * step, la = lat * Math.PI / 180, lr = lo * Math.PI / 180; S.land.push([Math.sin(la), Math.cos(la), lr]); } }); }); }
-      var R = Math.min(H * (narrow ? .3 : .33), W * (narrow ? .36 : .3)), cx = W * (narrow ? .5 : .36), cy = H * (narrow ? .48 : .5), phi0 = 22 * Math.PI / 180, sp0 = Math.sin(phi0), cp0 = Math.cos(phi0);
+      var R = Math.min(W, H) * .4, cx = W / 2, cy = H / 2, phi0 = 22 * Math.PI / 180, sp0 = Math.sin(phi0), cp0 = Math.cos(phi0);
       var lam0 = (-115 - t * 9) * Math.PI / 180;
       function proj(sinla, cosla, lr, rr2) { var dl = lr - lam0, cdl = Math.cos(dl), z = sp0 * sinla + cp0 * cosla * cdl; rr2 = rr2 || 1;
         return [cx + R * rr2 * cosla * Math.sin(dl), cy - R * rr2 * (cp0 * sinla - sp0 * cosla * cdl), z]; }
-      label(narrow ? 'DENVER → SHANGHAI' : 'FROM DENVER TO SHANGHAI', narrow ? W / 2 : cx);
       // atmosphere and ocean
       var ga = x.createRadialGradient(cx, cy, R * .9, cx, cy, R * 1.22); ga.addColorStop(0, 'rgba(15,110,106,.18)'); ga.addColorStop(1, 'rgba(15,110,106,0)');
       x.globalAlpha = 1; x.fillStyle = ga; x.beginPath(); x.arc(cx, cy, R * 1.22, 0, 6.3); x.fill();
@@ -1234,7 +1242,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       for (var la2 = -60; la2 <= 60; la2 += 30) { x.beginPath(); var on2 = false, b = la2 * Math.PI / 180; for (var lo2 = -180; lo2 <= 180; lo2 += 4) { var q2 = proj(Math.sin(b), Math.cos(b), lo2 * Math.PI / 180);
           if (q2[2] > 0) { on2 ? x.lineTo(q2[0], q2[1]) : x.moveTo(q2[0], q2[1]); on2 = true; } else on2 = false; } x.stroke(); }
       // land dots
-      var ds = narrow ? 1.1 : 1.6; x.fillStyle = TEAL;
+      var ds = nw ? 1.1 : 1.6; x.fillStyle = TEAL;
       for (var i = 0; i < S.land.length; i++) { var L = S.land[i], q3 = proj(L[0], L[1], L[2]); if (q3[2] <= 0) continue;
         x.globalAlpha = .25 + .6 * q3[2]; var sz = ds * (.6 + .6 * q3[2]); x.fillRect(q3[0] - sz / 2, q3[1] - sz / 2, sz, sz); }
       // cities and the arc between them
@@ -1251,14 +1259,9 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       cities.forEach(function (c, ci) { var a = c.la * Math.PI / 180, q5 = proj(Math.sin(a), Math.cos(a), c.lo * Math.PI / 180); if (q5[2] <= .02) return;
         var vis = sm(q5[2] / .25), pulse = (t * .8 + ci * .5) % 1;
         x.globalAlpha = .35 * (1 - pulse) * vis; x.strokeStyle = RUST; x.lineWidth = 2; x.beginPath(); x.arc(q5[0], q5[1], 6 + 16 * pulse, 0, 6.3); x.stroke();
-        x.globalAlpha = vis; x.fillStyle = RUST; x.beginPath(); x.arc(q5[0], q5[1], narrow ? 4.5 : 6, 0, 6.3); x.fill(); x.fillStyle = SURF; x.beginPath(); x.arc(q5[0], q5[1], narrow ? 1.8 : 2.4, 0, 6.3); x.fill();
-        var lx = q5[0] + (narrow ? 9 : 12), ly = q5[1] - (narrow ? 10 : 14); x.font = '600 ' + (narrow ? 10 : 13) + 'px "IBM Plex Mono", monospace'; x.lineWidth = 4; x.strokeStyle = SURF; x.lineJoin = 'round'; x.textAlign = 'left'; x.textBaseline = 'middle';
+        x.globalAlpha = vis; x.fillStyle = RUST; x.beginPath(); x.arc(q5[0], q5[1], nw ? 4.5 : 6, 0, 6.3); x.fill(); x.fillStyle = SURF; x.beginPath(); x.arc(q5[0], q5[1], nw ? 1.8 : 2.4, 0, 6.3); x.fill();
+        var lx = q5[0] + (nw ? 9 : 12), ly = q5[1] - (nw ? 10 : 14); x.font = '600 ' + (nw ? 10 : 13) + 'px "IBM Plex Mono", monospace'; x.lineWidth = 4; x.strokeStyle = SURF; x.lineJoin = 'round'; x.textAlign = 'left'; x.textBaseline = 'middle';
         x.strokeText(c.n, lx, ly); x.fillStyle = INK; x.fillText(c.n, lx, ly); });
-      // legend (laptop)
-      if (!narrow) { var gx = W * .66, gy = H * .3; x.globalAlpha = 1;
-        [['Denver, Colorado, USA', 'B.S. & M.S., University of Colorado · Breuss Lab, CU Anschutz'], ['Shanghai, P. R. China', 'Ph.D., SIMIS | Fudan University']].forEach(function (e, i) { var yy = gy + i * 64;
-          x.fillStyle = RUST; x.beginPath(); x.arc(gx, yy, 6, 0, 6.3); x.fill(); txt(e[0], gx + 18, yy, 15, INK, 'left', '600'); x.globalAlpha = .85; txt(e[1], gx + 18, yy + 22, 11, MUT); x.globalAlpha = 1; });
-        x.globalAlpha = .9; x.strokeStyle = GOLD; x.lineWidth = 2.2; x.setLineDash([5, 5]); x.beginPath(); x.moveTo(gx - 6, gy + 140); x.lineTo(gx + 14, gy + 140); x.stroke(); x.setLineDash([]); txt('the move', gx + 24, gy + 140, 11, MUT); }
       x.globalAlpha = 1;
     }
 
@@ -1427,7 +1430,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       if (!narrow) { txt('follow-up · ' + ['3 months', '12 months', '6 months'][pi], e.x1, e.y + H * .14, 10, MUT, 'right'); }
     }
 
-    function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; ribbon();
+    function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; if (mode !== 'globe') ribbon();
       if (mode === 'globe') drawGlobe(); else if (mode === 'assist') drawAssist(); else if (mode === 'rep') drawRep(); else if (mode === 'traj') drawTraj(); else if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
     function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && (tab === tabName || (!tab && tabName === 'about')); }
     var last = 0, ready = false;
