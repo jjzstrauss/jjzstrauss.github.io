@@ -470,6 +470,8 @@ body[data-tab="presentations"] .tabnav { margin-top: 1.5rem; }
   .step-badge { bottom: 50px !important; }
 }
 .about-note { font-size: .875rem; color: var(--muted); font-style: italic; margin: .25rem 0 1rem; padding-top: .75rem; border-top: 1px solid var(--rule); }
+.research-kw { font-size: .8rem; margin: -.25rem 0 .25rem; }
+.proj-tags a { color: inherit; text-decoration: none; } .proj-tags a:hover { color: var(--accent); }
 /* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
 body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
@@ -563,7 +565,33 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
 
     <section class="panel" id="research" aria-labelledby="research-h">
       <h2 id="research-h">Research</h2>
-      <p class="wip">Under construction.</p>
+      <p class="proj-tags research-kw">Statistical genetics &middot; single-cell -omics &middot; survival analysis &middot; risk prediction &middot; clinical AI</p>
+      <p>I develop statistical and machine learning methods that turn large-scale genetic, molecular, and clinical data into better predictions of disease risk, with the goal of earlier and more personalized care. My work moves along the full path from raw data to the clinic: careful processing and quality control, principled modeling, rigorous validation, and translation into tools that can support clinical decisions.</p>
+      <h3 class="subhead arrow">Research themes</h3>
+      <ul class="proj-list">
+        <li>
+          <strong>Methods for high-dimensional and single-cell -omics</strong>
+          <span>Statistical and computational approaches for extracting biological signal from large, noisy, high-dimensional molecular data, with a particular focus on single-cell sequencing.</span>
+          <span class="proj-tags"><a href="#projects">Related: single-cell ATAC and RNA analysis in trisomy 21</a></span>
+        </li>
+        <li>
+          <strong>Genetic epidemiology across ancestries</strong>
+          <span>Genome-wide association, molecular QTLs, fine-mapping, and Mendelian randomization to connect genetic variation to disease, with attention to populations that are under-represented in current genetic studies.</span>
+          <span class="proj-tags"><a href="#projects">Related: cross-ancestry atlas of genetic and multi-omics data; polygenic risk modeling in idiopathic pulmonary fibrosis</a></span>
+        </li>
+        <li>
+          <strong>Clinical risk prediction</strong>
+          <span>Survival models, ensemble learning, and biomarker-based risk scores that estimate an individual&rsquo;s risk of complex disease and hold up under rigorous validation.</span>
+          <span class="proj-tags"><a href="#projects">Related: multi-level stacked prediction model; global population cohort and biobank directory</a></span>
+        </li>
+        <li>
+          <strong>AI for medicine</strong>
+          <span>Large language models that reason over patient data and clinical guidelines through retrieval, aiming for predictions that are accurate, traceable, and useful to clinicians.</span>
+          <span class="proj-tags"><a href="#projects">Related: retrieval-augmented clinical LLM for cardiovascular risk prediction</a></span>
+        </li>
+      </ul>
+      <h3 class="subhead arrow">Methods and tools</h3>
+      <p>Bayesian inference and variational methods &middot; survival analysis and Cox models &middot; ensemble and deep learning &middot; retrieval-augmented language models &middot; R, Python, and high-performance computing</p>
     </section>
 
     <section class="panel" id="projects" aria-labelledby="projects-h">
