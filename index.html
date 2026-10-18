@@ -541,6 +541,27 @@ body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { display
 @media (max-width: 1000px) { body[data-tab="about"] .id > .photo, body:not([data-tab]) .id > .photo { width: 9rem; margin-inline: 0; } }
 body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
 @media (max-width: 760px) { body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 1.75rem; } }
+/* FIXED-NAV: the tab bar stays in the same spot (top right) on every tab */
+body { padding-top: 76px; }
+body .tabnav.tabnav { position: fixed !important; top: 12px; left: 0; right: 0; margin: 0 !important; padding: 0 max(16px, 2vw) !important; z-index: 80;
+  display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center; pointer-events: none; }
+body .tabnav.tabnav > * { pointer-events: auto; }
+body[data-tab="about"] .tabnav.tabnav, body:not([data-tab]) .tabnav.tabnav { justify-content: flex-end !important; }
+body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
+.step-badge { bottom: 14px !important; }
+@media (max-width: 1100px) {
+  body .tabnav.tabnav { justify-content: flex-end !important; }
+  body .tabnav.tabnav .brand { display: none !important; }
+  body .tabnav.tabnav .tabs { justify-content: flex-start !important; max-width: 100%; min-width: 0; overflow-x: auto; scrollbar-width: none; border-radius: 999px !important; }
+  body .tabnav.tabnav .tabs::-webkit-scrollbar { display: none; }
+}
+@media (max-width: 760px) {
+  body { padding-top: 64px; }
+  body .tabnav.tabnav { top: 8px; padding: 0 10px !important; }
+  body .tabnav.tabnav .tabs { padding: .3rem !important; gap: .15rem !important; }
+  body .tabnav.tabnav .tabs a { padding: .45rem .7rem !important; font-size: .74rem !important; }
+  .step-badge { bottom: 10px !important; }
+}
 </style>
 
 
