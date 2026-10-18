@@ -474,7 +474,7 @@ body[data-tab="education"] .id > .photo { display: none; }
 .research-kw { font-size: .8rem; margin: -.25rem 0 .25rem; }
 .proj-tags a { color: inherit; text-decoration: none; } .proj-tags a:hover { color: var(--accent); }
 /* EXPERIENCE-GLOBE: experience on the left, rotating globe on the right (no banner) */
-body[data-tab="experience"] .tabnav { margin-top: 1.5rem; }
+body[data-tab="experience"] .tabnav, body[data-tab="education"] .tabnav { margin-top: 1.5rem; }
 body[data-tab="presentations"] .hero-pres { display: block; }
 body[data-tab="presentations"] .world-bg, body[data-tab="presentations"] .pres-map, body[data-tab="presentations"] .bgl-presentations { display: none !important; }
 body[data-tab="presentations"] main { background: var(--surface); border-color: var(--rule); box-shadow: 0 1px 2px var(--shadow), 0 18px 40px -18px var(--shadow); }
@@ -497,7 +497,7 @@ body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: space-between;
   .tabnav { flex-direction: column; }
   body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: center; }
   body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-56px - 3.4rem); }
-  body[data-tab="experience"] .tabnav { margin-top: 1.5rem !important; }
+  body[data-tab="experience"] .tabnav, body[data-tab="education"] .tabnav { margin-top: 1.5rem !important; }
   .tabnav .brand { font-size: 1rem; padding: .4rem .95rem; }
 }
 @media (max-width: 760px) { body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-40px - 3rem); } }
@@ -550,9 +550,6 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
   <canvas id="clin-canvas" aria-hidden="true"></canvas>
   <div class="step-badge"><span class="st">Step 5 of 5 &middot; Clinical application</span><span class="dots"><a class="sd" href="#about" aria-label="Step 1: Sample &amp; sequencing"></a><a class="sd" href="#research" aria-label="Step 2: Quality control"></a><a class="sd" href="#projects" aria-label="Step 3: Model training"></a><a class="sd" href="#publications" aria-label="Step 4: Cross-validation"></a><a class="sd on" href="#presentations" aria-label="Step 5: Clinical application"></a></span></div>
   <img class="hero-photo" src="photo.jpg" alt="">
-</div>
-<div class="about-hero step-hero hero-education">
-  <canvas id="globe-canvas" aria-hidden="true"></canvas>
 </div>
 <div class="about-hero step-hero hero-cv">
   <canvas id="traj-canvas" aria-hidden="true"></canvas>
@@ -711,12 +708,18 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
     </section>
 
     <section class="panel" id="education" aria-labelledby="education-h">
-      <h2 id="education-h">Education</h2>
-      <ul class="edu-list">
-        <li><strong>Ph.D., Mathematics</strong> (2026&ndash;present)<br>Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University, Shanghai, P. R. China<br>Advisors: <a href="https://bjli1992.github.io">Bingjie Li, Ph.D.</a> (<span lang="zh">李冰杰</span>) and <a href="https://zhigang-yao.github.io">Zhigang Yao, Ph.D.</a> (<span lang="zh">姚志刚</span>)</li>
-        <li><strong>M.S., Statistics</strong><br>University of Colorado Denver | Anschutz Medical Campus, Denver, CO, USA<br>Advisors: <a href="https://yaningliucudenver.github.io/index.html">Yaning Liu, Ph.D.</a>, and Anna Peljto, Dr.PH.<br>Thesis: Polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</li>
-        <li><strong>B.S., Mathematics</strong><br>University of Colorado Denver, Denver, CO, USA</li>
-      </ul>
+      <div class="pres-grid">
+        <div class="pres-text">
+          <h2 id="education-h">Education</h2>
+          <ul class="edu-list">
+            <li><strong>Ph.D., Mathematics</strong> (2026&ndash;present)<br>Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University, Shanghai, P. R. China<br>Advisors: <a href="https://bjli1992.github.io">Bingjie Li, Ph.D.</a> (<span lang="zh">李冰杰</span>) and <a href="https://zhigang-yao.github.io">Zhigang Yao, Ph.D.</a> (<span lang="zh">姚志刚</span>)</li>
+            <li><strong>M.S., Statistics</strong><br>University of Colorado Denver | Anschutz Medical Campus, Denver, CO, USA<br>Advisors: <a href="https://yaningliucudenver.github.io/index.html">Yaning Liu, Ph.D.</a>, and Anna Peljto, Dr.PH.<br>Thesis: Polygenic risk modeling in idiopathic pulmonary fibrosis using sparse variational Bayesian inference</li>
+            <li><strong>B.S., Mathematics</strong><br>University of Colorado Denver, Denver, CO, USA</li>
+          </ul>
+    
+        </div>
+        <div class="pres-globe"><canvas id="globe-canvas" aria-label="Rotating globe with Denver and Shanghai connected" role="img"></canvas></div>
+      </div>
     </section>
 
 
@@ -1262,7 +1265,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       var nw = W < 280;
       if (!S.land) { S.land = []; LAND_STR.split(';').forEach(function (row) { var p = row.split(':'), lat = parseFloat(p[0]), step = 1.5 / Math.max(.2, Math.cos(lat * Math.PI / 180));
           p[1].split(',').forEach(function (r) { var ab = r.split('-'), a = +ab[0], b = ab.length > 1 ? +ab[1] : a; for (var i = a; i <= b; i++) { var lo = -180 + i * step, la = lat * Math.PI / 180, lr = lo * Math.PI / 180; S.land.push([Math.sin(la), Math.cos(la), lr]); } }); }); }
-      var R = Math.min(W * .44, H * .6), cx = W / 2, cy = H * .64, phi0 = 22 * Math.PI / 180, sp0 = Math.sin(phi0), cp0 = Math.cos(phi0);
+      var sq = W / H < 1.5, R = sq ? Math.min(W, H) * .42 : Math.min(W * .44, H * .6), cx = W / 2, cy = sq ? H / 2 : H * .64, phi0 = 22 * Math.PI / 180, sp0 = Math.sin(phi0), cp0 = Math.cos(phi0);
       var lam0 = (-115 - t * 9) * Math.PI / 180;
       function proj(sinla, cosla, lr, rr2) { var dl = lr - lam0, cdl = Math.cos(dl), z = sp0 * sinla + cp0 * cosla * cdl; rr2 = rr2 || 1;
         return [cx + R * rr2 * cosla * Math.sin(dl), cy - R * rr2 * (cp0 * sinla - sp0 * cosla * cdl), z]; }
