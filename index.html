@@ -501,6 +501,15 @@ body[data-tab]:not([data-tab="about"]) .tabnav { justify-content: space-between;
   .tabnav .brand { font-size: 1rem; padding: .4rem .95rem; }
 }
 @media (max-width: 760px) { body[data-tab]:not([data-tab="about"]) .tabnav { margin-top: calc(-40px - 3rem); } }
+/* EDU-HALF: no white panel on Education; the rotating globe fills the right half of the screen */
+body[data-tab="education"] main { background: transparent; border-color: transparent; box-shadow: none; }
+@media (min-width: 761px) {
+  body[data-tab="education"] .wrap { max-width: none; margin: 0; padding-left: max(4vw, 24px); padding-right: 0; }
+  body[data-tab="education"] main { max-width: calc(50vw - max(4vw, 24px) - 1rem); }
+  body[data-tab="education"] .pres-grid { display: block; }
+  body[data-tab="education"] .pres-globe { position: fixed; top: 0; right: 0; width: 50vw; height: 100vh; aspect-ratio: auto; z-index: 0; pointer-events: none; }
+  body[data-tab="education"] .tabnav { position: relative; z-index: 6; }
+}
 /* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
 body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
@@ -1272,8 +1281,8 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       // atmosphere and ocean
       var ga = x.createRadialGradient(cx, cy, R * .9, cx, cy, R * 1.22); ga.addColorStop(0, 'rgba(15,110,106,.18)'); ga.addColorStop(1, 'rgba(15,110,106,0)');
       x.globalAlpha = 1; x.fillStyle = ga; x.beginPath(); x.arc(cx, cy, R * 1.22, 0, 6.3); x.fill();
-      var go = x.createRadialGradient(cx - R * .35, cy - R * .4, R * .1, cx, cy, R); go.addColorStop(0, 'rgba(255,255,255,.55)'); go.addColorStop(1, 'rgba(61,127,168,.18)');
-      x.fillStyle = go; x.beginPath(); x.arc(cx, cy, R, 0, 6.3); x.fill(); x.globalAlpha = .35; x.strokeStyle = TEAL; x.lineWidth = 1.2; x.stroke();
+      var go = x.createRadialGradient(cx - R * .35, cy - R * .4, R * .1, cx, cy, R); go.addColorStop(0, 'rgba(255,255,255,.55)'); go.addColorStop(1, 'rgba(61,127,168,.3)');
+      x.fillStyle = tok('--bg', '#f6f7f9'); x.beginPath(); x.arc(cx, cy, R, 0, 6.3); x.fill(); x.fillStyle = go; x.beginPath(); x.arc(cx, cy, R, 0, 6.3); x.fill(); x.globalAlpha = .35; x.strokeStyle = TEAL; x.lineWidth = 1.2; x.stroke();
       // graticule
       x.lineWidth = .8; x.strokeStyle = TEAL;
       for (var lo = -180; lo < 180; lo += 30) { x.beginPath(); var on = false; for (var la = -88; la <= 88; la += 4) { var a = la * Math.PI / 180, q = proj(Math.sin(a), Math.cos(a), lo * Math.PI / 180);
