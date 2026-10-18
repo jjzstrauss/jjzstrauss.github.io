@@ -510,6 +510,11 @@ body[data-tab="education"] main { background: transparent; border-color: transpa
   body[data-tab="education"] .pres-globe { position: fixed; top: 0; right: 0; width: 50vw; height: 100vh; aspect-ratio: auto; z-index: 0; pointer-events: none; }
   body[data-tab="education"] .tabnav { position: relative; z-index: 6; }
 }
+/* EXP-HELIX: huge faint double helix running diagonally behind the Experience tab */
+.diag-bg { display: none; position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.diag-bg canvas { width: 100%; height: 100%; display: block; }
+body[data-tab="experience"] .diag-bg { display: block; }
+body[data-tab="experience"] .bgl, body[data-tab="experience"] .bg-bottom { visibility: hidden; }
 /* ABOUT-ONLY-ID: headshot and contact info only on the About tab */
 body[data-tab]:not([data-tab="about"]) .hero-photo,
 body[data-tab]:not([data-tab="about"]) .id { display: none; }
@@ -577,6 +582,7 @@ body[data-tab="about"] .wrap, body:not([data-tab]) .wrap { padding-top: 3rem; }
       <li><a href="#cv">CV</a></li>
     </ul>
   </nav>
+<div class="diag-bg" aria-hidden="true"><canvas id="diag-canvas"></canvas></div>
 <div class="wrap">
   <header class="id">
     <img class="photo" src="photo.jpg" alt="Portrait photo">
@@ -1032,7 +1038,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
 
   function make(id, mode, tabName) {
     var c = document.getElementById(id); if (!c || !c.getContext) return;
-    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31, precise: 37 }[mode];
+    var x = c.getContext('2d'), seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31, precise: 37, diag: 41 }[mode];
     function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
     var W, H, narrow, t = 0, seqOff = 0, S = {};
     function size() { var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1; W = r.width; H = r.height;
@@ -1040,7 +1046,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
     function txt(s, X, Y, size, col, align, weight) { x.font = (weight || '') + ' ' + size + 'px "IBM Plex Mono", monospace'; x.fillStyle = col; x.textAlign = align || 'left'; x.textBaseline = 'middle'; x.fillText(s, X, Y); }
     function axes(X0, Y0, X1, Y1) { x.globalAlpha = .55; x.strokeStyle = MUT; x.lineWidth = 1.2; x.beginPath(); x.moveTo(X0, Y1); x.lineTo(X0, Y0); x.lineTo(X1, Y0); x.stroke(); x.globalAlpha = 1; }
     function build() {
-      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31, precise: 37 }[mode];
+      seed = { val: 3, strat: 5, clin: 9, sc1: 13, scqc: 11, traj: 17, rep: 23, assist: 29, globe: 31, precise: 37, diag: 41 }[mode];
       if (mode === 'sc1') {
         S.tc = [W * (narrow ? .11 : .085), H * .42]; S.tr = Math.min(H * (narrow ? .13 : .17), W * (narrow ? .07 : .055));
         S.cells = []; for (var i0 = 0; i0 < (narrow ? 28 : 44); i0++) S.cells.push({ a: rnd() * 6.3, d: Math.sqrt(rnd()) * .82, ty: Math.floor(rnd() * 4), ph: rnd() * 6.3 });
@@ -1366,6 +1372,28 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       x.globalAlpha = 1;
     }
 
+    function drawDiag() {
+      // a huge, faint double helix running diagonally behind the whole page, slowly turning
+      var ang = Math.atan2(H, W) * (narrow ? 1.15 : 1), ca = Math.cos(ang), sa = Math.sin(ang), L = Math.hypot(W, H) + 400;
+      var amp = Math.min(W, H) * (narrow ? .16 : .13), k = 2 * Math.PI / (amp * 4.2), sp = t * .35, ox = W / 2, oy = H / 2;
+      function P(s, d) { return [ox + s * ca - d * sa, oy + s * sa + d * ca]; }
+      var COLS = [TEAL, SAND, BLUE, RUST];
+      for (var pass = 0; pass < 2; pass++) {
+        // pass 0: back strand + rungs; pass 1: front strand
+        for (var st = 0; st < 2; st++) { var sgn = st ? -1 : 1;
+          for (var s = -L / 2; s < L / 2; s += 6) { var ph = k * s + sp, z = sgn * Math.cos(ph); if ((z >= 0) !== (pass === 1)) continue;
+            var a = P(s, sgn * amp * Math.sin(ph)), b = P(s + 6, sgn * amp * Math.sin(ph + k * 6));
+            x.globalAlpha = .05 + .07 * (z + 1) / 2; x.strokeStyle = INK; x.lineWidth = 5 + 7 * (z + 1) / 2; x.beginPath(); x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); x.stroke(); } }
+        if (pass === 0) { var step = amp * .42, n0 = Math.floor((-L / 2) / step);
+          for (var n = n0; n * step < L / 2; n++) { var s2 = n * step, ph2 = k * s2 + sp, d1 = amp * Math.sin(ph2), dep = Math.abs(Math.cos(ph2));
+            var p1 = P(s2, d1), p2 = P(s2, -d1), m = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], c = ((n % 4) + 4) % 4;
+            x.globalAlpha = .04 + .07 * dep; x.lineWidth = 6; x.lineCap = 'round';
+            x.strokeStyle = COLS[c]; x.beginPath(); x.moveTo(p1[0], p1[1]); x.lineTo(m[0], m[1]); x.stroke();
+            x.strokeStyle = COLS[(c + 2) % 4]; x.beginPath(); x.moveTo(m[0], m[1]); x.lineTo(p2[0], p2[1]); x.stroke(); } }
+      }
+      x.globalAlpha = 1;
+    }
+
     function drawRep() {
       label('DNA REPLICATION', W / 2);
       var dt = S.lastT === undefined ? 0 : Math.max(0, Math.min(.05, t - S.lastT)); S.lastT = t;
@@ -1531,8 +1559,8 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       if (!narrow) { txt('follow-up · ' + ['3 months', '12 months', '6 months'][pi], e.x1, e.y + H * .14, 10, MUT, 'right'); }
     }
 
-    function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; if (mode !== 'globe') ribbon();
-      if (mode === 'precise') drawPrecise(); else if (mode === 'globe') drawGlobe(); else if (mode === 'assist') drawAssist(); else if (mode === 'rep') drawRep(); else if (mode === 'traj') drawTraj(); else if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
+    function draw() { x.clearRect(0, 0, W, H); x.lineCap = 'round'; x.lineJoin = 'round'; if (mode !== 'globe' && mode !== 'diag') ribbon();
+      if (mode === 'diag') drawDiag(); else if (mode === 'precise') drawPrecise(); else if (mode === 'globe') drawGlobe(); else if (mode === 'assist') drawAssist(); else if (mode === 'rep') drawRep(); else if (mode === 'traj') drawTraj(); else if (mode === 'sc1') drawSc1(); else if (mode === 'scqc') drawScqc(); else if (mode === 'val') drawVal(); else if (mode === 'strat') drawStrat(); else drawClin(); x.globalAlpha = 1; }
     function visible() { var tab = document.body.getAttribute('data-tab'); return !document.hidden && (tab === tabName || (!tab && tabName === 'about')); }
     var last = 0, ready = false;
     function loop(now) { var dt = last ? Math.min(now - last, 50) / 1000 : 0; last = now;
@@ -1547,6 +1575,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('clin-canvas', 'precise', 'presentations');
   make('traj-canvas', 'rep', 'cv');
   make('globe-canvas', 'globe', 'education');
+  make('diag-canvas', 'diag', 'experience');
 })();
 </script>
 </body>
