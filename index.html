@@ -1888,7 +1888,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   function visible() { return !document.hidden && document.body.getAttribute('data-tab') === 'education'; }
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function frame(now) { var dt = last ? Math.min(now - last, 60) / 1000 : 0; last = now;
-    if (visible()) { if (!W) size(); if (L) { t += dt; if (t > L.total) t = 0; draw(reduce ? L.done : t); } }
+    if (visible()) { if (!W) size(); if (L) { t += dt; if (t > L.total) t = 0; draw(t); } }
     requestAnimationFrame(frame); }
   window.addEventListener('resize', function () { size(); });
   var go = function () { size(); requestAnimationFrame(frame); };
