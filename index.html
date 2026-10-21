@@ -564,7 +564,9 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
 }
 /* INST-LOGO: institute logo in the About info column, linking to SIMIS */
 .inst-logos { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
-.inst-logos .inst-logo { flex: 0 1 15rem; }
+.inst-logos { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.inst-logos .inst-logo { box-sizing: border-box; height: 6.5rem; padding: 1rem 1.5rem; min-width: 0; }
+.inst-logos .inst-logo img { width: 100% !important; height: 100%; max-width: none; object-fit: contain; }
 .inst-logo { min-width: 0; height: 4.4rem; }
 .inst-logo img { max-width: 100%; max-height: 100%; width: auto !important; object-fit: contain; }
 .inst-logo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 4rem; padding: .6rem .75rem; border-radius: 12px; background: #fff; border: 1px solid var(--rule);
@@ -572,7 +574,7 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
 .inst-logo img { display: block; width: 100%; height: auto; }
 .inst-logo:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 14px 28px -14px var(--accent); }
 .inst-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-@media (max-width: 760px) { .inst-logos { gap: .6rem; } .inst-logos .inst-logo { flex: 1 1 0; height: 3.6rem; padding: .45rem .55rem; } }
+@media (max-width: 760px) { .inst-logos { gap: .6rem; } .inst-logos .inst-logo { height: 4rem; padding: .5rem .6rem; } }
 </style>
 
 
