@@ -648,7 +648,6 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
       <li><a href="#presentations">Presentations</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#education">Education</a></li>
-      <li><a href="#gallery">Gallery</a></li>
       <li><a href="#cv">CV</a></li>
     </ul>
   </nav>
@@ -815,16 +814,6 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
       </ul>
     </section>
 
-    <section class="panel" id="gallery" aria-labelledby="gallery-h">
-      <div class="pres-grid">
-        <div class="pres-text">
-          <h2 id="gallery-h">Gallery</h2>
-          <p>Moments from the places along the way: Denver, Shanghai, and beyond.</p>
-          <p class="wip">Photos coming soon.</p>
-        </div>
-        <div class="pres-globe"><canvas id="globe-canvas" aria-label="Rotating globe with Denver and Shanghai connected" role="img"></canvas></div>
-      </div>
-    </section>
 
 
     <section class="panel" id="cv" aria-labelledby="cv-h">
@@ -1687,7 +1676,6 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('qc-canvas', 'scqc', 'research');
   make('val-canvas', 'val', 'publications');
   make('clin-canvas', 'precise', 'presentations');
-  make('globe-canvas', 'globe', 'gallery');
   make('diag-canvas', 'diag', 'experience');
   make('karyo-canvas', 'karyo', 'cv');
 })();
