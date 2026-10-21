@@ -1818,15 +1818,17 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       ['', 'The bound \u2192 0 as n \u2192 \u221e,  so  !{X}_n \u2192 \u03bc  in probability.     \u220e']
     ],
     [
-      ['h', 'Bayes\u2019 Theorem'],
-      ['', 'Let A, B be events with P(A) > 0 and P(B) > 0.'],
-      ['', 'Claim:   P(A | B) = P(B | A) P(A) / P(B)'],
+      ['h', 'Slutsky\u2019s Theorem'],
+      ['', 'Let  X_n \u21d2 X  and  Y_n \u2192 c  in probability, with c a constant.'],
+      ['', 'Claim:   X_n + Y_n \u21d2 X + c     and     Y_n X_n \u21d2 cX.'],
       ['gap', ''],
-      ['', 'Proof.  By the definition of conditional probability,'],
-      ['', '        P(A | B) = P(A \u2229 B) / P(B),     P(B | A) = P(A \u2229 B) / P(A).'],
-      ['', 'The second gives   P(A \u2229 B) = P(B | A) P(A).'],
-      ['', 'Substituting into the first,'],
-      ['', '        P(A | B) = P(B | A) P(A) / P(B).     \u220e']
+      ['', 'Proof.  It suffices that  (X_n, Y_n) \u21d2 (X, c);  then apply the continuous'],
+      ['', 'mapping theorem with  g(x, y) = x + y  and  g(x, y) = xy.'],
+      ['', 'Take f bounded by M and L-Lipschitz, and fix \u03b5 > 0 :'],
+      ['', '        | E f(X_n, Y_n) \u2212 E f(X_n, c) |  \u2264  L\u03b5 + 2M P(|Y_n \u2212 c| > \u03b5)  \u2192  L\u03b5'],
+      ['', '        | E f(X_n, c) \u2212 E f(X, c) |  \u2192  0          (since X_n \u21d2 X)'],
+      ['', 'So  limsup | E f(X_n, Y_n) \u2212 E f(X, c) | \u2264 L\u03b5  for every \u03b5 > 0,  hence = 0,'],
+      ['', 'and  (X_n, Y_n) \u21d2 (X, c)  by the portmanteau lemma.     \u220e']
     ],
     [
       ['h', 'Cauchy\u2013Schwarz Inequality'],
