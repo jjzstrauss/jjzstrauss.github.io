@@ -578,6 +578,12 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
 .inst-logo:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 14px 28px -14px var(--accent); }
 .inst-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (max-width: 760px) { .inst-logos { gap: .6rem; } .inst-logos .inst-logo { height: 4rem; padding: .5rem .6rem; } }
+.id h1 { white-space: nowrap; overflow-wrap: normal; font-size: 1.32rem; }
+@media (max-width: 1000px) { .id h1 { font-size: 1.45rem; } }
+@media (max-width: 400px) { .id h1 { font-size: 1.3rem; } }
+.id h1 .home-link { white-space: nowrap; }
+.name-sep { color: var(--rule); font-weight: 400; margin: 0 .35em; }
+.name-cn { font-weight: 600; white-space: nowrap; font-family: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", serif; }
 </style>
 
 
@@ -636,7 +642,7 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
   <header class="id">
     <img class="photo" src="photo.jpg" alt="Portrait photo">
     <div>
-      <h1><a class="home-link" href="#about">Johannes J. Z. Strauss</a></h1>
+      <h1><a class="home-link" href="#about">Johannes J. Z. Strauss</a><span class="name-sep" aria-hidden="true">|</span><span class="name-cn" lang="zh-Hans">党壮壮</span></h1>
     </div>
     <p class="role">PhD student in Mathematics, Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University</p>
     <ul class="links">
