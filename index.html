@@ -563,7 +563,8 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
   .step-badge { bottom: 10px !important; }
 }
 /* INST-LOGO: institute logo in the About info column, linking to SIMIS */
-.inst-logos { display: grid; grid-template-columns: 1fr; gap: .6rem; max-width: 13rem; }
+.inst-logos { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.inst-logos .inst-logo { flex: 0 1 15rem; }
 .inst-logo { min-width: 0; height: 4.4rem; }
 .inst-logo img { max-width: 100%; max-height: 100%; width: auto !important; object-fit: contain; }
 .inst-logo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 4rem; padding: .6rem .75rem; border-radius: 12px; background: #fff; border: 1px solid var(--rule);
@@ -571,7 +572,7 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
 .inst-logo img { display: block; width: 100%; height: auto; }
 .inst-logo:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 14px 28px -14px var(--accent); }
 .inst-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-@media (max-width: 1000px) { .inst-logos { max-width: 12rem; } .inst-logo { height: 3.8rem; } }
+@media (max-width: 760px) { .inst-logos { gap: .6rem; } .inst-logos .inst-logo { flex: 1 1 0; height: 3.6rem; padding: .45rem .55rem; } }
 </style>
 
 
@@ -633,10 +634,6 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
       <h1><a class="home-link" href="#about">Johannes J. Z. Strauss</a></h1>
     </div>
     <p class="role">PhD student in Mathematics, Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS) | Fudan University</p>
-    <div class="inst-logos">
-      <a class="inst-logo" href="https://www.simis.cn" title="Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS)"><img src="simis-logo.png" alt="SIMIS, Shanghai Institute for Mathematics and Interdisciplinary Sciences" width="768" height="255"></a>
-      <a class="inst-logo" href="https://www.fudan.edu.cn/en/" title="Fudan University"><img src="fudan-logo.png" alt="Fudan University" width="222" height="64"></a>
-    </div>
     <ul class="links">
       <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span class="sr-only">Location: </span><span>12th Floor, Block A, International Innovation Plaza, No. 657 Songhu Road, Yangpu District, Shanghai, P. R. China</span></li>
       <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><a href="mailto:straussj2z@gmail.com">Email</a></li>
@@ -654,6 +651,10 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
       <p>I am a first-year Ph.D. student at the Shanghai Institute for Mathematics and Interdisciplinary Sciences (hereafter, SIMIS) at Fudan University. Under the primary supervision of <a href="https://bjli1992.github.io">Prof. Bingjie Li</a> (School of Public Health, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, Hubei, P. R. China), my research focuses on developing mathematical, statistical, and computational methods for analyzing high-dimensional -omics data, with a particular emphasis on single-cell -omics. I am currently involved in several large-scale projects; for more information, please see the <a href="#projects">Projects</a> tab.</p>
       <p>Prior to coming to Shanghai, I was a bioinformatician in the <a href="https://medschool.cuanschutz.edu/pediatrics/pediatric-research/find-a-department-of-pediatrics-researcher/Breuss-Martin-UCD6003833087">Breuss Lab</a> in the Department of Pediatrics at the University of Colorado School of Medicine, where I worked on projects involving the simulation of mosaic variants in humans and the analysis of single-cell ATAC and RNA sequencing data in trisomy 21 (Down syndrome).</p>
       <p>I was born in Baoding, China, and lived there until I was ten. I then grew up all over the United States and eventually ended up in Denver, Colorado, where I completed my undergraduate and master&rsquo;s degrees at the University of Colorado, and Colorado was home for more than ten years. Outside of research, I love spending time with family and friends, especially outdoors in the mountains. When I&rsquo;m not outside, you will likely find me watching college football as a die-hard Oregon Ducks fan or following the other kind of football as an equally devoted Bayern Munich supporter. I am also a lover of all things classical music and opera, and few things beat dressing up on a Friday night to hear a Tchaikovsky symphony or a Mozart opera performed live.</p>
+      <div class="inst-logos">
+        <a class="inst-logo" href="https://www.simis.cn" title="Shanghai Institute for Mathematics and Interdisciplinary Sciences (SIMIS)"><img src="simis-logo.png" alt="SIMIS, Shanghai Institute for Mathematics and Interdisciplinary Sciences" width="768" height="255"></a>
+        <a class="inst-logo" href="https://www.fudan.edu.cn/en/" title="Fudan University"><img src="fudan-logo.png" alt="Fudan University" width="222" height="64"></a>
+      </div>
     </section>
 
     <section class="panel" id="research" aria-labelledby="research-h">
