@@ -1851,7 +1851,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
       ['', 'Take expectations, with X fixed:'],
       ['', '        E[b] = \u03b2 + (X^{T}X)^{\u22121} X^{T} E[\u03b5] = \u03b2 .     \u220e']
     ]
-  ], K = 0, LINES = THMS[0];
+  ], K = Math.floor(Math.random() * 5), LINES = THMS[K];
   // tiny markup: a_b, a_{..}, a^b, a^{..}, !{..} = overline
   function parse(s) { var out = [], i = 0;
     function grab() { if (s[i] === '{') { var d = 1, j = i + 1; while (j < s.length && d) { if (s[j] === '{') d++; else if (s[j] === '}') d--; j++; } var r = s.slice(i + 1, j - 1); i = j; return r; } return s[i++]; }
@@ -1957,7 +1957,7 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   function visible() { return !document.hidden && document.body.getAttribute('data-tab') === 'education'; }
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function frame(now) { var dt = last ? Math.min(now - last, 60) / 1000 : 0; last = now;
-    if (visible()) { if (!W) size(); if (L) { t += dt; if (t > L.total) { t = 0; K = (K + 1) % THMS.length; build(); } draw(t); } }
+    if (visible()) { if (!W) size(); if (L) { t += dt; if (t > L.total) { t = 0; K = (K + 1 + Math.floor(Math.random() * (THMS.length - 1))) % THMS.length; build(); } draw(t); } }
     requestAnimationFrame(frame); }
   window.addEventListener('resize', function () { size(); });
   var go = function () { size(); requestAnimationFrame(frame); };
