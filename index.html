@@ -599,6 +599,29 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
 .soc:hover { transform: translateY(-2px); color: #fff; }
 .soc-mail:hover { background: #0f6e6a; border-color: #0f6e6a; } .soc-gh:hover { background: #181717; border-color: #181717; } .soc-li:hover { background: #0a66c2; border-color: #0a66c2; }
 .soc:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* SITE-SEARCH: search button in the tab bar + overlay */
+.tabnav .tabs .search-btn { display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; padding: 0; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; }
+.tabnav .tabs .search-btn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tabnav .tabs .search-btn:hover, .tabnav .tabs .search-btn:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+.search-ov { position: fixed; inset: 0; z-index: 1000; display: none; background: rgba(15, 22, 32, .38); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); padding: 12vh 16px 16px; }
+.search-ov.open { display: block; animation: sfade .15s ease; }
+@keyframes sfade { from { opacity: 0; } to { opacity: 1; } }
+.search-box { max-width: 640px; margin: 0 auto; background: var(--surface, #fff); color: var(--ink); border: 1px solid var(--rule); border-radius: 16px; box-shadow: 0 24px 60px -12px rgba(15, 22, 32, .45); overflow: hidden; }
+.search-in { display: flex; align-items: center; gap: .6rem; padding: .85rem 1rem; border-bottom: 1px solid var(--rule); }
+.search-in svg { width: 1.15rem; height: 1.15rem; flex: none; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }
+.search-in input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: inherit; font-size: 1.05rem; }
+.search-in kbd { font-family: var(--mono); font-size: .7rem; color: var(--muted); border: 1px solid var(--rule); border-radius: 6px; padding: .1rem .4rem; }
+.search-res { list-style: none; margin: 0; padding: .4rem; max-height: min(60vh, 520px); overflow-y: auto; }
+.search-res li { margin: 0; }
+.search-res a { display: block; padding: .6rem .75rem; border-radius: 10px; color: var(--ink); text-decoration: none; border: 0; }
+.search-res a .st { display: block; font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: .15rem; }
+.search-res a .sx { display: block; font-size: .92rem; line-height: 1.45; color: var(--ink); }
+.search-res a mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
+.search-res a.on, .search-res a:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.search-empty { padding: 1.1rem 1rem; color: var(--muted); font-size: .92rem; }
+.search-hit { animation: shit 2.2s ease; border-radius: 6px; }
+@keyframes shit { 0%, 35% { background: color-mix(in srgb, var(--accent) 20%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 20%, transparent); } 100% { background: transparent; box-shadow: 0 0 0 6px transparent; } }
+@media (max-width: 600px) { .search-ov { padding-top: 10vh; } .search-in kbd { display: none; } }
 </style>
 
 
@@ -649,6 +672,7 @@ body .tabnav.tabnav .tabs { flex-wrap: nowrap !important; }
       <li><a href="#experience">Experience</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#cv">CV</a></li>
+      <li class="search-li"><button type="button" class="search-btn" aria-label="Search this site (press /)" title="Search (/)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button></li>
     </ul>
   </nav>
 <div class="diag-bg" aria-hidden="true"><canvas id="diag-canvas"></canvas></div>
@@ -1678,6 +1702,73 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   make('clin-canvas', 'precise', 'presentations');
   make('diag-canvas', 'diag', 'experience');
   make('karyo-canvas', 'karyo', 'cv');
+})();
+</script>
+<div class="search-ov" role="dialog" aria-modal="true" aria-label="Search this site" hidden>
+  <div class="search-box">
+    <div class="search-in"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      <input type="search" placeholder="Search projects, publications, talks..." aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <ul class="search-res" role="listbox"></ul>
+  </div>
+</div>
+<script>/* SITE-SEARCH */
+(function () {
+  var ov = document.querySelector('.search-ov'), inp = ov.querySelector('input'), res = ov.querySelector('.search-res'), btn = document.querySelector('.search-btn');
+  var idx = null, sel = 0, hits = [];
+  function label(id) { var a = document.querySelector('.tabs a[href="#' + id + '"]'); return a ? a.textContent.trim() : id; }
+  function build() {
+    idx = [];
+    document.querySelectorAll('section.panel').forEach(function (sec) {
+      if (!document.querySelector('.tabs a[href="#' + sec.id + '"]')) return;
+      idx.push({ id: sec.id, tab: label(sec.id), el: sec, text: label(sec.id), head: 2 });
+      sec.querySelectorAll('h2, h3, h4, p, li, dt, dd, figcaption, td, blockquote, .cv-btn').forEach(function (el) {
+        if (el.closest('[aria-hidden="true"]') || el.querySelector('p, li')) return;
+        var c = el.cloneNode(true); c.querySelectorAll('.sr-only, [aria-hidden="true"]').forEach(function (n) { n.remove(); }); var t = (c.textContent || '').replace(/\s+/g, ' ').trim(); if (t.length < 2) return;
+        idx.push({ id: sec.id, tab: label(sec.id), el: el, text: t, head: /^H[2-4]$/.test(el.tagName) ? 1 : 0 });
+      });
+    });
+  }
+  function esc(t) { return t.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function snip(t, terms) {
+    var low = t.toLowerCase(), p = low.indexOf(terms[0]), a = Math.max(0, p - 60), b = Math.min(t.length, (p < 0 ? 0 : p) + 110);
+    var out = (a > 0 ? '…' : '') + t.slice(a, b) + (b < t.length ? '…' : ''), h = esc(out);
+    terms.forEach(function (w) { if (!w) return; h = h.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'); });
+    return h;
+  }
+  function run() {
+    var q = inp.value.trim().toLowerCase(); res.innerHTML = ''; hits = []; sel = 0;
+    if (!q) { res.innerHTML = '<li class="search-empty">Type to search every tab: About, Research, Projects, Publications, Presentations, Experience, Education and CV.</li>'; return; }
+    var terms = q.split(/\s+/);
+    idx.forEach(function (r) { var low = r.text.toLowerCase(); if (!terms.every(function (w) { return low.indexOf(w) >= 0; })) return;
+      var sc = r.head * 10 + (low.indexOf(q) >= 0 ? 5 : 0) - low.length / 400; hits.push({ r: r, sc: sc }); });
+    hits.sort(function (a, b) { return b.sc - a.sc; }); hits = hits.slice(0, 40);
+    if (!hits.length) { res.innerHTML = '<li class="search-empty">No matches for “' + esc(inp.value.trim()) + '”.</li>'; return; }
+    hits.forEach(function (h, i) { var li = document.createElement('li'), a = document.createElement('a'); a.href = '#' + h.r.id; a.setAttribute('role', 'option');
+      a.innerHTML = '<span class="st">' + esc(h.r.tab) + '</span><span class="sx">' + snip(h.r.text, terms) + '</span>';
+      a.addEventListener('click', function (e) { e.preventDefault(); go(i); }); a.addEventListener('mousemove', function () { mark(i); });
+      li.appendChild(a); res.appendChild(li); });
+    mark(0);
+  }
+  function mark(i) { sel = i; res.querySelectorAll('a').forEach(function (a, k) { a.classList.toggle('on', k === i); if (k === i) a.setAttribute('aria-selected', 'true'); else a.removeAttribute('aria-selected'); }); }
+  function go(i) { var h = hits[i]; if (!h) return; close();
+    if (location.hash !== '#' + h.r.id) location.hash = '#' + h.r.id;
+    setTimeout(function () { var el = h.r.el; if (el.tagName === 'SECTION') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+      var d = el.closest('details'); if (d) d.open = true; el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.remove('search-hit'); void el.offsetWidth; el.classList.add('search-hit'); }, 80); }
+  function open() { if (!idx) build(); ov.hidden = false; ov.classList.add('open'); document.body.style.overflow = 'hidden'; inp.value = ''; run(); setTimeout(function () { inp.focus(); }, 20); }
+  function close() { ov.classList.remove('open'); ov.hidden = true; document.body.style.overflow = ''; if (btn) btn.focus({ preventScroll: true }); }
+  if (btn) btn.addEventListener('click', open);
+  inp.addEventListener('input', run);
+  ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+  document.addEventListener('keydown', function (e) {
+    var typing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '');
+    if (!ov.hidden) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); if (hits.length) { mark((sel + 1) % hits.length); res.querySelectorAll('a')[sel].scrollIntoView({ block: 'nearest' }); } }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (hits.length) { mark((sel - 1 + hits.length) % hits.length); res.querySelectorAll('a')[sel].scrollIntoView({ block: 'nearest' }); } }
+      else if (e.key === 'Enter') { e.preventDefault(); go(sel); }
+      return; }
+    if ((e.key === '/' && !typing) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) { e.preventDefault(); open(); }
+  });
 })();
 </script>
 </body>
