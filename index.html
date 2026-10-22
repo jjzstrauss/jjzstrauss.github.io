@@ -2356,5 +2356,17 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
 <script>/* DARK-MODE: re-read colours if the system theme changes */
 try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { location.reload(); }); } catch (e) {}
 </script>
+<script>/* VISITOR-COUNT (GoatCounter): one page view per tab visited, e.g. "/#research" */
+window.goatcounter = { no_onload: true };
+(function () {
+  var last = null;
+  function count() { var path = location.pathname + (location.hash || '#about');
+    if (path === last || !window.goatcounter.count) return; last = path;
+    window.goatcounter.count({ path: path, title: document.title + ' · ' + (location.hash.slice(1) || 'about') }); }
+  window.addEventListener('hashchange', count);
+  var sc = document.createElement('script'); sc.async = true; sc.src = 'https://gc.zgo.at/count.js';
+  sc.setAttribute('data-goatcounter', 'https://jjzstrauss.goatcounter.com/count'); sc.onload = count; document.body.appendChild(sc);
+})();
+</script>
 </body>
 </html>
