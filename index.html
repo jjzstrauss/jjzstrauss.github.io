@@ -178,20 +178,7 @@ body { position: relative; }
 .wip { color: var(--muted); font-style: italic; }
 /* DESIGN-TABS: a different background for each tab, always light */
 :root { --math: rgba(22, 32, 46, .72); --math-cap: rgba(22, 32, 46, .55); --grid: rgba(61, 127, 168, .14); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="dark"]) { --bg: #f6f7f9; --surface: #ffffff; --ink: #16202e; --muted: #536072; --rule: #d9dee6; --accent: #0f6e6a;
-    --dot: rgba(15, 110, 106, .13); --glow-a: rgba(15, 110, 106, .13); --glow-b: rgba(201, 158, 82, .12); --shadow: rgba(22, 32, 46, .10);
-    --chr-a: #0f6e6a; --chr-b: #b8873a; --plot-opacity: .22;
-    --base-a: #0f6e6a; --base-t: #b8873a; --base-g: #3d7fa8; --base-c: #a8574a; --strand: #16202e;
-    --eq: rgba(22, 32, 46, .24); --math: rgba(22, 32, 46, .72); --math-cap: rgba(22, 32, 46, .55); --grid: rgba(61, 127, 168, .14);
-    color-scheme: light; }
-}
-:root[data-theme="dark"] { --bg: #f6f7f9; --surface: #ffffff; --ink: #16202e; --muted: #536072; --rule: #d9dee6; --accent: #0f6e6a;
-    --dot: rgba(15, 110, 106, .13); --glow-a: rgba(15, 110, 106, .13); --glow-b: rgba(201, 158, 82, .12); --shadow: rgba(22, 32, 46, .10);
-    --chr-a: #0f6e6a; --chr-b: #b8873a; --plot-opacity: .22;
-    --base-a: #0f6e6a; --base-t: #b8873a; --base-g: #3d7fa8; --base-c: #a8574a; --strand: #16202e;
-    --eq: rgba(22, 32, 46, .24); --math: rgba(22, 32, 46, .72); --math-cap: rgba(22, 32, 46, .55); --grid: rgba(61, 127, 168, .14);
-    color-scheme: light; }
+
 .bgl { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s linear .45s; }
 body[data-tab="about"] .bgl-about,
 body[data-tab="research"] .bgl-research,
@@ -660,6 +647,38 @@ body[data-tab="education"] .bgl-education { display: none !important; }
 .map-credit { display: none; }
 body[data-tab="gallery"] .map-credit { display: block; position: fixed; right: 10px; bottom: 8px; z-index: 5; margin: 0; padding: .2rem .55rem; border-radius: 999px; font-family: var(--mono); font-size: .62rem; color: #e9eef2; background: rgba(15, 34, 51, .6); }
 body[data-tab="gallery"] .map-credit a { color: #e9eef2; text-decoration: underline; border: 0; }
+/* DARK-MODE: follows the visitor's system setting */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0e141b; --surface: #161e27; --ink: #e6eaf0; --muted: #9aa6b5; --rule: #283340; --accent: #5cc4bd;
+    --dot: rgba(92, 196, 189, .10); --glow-a: rgba(92, 196, 189, .10); --glow-b: rgba(217, 170, 92, .07); --shadow: rgba(0, 0, 0, .5);
+    --chr-a: #5cc4bd; --chr-b: #d9aa5c; --plot-opacity: .26;
+    --base-a: #5cc4bd; --base-t: #d9aa5c; --base-g: #7ab4dc; --base-c: #d98a7c; --strand: #dfe6ee;
+    --eq: rgba(230, 234, 240, .2); --math: rgba(230, 234, 240, .72); --math-cap: rgba(230, 234, 240, .5); --grid: rgba(122, 180, 220, .12);
+    color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0e141b; --surface: #161e27; --ink: #e6eaf0; --muted: #9aa6b5; --rule: #283340; --accent: #5cc4bd;
+    --dot: rgba(92, 196, 189, .10); --glow-a: rgba(92, 196, 189, .10); --glow-b: rgba(217, 170, 92, .07); --shadow: rgba(0, 0, 0, .5);
+    --chr-a: #5cc4bd; --chr-b: #d9aa5c; --plot-opacity: .26;
+    --base-a: #5cc4bd; --base-t: #d9aa5c; --base-g: #7ab4dc; --base-c: #d98a7c; --strand: #dfe6ee;
+    --eq: rgba(230, 234, 240, .2); --math: rgba(230, 234, 240, .72); --math-cap: rgba(230, 234, 240, .5); --grid: rgba(122, 180, 220, .12);
+    color-scheme: dark; }
+/* DARK-MODE fixes: brand icons and text on the lighter teal */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .soc-mail { color: #5cc4bd; }
+  :root:not([data-theme="light"]) .soc-gh { color: #e6eaf0; }
+  :root:not([data-theme="light"]) .soc-li { color: #4d9fe8; }
+  :root:not([data-theme="light"]) .soc-mail:hover, .soc-li:hover { color: #0e141b; }
+  :root:not([data-theme="light"]) .soc-gh:hover { background: #e6eaf0; border-color: #e6eaf0; color: #0e141b; }
+  :root:not([data-theme="light"]) .tabs a[aria-current="page"], :root:not([data-theme="light"]) .tabnav .tabs a[aria-current="page"], :root:not([data-theme="light"]) .tabnav .tabs a[aria-current="page"]:hover { color: #0b1a1c; }
+  :root:not([data-theme="light"]) .cv-btn { color: #0b1a1c !important; }
+}
+:root[data-theme="dark"] .soc-mail { color: #5cc4bd; }
+:root[data-theme="dark"] .soc-gh { color: #e6eaf0; }
+:root[data-theme="dark"] .soc-li { color: #4d9fe8; }
+:root[data-theme="dark"] .soc-mail:hover, .soc-li:hover { color: #0e141b; }
+:root[data-theme="dark"] .soc-gh:hover { background: #e6eaf0; border-color: #e6eaf0; color: #0e141b; }
+:root[data-theme="dark"] .tabs a[aria-current="page"], :root[data-theme="dark"] .tabnav .tabs a[aria-current="page"], :root[data-theme="dark"] .tabnav .tabs a[aria-current="page"]:hover { color: #0b1a1c; }
+:root[data-theme="dark"] .cv-btn { color: #0b1a1c !important; }
 </style>
 
 
@@ -2319,6 +2338,9 @@ window.addEventListener('hashchange', function () { setTimeout(function () { win
   if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('600 20px ChalkHand'), document.fonts.load('600 20px ChalkGreek', 'μ'), document.fonts.load('600 20px ChalkSym', '√')]).then(go, go); else go();
   window.CHALK_T = function (v, k) { if (k != null) { K = k; build(); } t = v; };
 })();
+</script>
+<script>/* DARK-MODE: re-read colours if the system theme changes */
+try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { location.reload(); }); } catch (e) {}
 </script>
 </body>
 </html>
