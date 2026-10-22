@@ -1,4 +1,5 @@
 # Site checks: run on every push and pull request.
+# Actions are pinned to exact commits so a changed upstream tag cannot alter what runs here.
 # 1. HTML validation   2. broken-link check   3. Lighthouse audit (performance, accessibility, best practices, SEO)
 name: Site checks
 
@@ -16,8 +17,8 @@ jobs:
     name: Validate HTML
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
       - run: npx --yes html-validate@9 index.html
@@ -26,8 +27,8 @@ jobs:
     name: Check links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
       # LinkedIn answers every automated checker with status 999, so it is skipped.
@@ -37,8 +38,8 @@ jobs:
     name: Lighthouse audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: treosh/lighthouse-ci-action@v12
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         with:
           configPath: ./.github/lighthouserc.json
           uploadArtifacts: true
