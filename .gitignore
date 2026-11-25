@@ -3,3 +3,4 @@ gallery-preview.html
 gallery/
 tutoring-private/
 .tutoring-cache.json
+.tutoring-passwords.json

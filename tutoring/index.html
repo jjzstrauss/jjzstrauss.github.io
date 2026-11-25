@@ -130,7 +130,7 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
     <section class="sec">
       <h2>How to use this page</h2>
       <ol class="steps">
-        <li><b>Unlock</b>Enter the password I gave you below.</li>
+        <li><b>Unlock</b>Enter your personal password below.</li>
         <li><b>Browse or search</b>Materials are grouped by subject. Search by topic or worksheet name.</li>
         <li><b>Open &amp; practice</b>Click a file to view or print it, then bring your questions to our next session.</li>
       </ol>
@@ -138,8 +138,8 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
   </div>
 
   <main class="card" id="gate">
-    <h2>Student library</h2>
-    <p class="sub">Enter the password to open your notes and worksheets. Bookmark this page so you can find it again.</p>
+    <h2>Your library</h2>
+    <p class="sub">Each student has their own password. Enter yours to open your notes and worksheets. Bookmark this page so you can find it again.</p>
     <form class="lock" id="form">
       <label for="pw" class="hidden">Password</label>
       <input type="password" id="pw" placeholder="Password" autocomplete="current-password" required>
@@ -149,7 +149,7 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
   </main>
 
   <main class="card hidden" id="lib">
-    <h1>Tutoring</h1>
+    <h1 id="libTitle">Your library</h1>
     <div class="bar"><input type="search" id="q" placeholder="Search files" aria-label="Search files"><span class="meta" id="info"></span></div>
     <div id="tree"></div>
     <p class="msg" id="msg2" role="status" aria-live="polite"></p>
@@ -161,27 +161,34 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var KEY = null, FILES = [];
+  var FILES = [], ME = null;
   var te = new TextDecoder();
 
   function hex(h) { var a = new Uint8Array(h.length / 2); for (var i = 0; i < a.length; i++) a[i] = parseInt(h.substr(i * 2, 2), 16); return a; }
+  function b64(s) { var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
   function size(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(0) + ' KB' : (n / 1048576).toFixed(1) + ' MB'; }
   async function fetchBytes(u) { var r = await fetch(u, { cache: 'no-cache' }); if (!r.ok) throw new Error('missing ' + u); return new Uint8Array(await r.arrayBuffer()); }
-  async function open(blob) { return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: blob.slice(0, 12) }, KEY, blob.slice(12))); }
+  async function decrypt(key, blob) { return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: blob.slice(0, 12) }, key, blob.slice(12))); }
 
-  async function derive(pw) {
+  // each person has a private index encrypted with their password; try them until one opens
+  async function signIn(pw) {
     var meta = await (await fetch('data/meta.json', { cache: 'no-cache' })).json();
     var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
-    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: hex(meta.salt), iterations: meta.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
+    var key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: hex(meta.salt), iterations: meta.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    var blobs = await Promise.all(meta.indexes.map(function (id) { return fetchBytes('data/' + id + '.bin'); }));
+    for (var i = 0; i < blobs.length; i++) {
+      try { return JSON.parse(te.decode(await decrypt(key, blobs[i]))); } catch (e) { /* not this one */ }
+    }
+    var err = new Error('bad password'); err.name = 'OperationError'; throw err;
   }
 
-  async function unlock(key) {
-    KEY = key;
-    var man = JSON.parse(te.decode(await open(await fetchBytes('data/manifest.bin'))));
-    FILES = man.files;
-    $('info').textContent = FILES.length + ' files · updated ' + man.updated;
+  function show(man) {
+    ME = man; FILES = man.files;
+    $('libTitle').textContent = man.role === 'tutor' ? 'All students' : man.name + '’s library';
+    $('info').textContent = FILES.length + (FILES.length === 1 ? ' file' : ' files') + ' · updated ' + man.updated;
     render('');
-    $('gate').classList.add('hidden'); $('intro').classList.add('hidden'); $('lib').classList.remove('hidden'); window.scrollTo(0, 0); $('lockBtn').classList.remove('hidden');
+    $('gate').classList.add('hidden'); $('intro').classList.add('hidden'); $('lib').classList.remove('hidden'); window.scrollTo(0, 0);
+    $('lockBtn').classList.remove('hidden');
     $('q').focus();
   }
 
@@ -189,19 +196,19 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
     e.preventDefault();
     var go = $('go'); go.disabled = true; $('msg').className = 'msg'; $('msg').textContent = 'Unlocking…';
     try {
-      var key = await derive($('pw').value);
-      await unlock(key);
-      try { sessionStorage.setItem('tutKey', JSON.stringify(await crypto.subtle.exportKey('jwk', key))); } catch (x) {}
+      var man = await signIn($('pw').value);
+      show(man);
+      try { sessionStorage.setItem('tutMan', JSON.stringify(man)); } catch (x) {}
       $('pw').value = ''; $('msg').textContent = '';
     } catch (err) {
-      KEY = null; $('msg').className = 'msg bad';
+      $('msg').className = 'msg bad';
       $('msg').textContent = (err && err.name === 'OperationError') ? 'That password is not right. Please try again.' : 'Could not open the library. Check your connection and try again.';
       $('pw').select();
     } finally { go.disabled = false; }
   });
 
   $('lockBtn').addEventListener('click', function () {
-    try { sessionStorage.removeItem('tutKey'); } catch (x) {}
+    try { sessionStorage.removeItem('tutMan'); sessionStorage.removeItem('tutKey'); } catch (x) {}
     location.reload();
   });
 
@@ -232,9 +239,9 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
       return ul;
     }
     function dir(name, node, depth) {
-      var d = document.createElement('details'); d.className = 'folder'; d.open = !!q || depth > 0 && false;
+      var d = document.createElement('details'); d.className = 'folder'; d.open = !!q || (depth === 0 && ME && ME.role !== 'tutor');
       var s = document.createElement('summary'); s.textContent = name;
-      var n = document.createElement('span'); n.className = 'n'; n.textContent = count(node) + ' files'; s.appendChild(n);
+      var n = document.createElement('span'); n.className = 'n'; var cn = count(node); n.textContent = cn + (cn === 1 ? ' file' : ' files'); s.appendChild(n);
       d.appendChild(s);
       Object.keys(node.dirs).sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); }).forEach(function (k) { d.appendChild(dir(k, node.dirs[k], depth + 1)); });
       if (node.files.length) d.appendChild(fileList(node.files));
@@ -252,7 +259,8 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
     var w = viewable ? window.open('', '_blank') : null;
     $('msg2').textContent = 'Opening ' + f.path.split('/').pop() + '…';
     try {
-      var bytes = await open(await fetchBytes('data/' + f.id + '.bin'));
+      var fk = await crypto.subtle.importKey('raw', b64(f.key), 'AES-GCM', false, ['decrypt']);
+      var bytes = await decrypt(fk, await fetchBytes('data/' + f.id + '.bin'));
       var url = URL.createObjectURL(new Blob([bytes], { type: f.type }));
       if (w) { w.location.href = url; }
       else { var a = document.createElement('a'); a.href = url; a.download = f.path.split('/').pop(); document.body.appendChild(a); a.click(); a.remove(); }
@@ -262,11 +270,7 @@ footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top:
   }
 
   // stay unlocked in this tab after a refresh (cleared when the tab closes)
-  (async function () {
-    try { var j = sessionStorage.getItem('tutKey'); if (!j) return;
-      await unlock(await crypto.subtle.importKey('jwk', JSON.parse(j), { name: 'AES-GCM' }, true, ['decrypt']));
-    } catch (x) { try { sessionStorage.removeItem('tutKey'); } catch (y) {} KEY = null; }
-  })();
+  try { var saved = sessionStorage.getItem('tutMan'); if (saved) show(JSON.parse(saved)); } catch (x) {}
 })();
 </script>
 <script>
