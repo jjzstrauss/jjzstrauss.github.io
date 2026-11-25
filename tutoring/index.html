@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
+<meta name="description" content="Math and physics tutoring with Johannes J. Z. Strauss: from 7th grade math through Calculus 3, and physics.">
 <title>Tutoring | Johannes J. Z. Strauss</title>
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -52,15 +53,93 @@ ul.files { list-style: none; margin: 0 0 .6rem; padding: 0 0 0 1.3rem; }
 .file .nm { flex: 1; overflow-wrap: anywhere; }
 .file .sz { font: 400 .72rem var(--mono); color: var(--muted); flex: none; }
 .empty { color: var(--muted); padding: 1rem .2rem; }
+/* INTRO: public welcome shown before the password */
+.wrap { max-width: 980px; }
+.hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; align-items: center; margin: 8px 0 34px; }
+.eyebrow { font: 500 .74rem var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin: 0 0 .7rem; }
+.hero h1 { font-size: clamp(2.1rem, 5vw, 3.1rem); line-height: 1.08; margin: 0 0 .9rem; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.lede { font-size: 1.08rem; color: var(--muted); margin: 0 0 1.4rem; max-width: 34em; }
+.cta { display: inline-flex; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-block; text-decoration: none; font: 500 .95rem var(--sans); border-radius: 10px; padding: .65rem 1.15rem; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.line { border: 1px solid var(--rule); color: var(--ink); background: var(--surface); }
+.plot { aspect-ratio: 1 / 1; width: 100%; background: var(--surface); border: 1px solid var(--rule); border-radius: 18px; box-shadow: 0 18px 40px -24px rgba(16, 24, 40, .35); overflow: hidden; }
+.plot canvas { width: 100%; height: 100%; display: block; }
+.sec { margin: 0 0 34px; }
+.sec h2 { font: 600 1.35rem var(--serif); margin: 0 0 .9rem; }
+.me { display: grid; grid-template-columns: 112px 1fr; gap: 22px; align-items: center; }
+.me img { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 4px var(--surface), 0 0 0 5px var(--rule); }
+.me p { margin: 0 0 .6rem; }
+.me p:last-child { margin: 0; }
+.subjects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 760px) { .subjects { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } }
+.subj { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 16px 16px 14px; position: relative; overflow: hidden; }
+.subj::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--c, var(--accent)); }
+.subj .sym { font: 500 1.35rem var(--serif); color: var(--c, var(--accent)); line-height: 1; margin-bottom: .55rem; }
+.subj h3 { font: 600 1.02rem var(--serif); margin: 0 0 .25rem; }
+.subj p { margin: 0; font-size: .88rem; color: var(--muted); }
+.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; font-size: .93rem; }
+.steps li::before { content: counter(s); display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); font: 600 .9rem var(--mono); margin-bottom: .55rem; }
+.steps b { display: block; font: 600 1rem var(--serif); margin-bottom: .2rem; }
+#gate h2 { font: 600 1.35rem var(--serif); margin: 0 0 .3rem; }
+footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top: 30px; }
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; } .plot { max-width: 340px; justify-self: center; aspect-ratio: 4 / 3; }
+  .steps { grid-template-columns: 1fr; } .me { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top"><a class="back" href="../">&larr; jjzstrauss.github.io</a><button class="ghost hidden" id="lockBtn" type="button">Lock</button></div>
 
+  <div id="intro">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Math &amp; physics tutoring</p>
+        <h1>Welcome! Let&rsquo;s make math <em>make sense</em>.</h1>
+        <p class="lede">This is the home base for my students. Here you&rsquo;ll find the notes, worksheets and practice problems from our sessions, all in one place.</p>
+        <div class="cta"><a class="btn primary" href="#gate">Open the library</a><a class="btn line" href="#subjects">What I teach</a></div>
+      </div>
+      <div class="plot" aria-hidden="true"><canvas id="plot"></canvas></div>
+    </section>
+
+    <section class="sec card me">
+      <img src="../photo.jpg" alt="Johannes J. Z. Strauss">
+      <div>
+        <h2>Hi, I&rsquo;m Johannes</h2>
+        <p>I&rsquo;m a Ph.D. student in Mathematics at SIMIS | Fudan University in Shanghai, and I hold a B.S. in Mathematics and an M.S. in Statistics from the University of Colorado Denver.</p>
+        <p>I tutor students at every stage, from 7th grade math through Calculus 3, along with physics. My goal is for you to understand <em>why</em> things work, not just how to get the answer, so you can walk into every test with confidence.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="subjects">
+      <h2>What I teach</h2>
+      <div class="subjects">
+        <div class="subj" style="--c: #3d7fa8"><div class="sym">&frac34;</div><h3>Middle school math</h3><p>Fractions, ratios, equations and the foundations for algebra.</p></div>
+        <div class="subj" style="--c: #b8873a"><div class="sym">x&sup2;</div><h3>Algebra &amp; geometry</h3><p>Functions, graphs, proofs and problem solving.</p></div>
+        <div class="subj" style="--c: #a8574a"><div class="sym">sin&thinsp;&theta;</div><h3>Precalculus</h3><p>Trigonometry, exponentials and logarithms.</p></div>
+        <div class="subj"><div class="sym">&int;</div><h3>Calculus &amp; AP Calculus</h3><p>Limits, derivatives, integrals and series, including AP Calculus AB and BC.</p></div>
+        <div class="subj" style="--c: #3d7fa8"><div class="sym">&nabla;</div><h3>Calculus 3</h3><p>Vectors, partial derivatives and multiple integrals.</p></div>
+        <div class="subj" style="--c: #b8873a"><div class="sym">F&#8202;=&#8202;ma</div><h3>Physics</h3><p>Motion, forces, energy and momentum, including AP Physics 1.</p></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>How to use this page</h2>
+      <ol class="steps">
+        <li><b>Unlock</b>Enter the password I gave you below.</li>
+        <li><b>Browse or search</b>Materials are grouped by subject. Search by topic or worksheet name.</li>
+        <li><b>Open &amp; practice</b>Click a file to view or print it, then bring your questions to our next session.</li>
+      </ol>
+    </section>
+  </div>
+
   <main class="card" id="gate">
-    <h1>Tutoring</h1>
-    <p class="sub">Notes, worksheets and practice for my students. Enter the password to open.</p>
+    <h2>Student library</h2>
+    <p class="sub">Enter the password to open your notes and worksheets. Bookmark this page so you can find it again.</p>
     <form class="lock" id="form">
       <label for="pw" class="hidden">Password</label>
       <input type="password" id="pw" placeholder="Password" autocomplete="current-password" required>
@@ -75,6 +154,7 @@ ul.files { list-style: none; margin: 0 0 .6rem; padding: 0 0 0 1.3rem; }
     <div id="tree"></div>
     <p class="msg" id="msg2" role="status" aria-live="polite"></p>
   </main>
+  <footer>Questions? <a class="js-mail" href="#gate" data-u="z2jssuarts" data-d="moc.liamg">Email me</a> &middot; <a href="../">jjzstrauss.github.io</a></footer>
 </div>
 
 <script>
@@ -101,7 +181,7 @@ ul.files { list-style: none; margin: 0 0 .6rem; padding: 0 0 0 1.3rem; }
     FILES = man.files;
     $('info').textContent = FILES.length + ' files · updated ' + man.updated;
     render('');
-    $('gate').classList.add('hidden'); $('lib').classList.remove('hidden'); $('lockBtn').classList.remove('hidden');
+    $('gate').classList.add('hidden'); $('intro').classList.add('hidden'); $('lib').classList.remove('hidden'); window.scrollTo(0, 0); $('lockBtn').classList.remove('hidden');
     $('q').focus();
   }
 
@@ -187,6 +267,43 @@ ul.files { list-style: none; margin: 0 0 .6rem; padding: 0 0 0 1.3rem; }
       await unlock(await crypto.subtle.importKey('jwk', JSON.parse(j), { name: 'AES-GCM' }, true, ['decrypt']));
     } catch (x) { try { sessionStorage.removeItem('tutKey'); } catch (y) {} KEY = null; }
   })();
+})();
+</script>
+<script>
+// email assembled at load so scrapers do not see it
+document.querySelectorAll('.js-mail').forEach(function (a) { var r = function (t) { return t.split('').reverse().join(''); };
+  a.href = 'mailto:' + r(a.getAttribute('data-u')) + '@' + r(a.getAttribute('data-d')); });
+// hero: a curve with its tangent line sliding along it, and the derivative traced underneath
+(function () {
+  var c = document.getElementById('plot'); if (!c) return; var x = c.getContext('2d'), W, H, t = 0, last = 0;
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function css(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function size() { var r = c.getBoundingClientRect(), d = devicePixelRatio || 1; W = r.width; H = r.height; c.width = W * d; c.height = H * d; x.setTransform(d, 0, 0, d, 0, 0); }
+  function f(u) { return Math.sin(u) * .9 + Math.sin(2.1 * u + .6) * .35; }
+  function df(u) { return Math.cos(u) * .9 + .735 * Math.cos(2.1 * u + .6); }
+  function draw() {
+    var A = css('--accent'), INK = css('--ink'), MU = css('--muted'), RU = css('--rule'), GOLD = '#b8873a';
+    x.clearRect(0, 0, W, H);
+    var pad = 22, x0 = -.4, x1 = 6.6, sx = function (u) { return pad + (u - x0) / (x1 - x0) * (W - 2 * pad); };
+    var top = H * .42, bot = H * .82, sy = function (v) { return top - v * H * .2; }, sy2 = function (v) { return bot - v * H * .09; };
+    x.strokeStyle = RU; x.lineWidth = 1; x.setLineDash([3, 5]);
+    for (var g = 1; g < 8; g++) { var gx = pad + g * (W - 2 * pad) / 8; x.beginPath(); x.moveTo(gx, 14); x.lineTo(gx, H - 14); x.stroke(); }
+    x.setLineDash([]); x.beginPath(); x.moveTo(pad, top); x.lineTo(W - pad, top); x.moveTo(pad, bot); x.lineTo(W - pad, bot); x.stroke();
+    var u0 = x0 + ((t * .55) % 1) * (x1 - x0), i;
+    x.lineWidth = 2.6; x.strokeStyle = INK; x.beginPath(); for (i = 0; i <= 200; i++) { var u = x0 + (x1 - x0) * i / 200; i ? x.lineTo(sx(u), sy(f(u))) : x.moveTo(sx(u), sy(f(u))); } x.stroke();
+    x.lineWidth = 2.2; x.strokeStyle = A; x.beginPath(); for (i = 0; i <= 200; i++) { var v = x0 + (u0 - x0) * i / 200; i ? x.lineTo(sx(v), sy2(df(v))) : x.moveTo(sx(v), sy2(df(v))); } x.stroke();
+    var m = df(u0), px = sx(u0), py = sy(f(u0)), k = m * (H * .2) / ((W - 2 * pad) / (x1 - x0)), L = Math.min(W, H) * .22, n = Math.hypot(1, k);
+    x.strokeStyle = GOLD; x.lineWidth = 2; x.beginPath(); x.moveTo(px - L / n, py + k * L / n); x.lineTo(px + L / n, py - k * L / n); x.stroke();
+    x.setLineDash([2, 4]); x.strokeStyle = MU; x.lineWidth = 1; x.beginPath(); x.moveTo(px, py); x.lineTo(px, sy2(m)); x.stroke(); x.setLineDash([]);
+    x.fillStyle = GOLD; x.beginPath(); x.arc(px, py, 5, 0, 7); x.fill(); x.fillStyle = A; x.beginPath(); x.arc(px, sy2(m), 4.5, 0, 7); x.fill();
+    x.font = 'italic 600 15px "Source Serif 4", Georgia, serif'; x.fillStyle = INK; x.fillText('f(x)', pad + 4, 22);
+    x.textAlign = 'right'; x.fillStyle = A; x.fillText('f\u2032(x)', W - pad - 4, H - 16); x.textAlign = 'left';
+    x.font = '500 11px "IBM Plex Mono", monospace'; x.fillStyle = MU; x.fillText('slope = ' + m.toFixed(2), Math.min(px + 10, W - 96), py - 12);
+  }
+  function frame(now) { var dt = last ? Math.min(now - last, 60) / 1000 : 0; last = now;
+    if (!document.hidden && c.offsetParent) { t += dt * .12; draw(); } requestAnimationFrame(frame); }
+  size(); addEventListener('resize', size);
+  if (still) { t = .35; draw(); } else requestAnimationFrame(frame);
 })();
 </script>
 </body>
