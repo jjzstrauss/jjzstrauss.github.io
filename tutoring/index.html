@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Tutoring | Johannes J. Z. Strauss</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+@font-face { font-family: "Source Serif 4"; src: url(../fonts/serif-vf.woff2) format("woff2"); font-weight: 400 600; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url(../fonts/sans-vf.woff2) format("woff2"); font-weight: 400 500; font-display: swap; }
+@font-face { font-family: "IBM Plex Mono"; src: url(../fonts/plexmono.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+:root { --bg: #f6f7f9; --surface: #fff; --ink: #16202e; --muted: #536072; --rule: #d9dee6; --accent: #0f6e6a; --on-accent: #fff; --bad: #a8574a;
+  --serif: "Source Serif 4", Georgia, serif; --sans: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0e141b; --surface: #161e27; --ink: #e6eaf0; --muted: #9aa6b5; --rule: #283340; --accent: #5cc4bd; --on-accent: #0b1a1c; --bad: #e0937f; color-scheme: dark; } }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font: 400 1rem/1.55 var(--sans);
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 0); background-size: 22px 22px; }
+a { color: var(--accent); }
+.wrap { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.back { font-family: var(--mono); font-size: .8rem; text-decoration: none; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 28px; box-shadow: 0 18px 40px -24px rgba(16, 24, 40, .35); }
+h1 { font: 600 1.9rem/1.2 var(--serif); margin: 0 0 .3rem; }
+.sub { color: var(--muted); margin: 0 0 1.4rem; }
+form.lock { display: flex; gap: 10px; flex-wrap: wrap; }
+input[type=password], input[type=search] { flex: 1 1 220px; min-width: 0; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 10px; padding: .7rem .9rem; }
+input:focus-visible, button:focus-visible, .file:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { font: 500 1rem var(--sans); color: var(--on-accent); background: var(--accent); border: 0; border-radius: 10px; padding: .7rem 1.3rem; cursor: pointer; }
+button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--rule); padding: .45rem .9rem; font-size: .85rem; }
+button[disabled] { opacity: .6; cursor: progress; }
+.msg { min-height: 1.4em; margin: .8rem 0 0; font-size: .92rem; color: var(--muted); }
+.msg.bad { color: var(--bad); }
+.hidden { display: none !important; }
+.bar { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+.meta { font-family: var(--mono); font-size: .72rem; color: var(--muted); }
+details.folder { border-top: 1px solid var(--rule); }
+details.folder:first-of-type { border-top: 0; }
+details.folder > summary { list-style: none; cursor: pointer; padding: .8rem .2rem; font: 600 1.08rem var(--serif); display: flex; align-items: baseline; gap: .6rem; }
+details.folder > summary::-webkit-details-marker { display: none; }
+details.folder > summary::before { content: "\25B8"; color: var(--accent); font-size: .85rem; transition: transform .15s; }
+details.folder[open] > summary::before { transform: rotate(90deg); }
+details.folder > summary .n { font: 400 .72rem var(--mono); color: var(--muted); }
+details.folder details.folder { margin-left: 1.1rem; border-top: 0; }
+details.folder details.folder > summary { font-size: .98rem; padding: .45rem .2rem; }
+ul.files { list-style: none; margin: 0 0 .6rem; padding: 0 0 0 1.3rem; }
+.file { display: flex; align-items: baseline; gap: .7rem; width: 100%; text-align: left; background: none; border: 0; border-radius: 8px; color: var(--ink); padding: .45rem .5rem; font: 400 .97rem var(--sans); cursor: pointer; }
+.file:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.file .ext { font: 500 .66rem var(--mono); letter-spacing: .06em; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 5px; padding: 0 .35rem; flex: none; }
+.file .nm { flex: 1; overflow-wrap: anywhere; }
+.file .sz { font: 400 .72rem var(--mono); color: var(--muted); flex: none; }
+.empty { color: var(--muted); padding: 1rem .2rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="../">&larr; jjzstrauss.github.io</a><button class="ghost hidden" id="lockBtn" type="button">Lock</button></div>
+
+  <main class="card" id="gate">
+    <h1>Tutoring</h1>
+    <p class="sub">Notes, worksheets and practice for my students. Enter the password to open.</p>
+    <form class="lock" id="form">
+      <label for="pw" class="hidden">Password</label>
+      <input type="password" id="pw" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit" id="go">Unlock</button>
+    </form>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </main>
+
+  <main class="card hidden" id="lib">
+    <h1>Tutoring</h1>
+    <div class="bar"><input type="search" id="q" placeholder="Search files" aria-label="Search files"><span class="meta" id="info"></span></div>
+    <div id="tree"></div>
+    <p class="msg" id="msg2" role="status" aria-live="polite"></p>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var KEY = null, FILES = [];
+  var te = new TextDecoder();
+
+  function hex(h) { var a = new Uint8Array(h.length / 2); for (var i = 0; i < a.length; i++) a[i] = parseInt(h.substr(i * 2, 2), 16); return a; }
+  function size(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(0) + ' KB' : (n / 1048576).toFixed(1) + ' MB'; }
+  async function fetchBytes(u) { var r = await fetch(u, { cache: 'no-cache' }); if (!r.ok) throw new Error('missing ' + u); return new Uint8Array(await r.arrayBuffer()); }
+  async function open(blob) { return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: blob.slice(0, 12) }, KEY, blob.slice(12))); }
+
+  async function derive(pw) {
+    var meta = await (await fetch('data/meta.json', { cache: 'no-cache' })).json();
+    var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: hex(meta.salt), iterations: meta.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
+  }
+
+  async function unlock(key) {
+    KEY = key;
+    var man = JSON.parse(te.decode(await open(await fetchBytes('data/manifest.bin'))));
+    FILES = man.files;
+    $('info').textContent = FILES.length + ' files · updated ' + man.updated;
+    render('');
+    $('gate').classList.add('hidden'); $('lib').classList.remove('hidden'); $('lockBtn').classList.remove('hidden');
+    $('q').focus();
+  }
+
+  $('form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var go = $('go'); go.disabled = true; $('msg').className = 'msg'; $('msg').textContent = 'Unlocking…';
+    try {
+      var key = await derive($('pw').value);
+      await unlock(key);
+      try { sessionStorage.setItem('tutKey', JSON.stringify(await crypto.subtle.exportKey('jwk', key))); } catch (x) {}
+      $('pw').value = ''; $('msg').textContent = '';
+    } catch (err) {
+      KEY = null; $('msg').className = 'msg bad';
+      $('msg').textContent = (err && err.name === 'OperationError') ? 'That password is not right. Please try again.' : 'Could not open the library. Check your connection and try again.';
+      $('pw').select();
+    } finally { go.disabled = false; }
+  });
+
+  $('lockBtn').addEventListener('click', function () {
+    try { sessionStorage.removeItem('tutKey'); } catch (x) {}
+    location.reload();
+  });
+
+  // build a folder tree from "Folder/Sub/file.pdf" paths
+  function render(q) {
+    q = q.trim().toLowerCase();
+    var root = { dirs: {}, files: [] };
+    FILES.forEach(function (f) {
+      if (q && f.path.toLowerCase().indexOf(q) < 0) return;
+      var parts = f.path.split('/'), node = root;
+      for (var i = 0; i < parts.length - 1; i++) node = node.dirs[parts[i]] = node.dirs[parts[i]] || { dirs: {}, files: [] };
+      node.files.push(f);
+    });
+    var tree = $('tree'); tree.textContent = '';
+    if (!FILES.length) { tree.innerHTML = '<p class="empty">No files yet.</p>'; return; }
+    function count(n) { return n.files.length + Object.keys(n.dirs).reduce(function (s, k) { return s + count(n.dirs[k]); }, 0); }
+    function fileList(files) {
+      var ul = document.createElement('ul'); ul.className = 'files';
+      files.sort(function (a, b) { return a.path.localeCompare(b.path, undefined, { numeric: true }); }).forEach(function (f) {
+        var li = document.createElement('li'), b = document.createElement('button'), name = f.path.split('/').pop(), dot = name.lastIndexOf('.');
+        b.className = 'file'; b.type = 'button';
+        var ext = document.createElement('span'); ext.className = 'ext'; ext.textContent = dot > 0 ? name.slice(dot + 1).toUpperCase() : 'FILE';
+        var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = dot > 0 ? name.slice(0, dot) : name;
+        var sz = document.createElement('span'); sz.className = 'sz'; sz.textContent = size(f.size);
+        b.append(ext, nm, sz); b.addEventListener('click', function () { view(f); });
+        li.appendChild(b); ul.appendChild(li);
+      });
+      return ul;
+    }
+    function dir(name, node, depth) {
+      var d = document.createElement('details'); d.className = 'folder'; d.open = !!q || depth > 0 && false;
+      var s = document.createElement('summary'); s.textContent = name;
+      var n = document.createElement('span'); n.className = 'n'; n.textContent = count(node) + ' files'; s.appendChild(n);
+      d.appendChild(s);
+      Object.keys(node.dirs).sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); }).forEach(function (k) { d.appendChild(dir(k, node.dirs[k], depth + 1)); });
+      if (node.files.length) d.appendChild(fileList(node.files));
+      return d;
+    }
+    Object.keys(root.dirs).sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); }).forEach(function (k) { tree.appendChild(dir(k, root.dirs[k], 0)); });
+    if (root.files.length) tree.appendChild(fileList(root.files));
+    if (!tree.children.length) tree.innerHTML = '<p class="empty">No files match.</p>';
+  }
+  $('q').addEventListener('input', function () { render(this.value); });
+
+  // decrypt on click; PDFs, images and text open in a new tab, everything else downloads
+  async function view(f) {
+    var viewable = /^(application\/pdf|image\/|text\/plain|video\/|audio\/)/.test(f.type);
+    var w = viewable ? window.open('', '_blank') : null;
+    $('msg2').textContent = 'Opening ' + f.path.split('/').pop() + '…';
+    try {
+      var bytes = await open(await fetchBytes('data/' + f.id + '.bin'));
+      var url = URL.createObjectURL(new Blob([bytes], { type: f.type }));
+      if (w) { w.location.href = url; }
+      else { var a = document.createElement('a'); a.href = url; a.download = f.path.split('/').pop(); document.body.appendChild(a); a.click(); a.remove(); }
+      setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+      $('msg2').textContent = '';
+    } catch (err) { if (w) w.close(); $('msg2').textContent = 'Could not open that file. Please try again.'; }
+  }
+
+  // stay unlocked in this tab after a refresh (cleared when the tab closes)
+  (async function () {
+    try { var j = sessionStorage.getItem('tutKey'); if (!j) return;
+      await unlock(await crypto.subtle.importKey('jwk', JSON.parse(j), { name: 'AES-GCM' }, true, ['decrypt']));
+    } catch (x) { try { sessionStorage.removeItem('tutKey'); } catch (y) {} KEY = null; }
+  })();
+})();
+</script>
+</body>
+</html>
